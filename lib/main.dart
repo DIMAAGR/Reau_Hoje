@@ -26,7 +26,7 @@ class Starting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 2, 214, 214),
+      backgroundColor: Color.fromARGB(255, 2, 204, 204),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.end,
@@ -48,11 +48,11 @@ _reauHojeLogo() {
       child: Text(
         "Reau Hoje",
         style: TextStyle(
-          color: Color.fromARGB(255, 246, 246, 246),
-          fontSize: 20,
-          fontFamily: "Montserrat",
-          fontWeight: FontWeight.w900,
-        ),
+            color: Color.fromARGB(255, 246, 246, 246),
+            fontSize: 35,
+            fontFamily: "Montserrat",
+            fontWeight: FontWeight.w900,
+            fontStyle: FontStyle.italic),
       ),
     ),
   );
