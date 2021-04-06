@@ -36,6 +36,7 @@ class Starting extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [],
       ),
     );
