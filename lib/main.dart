@@ -49,6 +49,37 @@ _barraCarregando() {
   return Container(
     color: Color.fromARGB(255, 40, 40, 40),
     height: 35, // Altura
-    child: Row(),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        // Texto Carregando, Aguarde...
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Text(
+            "Carregando, Aguarde...",
+            // Prorpiedades do texto
+            style: TextStyle(
+                color: Color.fromARGB(255, 246, 246, 246),
+                fontFamily: "Roboto",
+                fontWeight: FontWeight.w100),
+          ),
+        ),
+        Expanded(child: Container()),
+
+        // Barra de Carregamento Circular
+        Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: SizedBox(
+            height: 20,
+            width: 20,
+            child: CircularProgressIndicator(
+              strokeWidth: 2.5,
+              valueColor: new AlwaysStoppedAnimation<Color>(
+                  Color.fromARGB(255, 246, 246, 246)),
+            ),
+          ),
+        ),
+      ],
+    ),
   );
 }
