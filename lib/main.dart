@@ -37,8 +37,18 @@ class Starting extends StatelessWidget {
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
-        children: [],
+        children: [
+          _barraCarregando(),
+        ],
       ),
     );
   }
+}
+
+_barraCarregando() {
+  return Container(
+    color: Color.fromARGB(255, 40, 40, 40),
+    height: 35, // Altura
+    child: Row(),
+  );
 }
