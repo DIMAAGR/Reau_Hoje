@@ -3,62 +3,117 @@ import 'package:reau_hoje/data/data.dart';
 
 class FirstTake extends StatefulWidget {
   @override
+  final ProgramData program = ProgramData();
   _FirstTakeState createState() => _FirstTakeState();
 }
 
 class _FirstTakeState extends State<FirstTake> {
+  bool hasNamed = false;
+  String myname = "";
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            flex: 2,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return hasNamed == false
+        ? Scaffold(
+            body: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 128.0, left: 16),
-                  child: Text(
-                    "Olá! Ainda não nos Conhecemos!",
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 40, 40, 40),
-                        fontSize: 30,
-                        fontFamily: "Montserrat",
-                        fontWeight: FontWeight.w800,
-                        fontStyle: FontStyle.italic),
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 128.0, left: 16),
+                        child: Text(
+                          "Olá! Ainda não nos Conhecemos!",
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 40, 40, 40),
+                              fontSize: 30,
+                              fontFamily: "Montserrat",
+                              fontWeight: FontWeight.w800,
+                              fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: Text(
+                          "Qual é o seu nome?",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 40, 40, 40),
+                              fontSize: 18,
+                              fontFamily: "Roboto",
+                              fontWeight: FontWeight.w400,
+                              fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                      _nameTextBox(),
+                    ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16),
-                  child: Text(
-                    "Qual é o seu nome?",
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 40, 40, 40),
-                        fontSize: 18,
-                        fontFamily: "Roboto",
-                        fontWeight: FontWeight.w400,
-                        fontStyle: FontStyle.italic),
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 24, right: 24),
+                      child: _continueButton(),
+                    ),
+                  ],
                 ),
-                _nameTextBox(),
               ],
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 24, right: 24),
-                child: _continueButton(),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+          )
+        : Scaffold(
+            body: Column(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 128.0, left: 16),
+                        child: Text(
+                          "${myname} eu ainda não sei sua carteira!",
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 40, 40, 40),
+                              fontSize: 30,
+                              fontFamily: "Montserrat",
+                              fontWeight: FontWeight.w800,
+                              fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: Text(
+                          "Por favor insira sua carteira!",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 40, 40, 40),
+                              fontSize: 18,
+                              fontFamily: "Roboto",
+                              fontWeight: FontWeight.w400,
+                              fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                      _walletTextBox(),
+                    ],
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 24, right: 24),
+                      child: _continueButton(),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
   }
 
   _continueButton() {
@@ -71,9 +126,13 @@ class _FirstTakeState extends State<FirstTake> {
         ),
         child: InkWell(
           borderRadius: BorderRadius.circular(60),
-          onTap: () {
-            // Informações da Função aqui!
-            //
+          onTap: () async {
+            myname = await widget.program.getMyName();
+            if (hasNamed == false)
+              setState(() {
+                hasNamed = true;
+              });
+            else {}
           },
           child: Padding(
             padding: const EdgeInsets.all(16.0), // Tamanho do Circulo
@@ -90,7 +149,7 @@ class _FirstTakeState extends State<FirstTake> {
 
   //TextBox
   _nameTextBox() {
-    return Padding(
+    return new Padding(
       padding: const EdgeInsets.only(left: 16, top: 24),
       child: Container(
         decoration: BoxDecoration(
@@ -98,7 +157,8 @@ class _FirstTakeState extends State<FirstTake> {
             borderRadius: BorderRadius.circular(20)),
         height: 40,
         width: MediaQuery.of(context).size.width * 0.860,
-        child: TextFormField(
+        child: new TextFormField(
+          initialValue: "",
           decoration: InputDecoration(
             fillColor: Colors.white,
             border: OutlineInputBorder(
@@ -108,13 +168,48 @@ class _FirstTakeState extends State<FirstTake> {
             //fillColor: Colors.green
           ),
           onChanged: ((mySubmit) async {
-            await ProgramData().changeMyName(mySubmit);
+            print("this is name TextBox");
+            await widget.program.getMyName();
+            await widget.program.changeMyName(mySubmit);
           }),
           onSaved: ((mySubmit) async {
-            await ProgramData().changeMyName(mySubmit);
+            await widget.program.changeMyName(mySubmit);
           }),
         ),
       ),
     );
   }
-}
+
+  _walletTextBox() {
+    return new Padding(
+      padding: const EdgeInsets.only(left: 16, top: 24),
+      child: Container(
+        decoration: BoxDecoration(
+            color: Color.fromARGB(255, 240, 240, 240),
+            borderRadius: BorderRadius.circular(20)),
+        height: 40,
+        width: MediaQuery.of(context).size.width * 0.860,
+        child: new TextFormField(
+          initialValue: "",
+          decoration: InputDecoration(
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: BorderSide.none,
+            ),
+            //fillColor: Colors.green
+          ),
+          onChanged: ((mySubmit) async {
+            print("this is wallet TextBox");
+            await widget.program.changeMyWallet(mySubmit);
+          }),
+          onSaved: ((mySubmit) async {
+            await widget.program.changeMyWallet(mySubmit);
+          }),
+        ),
+      ),
+    );
+  }
+} 
+
+// Uma Carteira tem 47 Digitos
