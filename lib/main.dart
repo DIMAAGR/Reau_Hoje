@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:reau_hoje/data/data.dart';
 import 'package:reau_hoje/views/hello.dart';
+import 'package:reau_hoje/views/myWallet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -18,7 +19,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ProgramData().minhaWallet == "none" ? FirstTake() : Starting(),
+      home:
+          MyWallet(), // ProgramData().minhaWallet == "none" ? FirstTake() : Starting(),
     );
   }
 }
