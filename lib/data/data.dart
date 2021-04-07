@@ -19,14 +19,21 @@ class ProgramData {
   // 0x056982E47890Ff8eeac1d57bb36Ef48Dd0D5A823
 
   // Ficará com as Informações da Carteira
-  String _myWallet = "none";
+  String _myWallet = "0x056982E47890Ff8eeac1d57bb36Ef48Dd0D5A823"; //"none";
 
   // Altera o codigo da Carteira
-  Future<bool> alterarMinhaCarteira(String carteira) async {
+  Future<bool> changeMyWallet(String carteira) async {
     // O SharedPreferences obtem as informações contidas nele e o seu caminho
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(_myName);
+    print(_myWallet);
+    return prefs.setString('_myWallet', carteira);
+  }
 
-    return prefs.setString(_myWallet, carteira);
+  Future<String> getMyWallet() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    _myWallet = prefs.getString('_myWallet') ?? 'none';
+    return prefs.getString('_myWallet') ?? 'none';
   }
 
   //Recebe a informação contida em Wallet
@@ -40,16 +47,15 @@ class ProgramData {
 
   // Esta Função Muda o seu nome apresentado no App
   Future<bool> changeMyName(String name) async {
-    SharedPreferences.setMockInitialValues({});
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.setString(_myName, name);
+    return prefs.setString('_myName', name);
   }
 
   //retorna seu nome
   Future<String> getMyName() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    _myName = prefs.getString(_myName) ?? 'none';
-    return _myName;
+    _myName = prefs.getString('_myName') ?? 'none';
+    return prefs.getString('_myName') ?? 'none';
   }
 
   String url; // Contém as informações da API da carteira
