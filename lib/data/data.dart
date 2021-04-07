@@ -2,6 +2,8 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class ProgramData {
   // Informações sobre o contrato das moedas
 
@@ -9,13 +11,53 @@ class ProgramData {
   final String wBNBContract = "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c";
   final String cBRLContract = '0x9e691fd624410d631c082202b050694233031cb7';
 
-  String _myWallet =
-      "0x056982E47890Ff8eeac1d57bb36Ef48Dd0D5A823"; // Ficará com as Informações da Carteira
+  final bool basicsInformations = false;
+  final bool hasSettedWallet = false;
+  final bool hasWalletValue = false;
+
+  // minha carteira para quem quiser fazer alguma doação
+  // 0x056982E47890Ff8eeac1d57bb36Ef48Dd0D5A823
+
+  // Ficará com as Informações da Carteira
+  String _myWallet = "none";
+
+  // Altera o codigo da Carteira
+  Future<bool> alterarMinhaCarteira(String carteira) async {
+    // O SharedPreferences obtem as informações contidas nele e o seu caminho
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    return prefs.setString(_myWallet, carteira);
+  }
+
+  //Recebe a informação contida em Wallet
+  get minhaWallet {
+    return _myWallet;
+  }
+
+  // Seu Nome
+
+  String _myName = "None";
+
+  // Esta Função Muda o seu nome apresentado no App
+  Future<bool> changeMyName(String name) async {
+    SharedPreferences.setMockInitialValues({});
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setString(_myName, name);
+  }
+
+  //retorna seu nome
+  Future<String> getMyName() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    _myName = prefs.getString(_myName) ?? 'none';
+    return _myName;
+  }
+
   String url; // Contém as informações da API da carteira
 
+  //Função Futura Obtem o valor contido na carteira ASICRONA
   Future<BscFormat> getWalletValue() async {
-    _setUrl();
-    final response = await http.get(url);
+    _setUrl(); // Define o Caminho da URL
+    final response = await http.get(url); // Recebe a Resposta da URL
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
@@ -28,6 +70,7 @@ class ProgramData {
     }
   }
 
+  //define como será a URL da API
   String _setUrl() {
     return url =
         "https://api.bscscan.com/api?module=account&action=tokenbalance&tag=latest&apikey=xxx" +
@@ -37,8 +80,6 @@ class ProgramData {
             reauContract;
   }
 }
-
-void alterarMinhaCarteira(String carteira) {}
 
 // Classe formatadora de informações
 class BscFormat {
