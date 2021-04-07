@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:reau_hoje/data/data.dart';
+import 'package:reau_hoje/routers/application_routers.dart';
 import 'package:reau_hoje/views/hello.dart';
 import 'package:reau_hoje/views/myWallet.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:reau_hoje/views/starting.dart';
 
-void main() {
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized(); //Incializador Binding
+  await MyPreferences.init(); // Inicializa o SharedPreferences
   runApp(MyApp());
 }
 
@@ -13,117 +16,25 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    SharedPreferences.setMockInitialValues({});
+    //  SharedPreferences.setMockInitialValues({});
     return MaterialApp(
       title: 'ReAU Hoje',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home:
-          MyWallet(), // ProgramData().minhaWallet == "none" ? FirstTake() : Starting(),
-    );
-  }
-}
-
-// SetPreferences
-
-// O Projeto é Iniciado nessa tela Starting.
-// A Partir daqui será carregado as ultimas informações pré definidas
-// ou caso não haja, será enviado para a tela de Cadastro Primario.
-
-class Starting extends StatefulWidget {
-  @override
-  _StartingState createState() => _StartingState();
-}
-
-class _StartingState extends State<Starting> {
-  Future<BscFormat> walletvalue;
-
-  _carregar() {
-    return FutureBuilder<BscFormat>(
-      future: ProgramData().getWalletValue(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Text(snapshot.data.result.toString());
-        } else {
-          print("Whoa!");
-          return Text("${snapshot.error}");
-        }
+      routes: {
+        AppRoutes.HOME: (ctx) => Home(),
+        AppRoutes.STARTING: (ctx) => Starting(),
+        AppRoutes.HELLO: (ctx) => FirstTake(),
+        AppRoutes.MYWALLET: (ctx) => MyWallet(),
       },
     );
   }
+}
 
+class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print(ProgramData().minhaWallet);
-    return Scaffold(
-      backgroundColor: Color.fromARGB(255, 2, 204, 204),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          _reauHojeLogo(),
-          _barraCarregando(),
-          _carregar(),
-        ],
-      ),
-    );
+    return ProgramData().minhaWallet == "none" ? FirstTake() : Starting();
   }
-}
-
-_reauHojeLogo() {
-  print(ProgramData().minhaWallet);
-  return Expanded(
-    flex: 2,
-    child: Center(
-      child: Text(
-        "Reau Hoje",
-        style: TextStyle(
-            color: Color.fromARGB(255, 246, 246, 246),
-            fontSize: 35,
-            fontFamily: "Montserrat",
-            fontWeight: FontWeight.w900,
-            fontStyle: FontStyle.italic),
-      ),
-    ),
-  );
-}
-
-_barraCarregando() {
-  return Container(
-    color: Color.fromARGB(255, 40, 40, 40),
-    height: 35, // Altura
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        // Texto Carregando, Aguarde...
-        Padding(
-          padding: const EdgeInsets.only(left: 8.0),
-          child: Text(
-            "Carregando aguarde...",
-            // Prorpiedades do texto
-            style: TextStyle(
-                color: Color.fromARGB(255, 246, 246, 246),
-                fontFamily: "Roboto",
-                fontWeight: FontWeight.w400),
-          ),
-        ),
-        Expanded(child: Container()),
-
-        // Barra de Carregamento Circular
-        Padding(
-          padding: const EdgeInsets.only(right: 8.0),
-          child: SizedBox(
-            height: 20,
-            width: 20,
-            child: CircularProgressIndicator(
-              strokeWidth: 2.5,
-              valueColor: new AlwaysStoppedAnimation<Color>(
-                  Color.fromARGB(255, 246, 246, 246)),
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
 }
