@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:reau_hoje/data/data.dart';
+import 'package:reau_hoje/views/hello.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,15 +12,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SharedPreferences.setMockInitialValues({});
     return MaterialApp(
       title: 'ReAU Hoje',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Starting(),
+      home: ProgramData().minhaWallet == "none" ? FirstTake() : Starting(),
     );
   }
 }
+
+// SetPreferences
 
 // O Projeto é Iniciado nessa tela Starting.
 // A Partir daqui será carregado as ultimas informações pré definidas
@@ -37,9 +42,9 @@ class _StartingState extends State<Starting> {
       future: ProgramData().getWalletValue(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          print(snapshot.data.result.toString());
           return Text(snapshot.data.result.toString());
         } else {
+          print("Whoa!");
           return Text("${snapshot.error}");
         }
       },
@@ -48,6 +53,7 @@ class _StartingState extends State<Starting> {
 
   @override
   Widget build(BuildContext context) {
+    print(ProgramData().minhaWallet);
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 2, 204, 204),
       body: Column(
@@ -64,7 +70,7 @@ class _StartingState extends State<Starting> {
 }
 
 _reauHojeLogo() {
-  print(ProgramData().getWalletValue());
+  print(ProgramData().minhaWallet);
   return Expanded(
     flex: 2,
     child: Center(
