@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reau_hoje/data/data.dart';
+import 'package:reau_hoje/routers/application_routers.dart';
 
 class FirstTake extends StatefulWidget {
   @override
@@ -9,7 +10,13 @@ class FirstTake extends StatefulWidget {
 
 class _FirstTakeState extends State<FirstTake> {
   bool hasNamed = false;
+
+  //Nome do Usuário
   String myname = "";
+
+  //Informações do usuário
+  String username = '';
+  String myWallet = '';
 
   @override
   Widget build(BuildContext context) {
@@ -127,12 +134,16 @@ class _FirstTakeState extends State<FirstTake> {
         child: InkWell(
           borderRadius: BorderRadius.circular(60),
           onTap: () async {
-            myname = await widget.program.getMyName();
-            if (hasNamed == false)
+            if (hasNamed == false) {
+              MyPreferences.setUserName(username);
+              myname = MyPreferences.getUserName();
               setState(() {
                 hasNamed = true;
               });
-            else {}
+            } else {
+              MyPreferences.setWallet(myWallet);
+              Navigator.of(context).pushNamed(AppRoutes.MYWALLET);
+            }
           },
           child: Padding(
             padding: const EdgeInsets.all(16.0), // Tamanho do Circulo
@@ -168,12 +179,7 @@ class _FirstTakeState extends State<FirstTake> {
             //fillColor: Colors.green
           ),
           onChanged: ((mySubmit) async {
-            print("this is name TextBox");
-            await widget.program.getMyName();
-            await widget.program.changeMyName(mySubmit);
-          }),
-          onSaved: ((mySubmit) async {
-            await widget.program.changeMyName(mySubmit);
+            username = mySubmit;
           }),
         ),
       ),
@@ -200,11 +206,8 @@ class _FirstTakeState extends State<FirstTake> {
             //fillColor: Colors.green
           ),
           onChanged: ((mySubmit) async {
-            print("this is wallet TextBox");
-            await widget.program.changeMyWallet(mySubmit);
-          }),
-          onSaved: ((mySubmit) async {
-            await widget.program.changeMyWallet(mySubmit);
+            myWallet = mySubmit;
+            print(myWallet);
           }),
         ),
       ),
