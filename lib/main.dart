@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:reau_hoje/data/data.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,7 +24,28 @@ class MyApp extends StatelessWidget {
 // A Partir daqui será carregado as ultimas informações pré definidas
 // ou caso não haja, será enviado para a tela de Cadastro Primario.
 
-class Starting extends StatelessWidget {
+class Starting extends StatefulWidget {
+  @override
+  _StartingState createState() => _StartingState();
+}
+
+class _StartingState extends State<Starting> {
+  Future<BscFormat> walletvalue;
+
+  _carregar() {
+    return FutureBuilder<BscFormat>(
+      future: ProgramData().getWalletValue(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          print(snapshot.data.result.toString());
+          return Text(snapshot.data.result.toString());
+        } else {
+          return Text("${snapshot.error}");
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,9 +55,8 @@ class Starting extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           _reauHojeLogo(),
-
           _barraCarregando(),
-          //_carregar()
+          _carregar(),
         ],
       ),
     );
@@ -42,6 +64,7 @@ class Starting extends StatelessWidget {
 }
 
 _reauHojeLogo() {
+  print(ProgramData().getWalletValue());
   return Expanded(
     flex: 2,
     child: Center(
