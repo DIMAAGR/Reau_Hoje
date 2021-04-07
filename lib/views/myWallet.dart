@@ -2,6 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:reau_hoje/data/data.dart';
+import 'package:reau_hoje/routers/application_routers.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+// Variavel Global!
+String wallet = "";
 
 class MyWallet extends StatefulWidget {
   @override
@@ -9,13 +14,14 @@ class MyWallet extends StatefulWidget {
 }
 
 class _MyWalletState extends State<MyWallet> {
-  final ProgramData data = ProgramData();
-  String wallet;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    data.getMyWallet();
-    wallet = data.minhaWallet;
     return Scaffold(
       body: Center(
         child: Column(
@@ -46,7 +52,7 @@ class _MyWalletState extends State<MyWallet> {
                   child: Align(
                     alignment: Alignment.center,
                     child: Text(
-                      wallet,
+                      MyPreferences.getWallet(),
                       textAlign: TextAlign.justify,
                       textDirection: TextDirection.ltr,
                       style: TextStyle(
@@ -88,18 +94,21 @@ class _MyWalletState extends State<MyWallet> {
       padding: const EdgeInsets.only(left: 8),
       child: Container(
         decoration: BoxDecoration(
-          color: Color.fromARGB(225, 238, 238, 238),
+          color: Colors.green, //Color.fromARGB(225, 238, 238, 238),
           borderRadius: BorderRadius.circular(60),
         ),
         child: InkWell(
           borderRadius: BorderRadius.circular(60),
-          onTap: () async {},
+          onTap: () {
+            Navigator.of(context).pushNamed(AppRoutes.STARTING);
+          },
           child: Padding(
             padding: const EdgeInsets.all(16.0), // Tamanho do Circulo
             child: Icon(
               Icons.arrow_forward_ios,
               size: 23,
-              color: Color.fromARGB(255, 114, 114, 114),
+              color: Color.fromARGB(
+                  255, 248, 248, 248), //Color.fromARGB(255, 114, 114, 114),
             ),
           ),
         ),
@@ -112,18 +121,21 @@ class _MyWalletState extends State<MyWallet> {
       padding: const EdgeInsets.only(left: 8),
       child: Container(
         decoration: BoxDecoration(
-          color: Color.fromARGB(225, 238, 238, 238),
+          color: Colors.red, //Color.fromARGB(225, 238, 238, 238),
           borderRadius: BorderRadius.circular(60),
         ),
         child: InkWell(
           borderRadius: BorderRadius.circular(60),
-          onTap: () async {},
+          onTap: () {
+            Navigator.of(context).pushNamed(AppRoutes.HELLO);
+          },
           child: Padding(
             padding: const EdgeInsets.all(16.0), // Tamanho do Circulo
             child: Icon(
               Icons.cancel,
               size: 23,
-              color: Color.fromARGB(255, 114, 114, 114),
+              color: Color.fromARGB(
+                  255, 248, 248, 248), //Color.fromARGB(255, 114, 114, 114),
             ),
           ),
         ),
