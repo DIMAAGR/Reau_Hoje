@@ -4,7 +4,7 @@ import 'package:reau_hoje/routers/application_routers.dart';
 
 class FirstTake extends StatefulWidget {
   @override
-  final ProgramData program = ProgramData();
+  //final ProgramData program = ProgramData();
   _FirstTakeState createState() => _FirstTakeState();
 }
 
@@ -83,7 +83,7 @@ class _FirstTakeState extends State<FirstTake> {
                       Padding(
                         padding: const EdgeInsets.only(top: 128.0, left: 16),
                         child: Text(
-                          "${myname} eu ainda não sei sua carteira!",
+                          myname + " eu ainda não sei sua carteira!",
                           style: TextStyle(
                               color: Color.fromARGB(255, 40, 40, 40),
                               fontSize: 30,

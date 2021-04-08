@@ -6,6 +6,12 @@ import 'package:reau_hoje/views/starting.dart';
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ProgramData().minhaWallet == "none" ? FirstTake() : Starting();
+    if (MyPreferences.getWallet().isEmpty) {
+      return FirstTake();
+    } else {
+      return Starting();
+    }
+    // Navigator.of(context).pushNamed(AppRoutes.HELLO),
+    // : Navigator.of(context).pushNamed(AppRoutes.HOME);
   }
 }
