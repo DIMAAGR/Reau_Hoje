@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reau_hoje/data/data.dart';
+import 'package:reau_hoje/routers/application_routers.dart';
+import 'package:reau_hoje/views/mainScreen.dart';
 
 class Starting extends StatefulWidget {
   @override
@@ -12,18 +14,41 @@ class _StartingState extends State<Starting> {
   // ou caso não haja, será enviado para a tela de Cadastro Primario.
 
   Future<BscFormat> walletvalue;
+  bool yep = false;
+
+  _loadmainscreen(BuildContext ctx) {
+    if (yep == true)
+      setState(() {
+        Navigator.of(ctx).pushNamed(AppRoutes.MAINSCREEN);
+      });
+    return SizedBox(
+      width: 0,
+      height: 0,
+    );
+  }
+
+  // if (snapshot.data.result != 'null') yep = true;
+  //         print("result: " + snapshot.data.result);
+  //         print("YEP: " + yep.toString());
 
   _carregar() {
+    // return SizedBox();
     return FutureBuilder<BscFormat>(
       future: ProgramData().getWalletValue(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          print(snapshot.error);
-          return Text(snapshot.data.result.toString());
+          if (snapshot.data.result != 'null') yep = true;
+          print("result: " + snapshot.data.result);
+          print("YEP: " + yep.toString());
+          return SizedBox();
         } else {
+          yep = false;
           print("Whoa!");
           print(snapshot.error);
-          return Text("${snapshot.error}");
+          return SizedBox(
+            width: 0,
+            height: 0,
+          );
         }
       },
     );
@@ -40,7 +65,9 @@ class _StartingState extends State<Starting> {
         children: [
           _reauHojeLogo(),
           _barraCarregando(),
-          _carregar(),
+          Container(
+            child: _carregar(),
+          ),
         ],
       ),
     );
