@@ -1,8 +1,11 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:reau_hoje/data/data.dart';
 import 'package:reau_hoje/routers/application_routers.dart';
+import 'package:web3dart/web3dart.dart';
 
 // Variavel Global!
 String wallet = "";
@@ -13,11 +16,6 @@ class MyWallet extends StatefulWidget {
 }
 
 class _MyWalletState extends State<MyWallet> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

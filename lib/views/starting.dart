@@ -16,17 +16,6 @@ class _StartingState extends State<Starting> {
   Future<BscFormat> walletvalue;
   bool yep = false;
 
-  _loadmainscreen(BuildContext ctx) {
-    if (yep == true)
-      setState(() {
-        Navigator.of(ctx).pushNamed(AppRoutes.MAINSCREEN);
-      });
-    return SizedBox(
-      width: 0,
-      height: 0,
-    );
-  }
-
   // if (snapshot.data.result != 'null') yep = true;
   //         print("result: " + snapshot.data.result);
   //         print("YEP: " + yep.toString());
