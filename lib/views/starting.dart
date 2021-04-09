@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:reau_hoje/data/data.dart';
-import 'package:reau_hoje/routers/application_routers.dart';
-import 'package:reau_hoje/views/mainScreen.dart';
 
 class Starting extends StatefulWidget {
   @override
@@ -13,39 +10,10 @@ class _StartingState extends State<Starting> {
   // A Partir daqui será carregado as ultimas informações pré definidas
   // ou caso não haja, será enviado para a tela de Cadastro Primario.
 
-  Future<BscFormat> walletvalue;
   bool yep = false;
-
-  // if (snapshot.data.result != 'null') yep = true;
-  //         print("result: " + snapshot.data.result);
-  //         print("YEP: " + yep.toString());
-
-  _carregar() {
-    // return SizedBox();
-    return FutureBuilder<BscFormat>(
-      future: ProgramData().getWalletValue(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data.result != 'null') yep = true;
-          print("result: " + snapshot.data.result);
-          print("YEP: " + yep.toString());
-          return SizedBox();
-        } else {
-          yep = false;
-          print("Whoa!");
-          print(snapshot.error);
-          return SizedBox(
-            width: 0,
-            height: 0,
-          );
-        }
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
-    print(ProgramData().minhaWallet);
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 2, 204, 204),
       body: Column(
@@ -54,9 +22,7 @@ class _StartingState extends State<Starting> {
         children: [
           _reauHojeLogo(),
           _barraCarregando(),
-          Container(
-            child: _carregar(),
-          ),
+          Container(),
         ],
       ),
     );
@@ -64,7 +30,6 @@ class _StartingState extends State<Starting> {
 }
 
 _reauHojeLogo() {
-  print(ProgramData().minhaWallet);
   return Expanded(
     flex: 2,
     child: Center(
