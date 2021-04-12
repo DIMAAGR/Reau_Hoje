@@ -119,8 +119,23 @@ class _MainScreenState extends State<MainScreen> {
                 )
               ],
             ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 24.0, top: 24.0),
+                child: Text(
+                  "Visão Geral da Conta",
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontFamily: "Roboto",
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
             SizedBox(
-              height: 18,
+              height: 16,
             ),
             Container(
               decoration: BoxDecoration(
@@ -419,7 +434,7 @@ class _MainScreenState extends State<MainScreen> {
   //Calcula a diferenca/volatilidade do preço do reau
   void diff() {
     if (ancientWalletValue != brlWalletValue) {
-      if (difference < -0.02 || difference > 0.02) {
+      if (difference < -0.05 || difference > 0.05) {
         ancientdifference = difference;
       }
     }
