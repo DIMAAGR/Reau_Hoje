@@ -75,6 +75,10 @@ flutter:
           weight: 400
         - asset: assets/fonts/Roboto-Thin.ttf
           weight: 100
+        - asset: assets/fonts/Roboto-Medium.ttf
+          weight: 700
+        - asset: assets/fonts/Roboto-Bold.ttf
+          weight: 800
     - family: Montserrat
       fonts:
         - asset: assets/fonts/Montserrat-BlackItalic.ttf
