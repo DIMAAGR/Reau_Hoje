@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:reau_hoje/data/data.dart';
 import 'package:reau_hoje/routers/application_routers.dart';
 import 'package:reau_hoje/views/hello.dart';
-import 'package:reau_hoje/views/mainScreen.dart';
+import 'package:reau_hoje/views/main_screen/mainScreen.dart';
 import 'package:reau_hoje/views/myWallet.dart';
 import 'package:reau_hoje/views/starting.dart';
 
