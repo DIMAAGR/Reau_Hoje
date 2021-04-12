@@ -60,6 +60,7 @@ class _MainScreenState extends State<MainScreen> {
     String diffstring = difference.toStringAsFixed(2) +
         "%"; //Recebe o balor da diferença em $ do REAU
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 245, 245, 245),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -125,15 +126,15 @@ class _MainScreenState extends State<MainScreen> {
               decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey[500],
-                      blurRadius: 18,
+                      color: Color.fromARGB(255, 144, 140, 255),
+                      blurRadius: 8,
                     )
                   ],
                   borderRadius: BorderRadius.circular(15),
                   color: Color.fromARGB(
-                      255, 25, 64, 217)), //Color.fromARGB(255, 74, 70, 255)),
-              height: 125,
-              width: MediaQuery.of(context).size.width * 0.93,
+                      255, 74, 70, 255)), //Color.fromARGB(255, 74, 70, 255)),
+              height: 150,
+              width: MediaQuery.of(context).size.width * 0.92,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,8 +152,8 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                   brlWalletValue != null
                       ? Padding(
-                          padding:
-                              const EdgeInsets.only(left: 16.0, bottom: 8.0),
+                          padding: const EdgeInsets.only(
+                              top: 2, left: 16.0, bottom: 8.0),
                           child: Text(
                             "R\$ " +
                                 brlWalletValue
@@ -173,6 +174,219 @@ class _MainScreenState extends State<MainScreen> {
                           ),
                         ),
                 ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.92,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(color: Colors.grey[300], blurRadius: 10),
+                  ],
+                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.grey[50],
+                ),
+                height: 85,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0, left: 8.0),
+                      child: Container(
+                        height: 44,
+                        width: 44,
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 0, 219, 255),
+                          borderRadius: BorderRadius.circular(44),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "R",
+                            style: TextStyle(
+                              fontSize: 30,
+                              color: Color.fromARGB(255, 245, 245, 245),
+                              fontFamily: "Montserrat",
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Meus Reaus:",
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontFamily: "Roboto",
+                                color: Colors.black87,
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 2.0),
+                            child: Text(
+                              walletValue.toString() + " \$REAU",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: "Roboto",
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.w800),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 16, bottom: 16, left: 16, right: 8),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(10),
+                          onTap: () {
+                            print("hello");
+                          },
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.grey[300], blurRadius: 10),
+                              ],
+                              color: Color.fromARGB(255, 250, 250, 250),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.account_balance_wallet,
+                                  size: 35,
+                                  color: Colors.black54,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: Text(
+                                    "Minha\nCarteira",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontFamily: "Roboto",
+                                        color: Colors.black54,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 16, bottom: 16, left: 8, right: 8),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(10),
+                          onTap: () {
+                            print("hello");
+                          },
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.grey[300], blurRadius: 10),
+                              ],
+                              color: Color.fromARGB(255, 250, 250, 250),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.settings,
+                                  size: 35,
+                                  color: Colors.black54,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: Text(
+                                    "Configurações",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontFamily: "Roboto",
+                                        color: Colors.black54,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 16, bottom: 16, left: 8, right: 8),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(10),
+                          onTap: () {
+                            print("hello");
+                          },
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              color: Colors.grey[400],
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.bar_chart,
+                                  size: 35,
+                                  color: Colors.white,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: Text(
+                                    "Analises\n(Indisponivel)",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontFamily: "Roboto",
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ],
