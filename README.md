@@ -1,16 +1,11 @@
 # reau_hoje
 
-A new Flutter project.
+Este é um projeto criado em flutter
 
-## Getting Started
+# Este projeto atualmente tem 3 metas
+#### 1 - Servir como uma maneira de visualizar o valor contido em sua carteira de REAUS
+#### 2 - Ser visualmente elegante e facil de visualizar
+#### 3 - Poder ser usado por qualquer pessoa em qualquer parte do mundo conseguindo ver suas metricas em sua moeda nativa
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Esta é a meta mais egoista que nós temos
+## Ser uma Wallet de REAUS Idependente e de codigo aberto!
