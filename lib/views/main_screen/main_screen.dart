@@ -5,8 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:reau_hoje/data/data.dart';
 import 'package:reau_hoje/views/main_screen/components/app_btn.dart';
+import 'package:reau_hoje/views/main_screen/components/custom_reau_app_bar.dart';
 import 'package:reau_hoje/views/main_screen/components/market_value.dart';
-import 'package:reau_hoje/views/main_screen/components/difference.dart';
 import 'package:reau_hoje/views/main_screen/components/reau_Balance.dart';
 import 'package:web3dart/web3dart.dart';
 
@@ -72,58 +72,11 @@ class _MainScreenState extends State<MainScreen> {
             SizedBox(
               height: 25,
             ),
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 12.0, top: 12.0),
-                  child: Row(
-                    children: [
-                      Text(
-                        "Olá, ",
-                        style: TextStyle(
-                            fontFamily: "Roboto",
-                            fontSize: 35,
-                            fontWeight: FontWeight.w300),
-                      ),
-                      Text(
-                        appUser,
-                        style: TextStyle(
-                            fontFamily: "Roboto",
-                            fontSize: 35,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: SizedBox(),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 12.0, top: 12.0),
-                  child: Container(
-                    height: 28,
-                    width: 46,
-                    decoration: BoxDecoration(
-                        color: Colors.black45,
-                        borderRadius: BorderRadius.circular(5)),
-                    child: Center(
-                      child: Text(
-                        "BRL",
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 248, 248, 248),
-                            fontWeight: FontWeight.w900),
-                      ),
-                    ),
-                  ),
-                ),
-                Difference(
-                  updown: updown == null ? true : updown,
-                  difference: difference,
-                  diffstring: diffstring,
-                )
-              ],
-            ),
+            CustomReauAppBar(
+                appUser: appUser,
+                updown: updown,
+                difference: difference,
+                diffstring: diffstring),
             Container(
               width: MediaQuery.of(context).size.width,
               child: Padding(
