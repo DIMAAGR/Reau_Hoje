@@ -10,8 +10,10 @@ class Difference extends StatefulWidget {
   final double difference;
   final double ancientdifference;
   final String diffstring;
+  final bool updown;
 
-  Difference({this.difference, this.ancientdifference, this.diffstring});
+  Difference(
+      {this.updown, this.difference, this.ancientdifference, this.diffstring});
 
   @override
   _DifferenceState createState() => _DifferenceState();
@@ -31,77 +33,97 @@ class _DifferenceState extends State<Difference> {
     } else {
       diff = widget.diffstring;
     }
-
-    return widget.difference > widget.ancientdifference
-        ? Padding(
-            padding: const EdgeInsets.only(right: 16.0, top: 12.0),
-            child: Container(
-              height: 28,
-              width: 58 + diff.length.toDouble() * 2.4,
-              decoration: BoxDecoration(
-                  color: Colors.greenAccent[700],
-                  borderRadius: BorderRadius.circular(5)),
-              child: Center(
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.keyboard_arrow_up,
-                      color: Colors.white,
-                    ),
-                    Text(
-                      diff,
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w900),
-                    ),
-                  ],
+    if (widget.updown)
+      return Padding(
+        padding: const EdgeInsets.only(right: 16.0, top: 12.0),
+        child: Container(
+          height: 28,
+          width: 64 + diff.length.toDouble() * 2.5,
+          decoration: BoxDecoration(
+              color: Colors.greenAccent[700],
+              borderRadius: BorderRadius.circular(5)),
+          child: Center(
+            child: Row(
+              children: [
+                Icon(
+                  Icons.keyboard_arrow_up,
+                  color: Colors.white,
                 ),
-              ),
+                Text(
+                  diff,
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.w900),
+                ),
+              ],
             ),
-          )
-        : widget.difference < widget.ancientdifference
-            ? Padding(
-                padding: const EdgeInsets.only(right: 16.0, top: 12.0),
-                child: Container(
-                  height: 28,
-                  width: 64 + diff.length.toDouble() * 2.3,
-                  decoration: BoxDecoration(
-                      color: Colors.redAccent[700],
-                      borderRadius: BorderRadius.circular(5)),
-                  child: Center(
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.keyboard_arrow_down,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          diff,
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.w900),
-                        ),
-                      ],
-                    ),
-                  ),
+          ),
+        ),
+      );
+    else if (!widget.updown)
+      return Padding(
+        padding: const EdgeInsets.only(right: 16.0, top: 12.0),
+        child: Container(
+          height: 28,
+          width: 64 + diff.length.toDouble() * 2.3,
+          decoration: BoxDecoration(
+              color: Colors.redAccent[700],
+              borderRadius: BorderRadius.circular(5)),
+          child: Center(
+            child: Row(
+              children: [
+                Icon(
+                  Icons.keyboard_arrow_down,
+                  color: Colors.white,
                 ),
-              )
-            : widget.difference == 0.0
-                ? Padding(
-                    padding: const EdgeInsets.only(right: 16.0, top: 12.0),
-                    child: Container(
-                      height: 28,
-                      width: 58,
-                      decoration: BoxDecoration(
-                          color: Colors.grey[700],
-                          borderRadius: BorderRadius.circular(5)),
-                      child: Center(
-                        child: Text(
-                          diff,
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.w900),
-                        ),
-                      ),
-                    ),
-                  )
-                : SizedBox();
+                Text(
+                  diff,
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.w900),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    else if (widget.updown == null) {
+      return Padding(
+        padding: const EdgeInsets.only(right: 16.0, top: 12.0),
+        child: Container(
+          height: 28,
+          width: 58,
+          decoration: BoxDecoration(
+              color: Colors.grey[700], borderRadius: BorderRadius.circular(5)),
+          child: Center(
+            child: Text(
+              diff,
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.w900),
+            ),
+          ),
+        ),
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.only(right: 16.0, top: 12.0),
+        child: Container(
+          height: 28,
+          width: 64 + diff.length.toDouble() * 2.3,
+          decoration: BoxDecoration(
+              color: Colors.redAccent[700],
+              borderRadius: BorderRadius.circular(5)),
+          child: Center(
+            child: Row(
+              children: [
+                Text(
+                  "error",
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.w900),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
   }
 }

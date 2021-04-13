@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:reau_hoje/data/data.dart';
 import 'package:reau_hoje/views/main_screen/components/AppBtn.dart';
+import 'package:reau_hoje/views/main_screen/components/MarketValue.dart';
 import 'package:reau_hoje/views/main_screen/components/difference.dart';
 import 'package:web3dart/web3dart.dart';
 
@@ -38,6 +39,7 @@ class _MainScreenState extends State<MainScreen> {
   double totalBRLFeesValue;
   bool data;
   String diffstring;
+  bool updown;
 
   //DATA STATUS
   double ancientWalletValue;
@@ -115,6 +117,7 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                 ),
                 Difference(
+                  updown: updown == null ? true : updown,
                   ancientdifference: ancientdifference,
                   difference: difference,
                   diffstring: diffstring,
@@ -316,60 +319,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color.fromARGB(255, 235, 235, 235),
-                      blurRadius: 8,
-                    )
-                  ],
-                  borderRadius: BorderRadius.circular(15),
-                  color: Color.fromARGB(
-                      255, 250, 250, 250)), //Color.fromARGB(255, 74, 70, 255)),
-              height: 80,
-              width: MediaQuery.of(context).size.width * 0.92,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16.0),
-                    child: Text(
-                      "Capital de Mercado:",
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontFamily: "Roboto",
-                          color: Colors.black87,
-                          fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                  totalBRLFeesValue != null
-                      ? Padding(
-                          padding: const EdgeInsets.only(
-                              top: 2, left: 16.0, bottom: 8.0),
-                          child: Text(
-                            "R\$ " +
-                                totalBRLFeesValue
-                                    .toStringAsFixed(2)
-                                    .replaceAll(".", ","),
-                            style: TextStyle(
-                                fontSize: 30,
-                                fontFamily: "Roboto",
-                                color: Colors.black87,
-                                fontWeight: FontWeight.w800),
-                          ),
-                        )
-                      : Center(
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2.5,
-                            valueColor: new AlwaysStoppedAnimation<Color>(
-                                Color.fromARGB(255, 246, 246, 246)),
-                          ),
-                        ),
-                ],
-              ),
-            ),
+            MarketValueWidget(totalBRLFeesValue: totalBRLFeesValue),
           ],
         ),
       ),
@@ -399,20 +349,26 @@ class _MainScreenState extends State<MainScreen> {
 
   //Calcula a diferenca/volatilidade do preço do reau
   void diff() {
-    if (ancientWalletValue != brlWalletValue) {
-      if (difference < -0.05 || difference > 0.05) {
-        ancientdifference = difference;
-        diffstring = difference.toStringAsFixed(2) + "%";
-        hello();
-      }
-    }
     if (ancientWalletValue != null) if (ancientWalletValue != brlWalletValue) {
       double d = ((brlWalletValue - ancientWalletValue) / ancientWalletValue) *
           100; //d = Diferença
       difference = d;
+
       if (difference.isNegative) difference *= -1;
     }
+
     if (difference == -0.0) difference = 0.0;
+    if (difference < -0.01 || difference > 0.01) {
+      if (difference > ancientdifference) {
+        updown = true;
+      } else {
+        updown = false;
+      }
+      ancientdifference = difference;
+      diffstring = difference.toStringAsFixed(2) + "%";
+      setState(() {});
+      hello();
+    }
   }
 
 //==============================================================================================//
