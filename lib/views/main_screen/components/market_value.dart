@@ -25,12 +25,53 @@ class MarketValueWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
           color: Color.fromARGB(
               255, 250, 250, 250)), //Color.fromARGB(255, 74, 70, 255)),
-      height: 80,
+      height: 200,
+
       width: MediaQuery.of(context).size.width * 0.92,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0, left: 8.0),
+                  child: Container(
+                    height: 44,
+                    width: 44,
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 0, 219, 255),
+                      borderRadius: BorderRadius.circular(44),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "R",
+                        style: TextStyle(
+                          fontSize: 30,
+                          color: Color.fromARGB(255, 245, 245, 245),
+                          fontFamily: "Montserrat",
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Column(
+                  children: [
+                    Text(
+                      "Vira-lata Reau",
+                      style: TextStyle(
+                          fontFamily: "Montserrat",
+                          fontSize: 20,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(left: 16.0),
             child: Text(

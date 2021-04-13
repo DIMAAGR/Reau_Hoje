@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reau_hoje/data/reauconnection.dart';
 import 'package:reau_hoje/providers/reauprovider.dart';
 import 'package:reau_hoje/views/main_screen/components/app_btn.dart';
 import 'package:reau_hoje/views/main_screen/components/custom_reau_app_bar.dart';
@@ -13,23 +14,30 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  ReauProvider rProvider;
+  //ReauProvider rProvider;
+  ReauConnection rc;
 
   // ignore: unused_field
   Timer _timer;
 
   @override
   void initState() {
+    rc = ReauConnection(setmyState());
+    rc.startReauOptions();
     startTimer();
     super.initState();
+  }
+
+  setmyState() {
+    setState(() {});
   }
 
   int _start = 15;
 
   @override
   Widget build(BuildContext context) {
-    rProvider = Provider.of<ReauProvider>(context);
-    rProvider.startReauOptions();
+    // rProvider = Provider.of<ReauProvider>(context);
+    // rProvider.startReauOptions();
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 245, 245, 245),
       body: SingleChildScrollView(
@@ -39,10 +47,10 @@ class _MainScreenState extends State<MainScreen> {
               height: 25,
             ),
             CustomReauAppBar(
-                appUser: rProvider.appUser,
-                updown: rProvider.updown,
-                difference: rProvider.difference,
-                diffstring: rProvider.diffstring),
+                appUser: rc.appUser,
+                updown: rc.updown,
+                difference: rc.difference,
+                diffstring: rc.diffstring),
             Container(
               width: MediaQuery.of(context).size.width,
               child: Padding(
@@ -89,13 +97,13 @@ class _MainScreenState extends State<MainScreen> {
                           fontWeight: FontWeight.w400),
                     ),
                   ),
-                  rProvider.brlWalletValue != null
+                  rc.brlWalletValue != null
                       ? Padding(
                           padding: const EdgeInsets.only(
                               top: 2, left: 16.0, bottom: 8.0),
                           child: Text(
                             "R\$ " +
-                                rProvider.brlWalletValue
+                                rc.brlWalletValue
                                     .toStringAsFixed(2)
                                     .replaceAll('.', ","),
                             style: TextStyle(
@@ -152,7 +160,7 @@ class _MainScreenState extends State<MainScreen> {
                         ),
                       ),
                     ),
-                    ReauBalance(walletValue: rProvider.walletValue),
+                    ReauBalance(walletValue: rc.walletValue),
                   ],
                 ),
               ),
@@ -210,7 +218,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ),
             ),
-            MarketValueWidget(marketPrice: rProvider.totalBRLFeesValue),
+            MarketValueWidget(marketPrice: rc.totalBRLFeesValue),
           ],
         ),
       ),
@@ -224,10 +232,10 @@ class _MainScreenState extends State<MainScreen> {
       (Timer timer) {
         if (_start == 0) {
           _start = 10;
-
+          rc.startReauOptions();
           debugPrint("UPDATED!");
-          rProvider.ancientWalletValue = rProvider.brlWalletValue;
-          rProvider.startReauOptions();
+          rc.ancientWalletValue = rc.brlWalletValue;
+
           setState(() {});
         } else {
           setState(() {
