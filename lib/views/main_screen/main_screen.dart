@@ -22,7 +22,7 @@ class _MainScreenState extends State<MainScreen> {
   Web3Client web3;
 
   String appUser = "Italo";
-  final myAdress = "0x056982E47890Ff8eeac1d57bb36Ef48Dd0D5A823";
+  final myAdress = "0x000000000000000000000000000000000000dead";
 
   //Definições Obtidas a partir do contrato do reau
   var deadBalance;
