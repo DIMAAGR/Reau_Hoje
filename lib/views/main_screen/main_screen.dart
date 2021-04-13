@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:reau_hoje/data/reauconnection.dart';
-import 'package:reau_hoje/providers/reauprovider.dart';
 import 'package:reau_hoje/views/main_screen/components/app_btn.dart';
 import 'package:reau_hoje/views/main_screen/components/custom_reau_app_bar.dart';
 import 'package:reau_hoje/views/main_screen/components/market_value.dart';
@@ -14,7 +12,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  //ReauProvider rProvider;
   ReauConnection rc;
 
   // ignore: unused_field
@@ -36,8 +33,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // rProvider = Provider.of<ReauProvider>(context);
-    // rProvider.startReauOptions();
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 245, 245, 245),
       body: SingleChildScrollView(
