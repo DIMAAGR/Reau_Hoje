@@ -491,6 +491,7 @@ class _MainScreenState extends State<MainScreen> {
     returnTotalBRLFeesValue();
     diff();
     setState(() {});
+   
   }
 
   //Colocar o valor do reau na carteira!
