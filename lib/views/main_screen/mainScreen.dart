@@ -37,6 +37,7 @@ class _MainScreenState extends State<MainScreen> {
   double bnbPrice;
   double totalBRLFeesValue;
   bool data;
+  String diffstring;
 
   //DATA STATUS
   double ancientWalletValue;
@@ -60,8 +61,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String diffstring = difference.toStringAsFixed(2) +
-        "%"; //Recebe o balor da diferença em $ do REAU
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 245, 245, 245),
       body: SingleChildScrollView(
@@ -401,8 +400,10 @@ class _MainScreenState extends State<MainScreen> {
   //Calcula a diferenca/volatilidade do preço do reau
   void diff() {
     if (ancientWalletValue != brlWalletValue) {
-      if (difference > -0.05 || difference < 0.05) {
+      if (difference < -0.05 || difference > 0.05) {
         ancientdifference = difference;
+        diffstring = difference.toStringAsFixed(2) + "%";
+        hello();
       }
     }
     if (ancientWalletValue != null) if (ancientWalletValue != brlWalletValue) {
@@ -423,6 +424,7 @@ class _MainScreenState extends State<MainScreen> {
     return contract;
   }
 
+  void hello() => print("Hello Test");
 //==============================================================================================//
   // Tem a função de transferir os argumentos carregar o contrato
   // e receber a informação desejada do servidor
