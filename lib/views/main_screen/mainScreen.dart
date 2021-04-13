@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:reau_hoje/data/data.dart';
+import 'package:reau_hoje/views/main_screen/components/AppBtn.dart';
 import 'package:reau_hoje/views/main_screen/components/difference.dart';
 import 'package:web3dart/web3dart.dart';
 
@@ -23,9 +24,10 @@ class _MainScreenState extends State<MainScreen> {
   final myAdress = "0x056982E47890Ff8eeac1d57bb36Ef48Dd0D5A823";
 
   //Definições Obtidas a partir do contrato do reau
-  var totalFees;
-  BigInt walletValue;
   var deadBalance;
+  var totalFees;
+  BigInt totalSupply;
+  BigInt walletValue;
   double reauBNBprice;
   double reauUSDPrice;
   double reauBRLPrice;
@@ -33,6 +35,7 @@ class _MainScreenState extends State<MainScreen> {
   double reauUSD;
   double brlWalletValue;
   double bnbPrice;
+  double totalBRLFeesValue;
   bool data;
 
   //DATA STATUS
@@ -197,7 +200,9 @@ class _MainScreenState extends State<MainScreen> {
                 width: MediaQuery.of(context).size.width * 0.92,
                 decoration: BoxDecoration(
                   boxShadow: [
-                    BoxShadow(color: Colors.grey[300], blurRadius: 10),
+                    BoxShadow(
+                        color: Color.fromARGB(255, 235, 235, 235),
+                        blurRadius: 10),
                   ],
                   borderRadius: BorderRadius.circular(15),
                   color: Colors.grey[50],
@@ -269,139 +274,101 @@ class _MainScreenState extends State<MainScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(
-                            top: 16, bottom: 16, left: 16, right: 8),
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(10),
-                          onTap: () {
-                            print("hello");
-                          },
-                          child: Container(
-                            width: 100,
-                            height: 100,
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.grey[300], blurRadius: 10),
-                              ],
-                              color: Color.fromARGB(255, 250, 250, 250),
-                              borderRadius: BorderRadius.circular(10),
+                          padding: const EdgeInsets.only(
+                              top: 16, bottom: 16, left: 16, right: 8),
+                          child: AppBtn(
+                            active: true,
+                            text: "Minha\nCarteira",
+                            function: () {},
+                            icon: Icon(
+                              Icons.account_balance_wallet,
+                              size: 35,
+                              color: Colors.black54,
                             ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.account_balance_wallet,
-                                  size: 35,
-                                  color: Colors.black54,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: Text(
-                                    "Minha\nCarteira",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontFamily: "Roboto",
-                                        color: Colors.black54,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
+                          )),
                       Padding(
-                        padding: const EdgeInsets.only(
-                            top: 16, bottom: 16, left: 8, right: 8),
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(10),
-                          onTap: () {
-                            print("hello");
-                          },
-                          child: Container(
-                            width: 100,
-                            height: 100,
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.grey[300], blurRadius: 10),
-                              ],
-                              color: Color.fromARGB(255, 250, 250, 250),
-                              borderRadius: BorderRadius.circular(10),
+                          padding: const EdgeInsets.only(
+                              top: 16, bottom: 16, left: 8, right: 8),
+                          child: AppBtn(
+                            icon: Icon(
+                              Icons.settings,
+                              size: 35,
+                              color: Colors.black54,
                             ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.settings,
-                                  size: 35,
-                                  color: Colors.black54,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: Text(
-                                    "Configurações",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontFamily: "Roboto",
-                                        color: Colors.black54,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
+                            function: () {},
+                            active: true,
+                            text: "Configurações",
+                          )),
                       Padding(
-                        padding: const EdgeInsets.only(
-                            top: 16, bottom: 16, left: 8, right: 8),
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(10),
-                          onTap: () {
-                            print("hello");
-                          },
-                          child: Container(
-                            width: 100,
-                            height: 100,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[400],
-                              borderRadius: BorderRadius.circular(10),
+                          padding: const EdgeInsets.only(
+                              top: 16, bottom: 16, left: 8, right: 8),
+                          child: AppBtn(
+                            text: "Analises\n(Indisponivel)",
+                            function: () {},
+                            icon: Icon(
+                              Icons.bar_chart,
+                              size: 35,
+                              color: Colors.white,
                             ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.bar_chart,
-                                  size: 35,
-                                  color: Colors.white,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: Text(
-                                    "Analises\n(Indisponivel)",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontFamily: "Roboto",
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
+                            active: false,
+                          )),
                     ],
                   ),
                 ),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color.fromARGB(255, 235, 235, 235),
+                      blurRadius: 8,
+                    )
+                  ],
+                  borderRadius: BorderRadius.circular(15),
+                  color: Color.fromARGB(
+                      255, 250, 250, 250)), //Color.fromARGB(255, 74, 70, 255)),
+              height: 80,
+              width: MediaQuery.of(context).size.width * 0.92,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Text(
+                      "Capital de Mercado:",
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontFamily: "Roboto",
+                          color: Colors.black87,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                  totalBRLFeesValue != null
+                      ? Padding(
+                          padding: const EdgeInsets.only(
+                              top: 2, left: 16.0, bottom: 8.0),
+                          child: Text(
+                            "R\$ " +
+                                totalBRLFeesValue
+                                    .toStringAsFixed(2)
+                                    .replaceAll(".", ","),
+                            style: TextStyle(
+                                fontSize: 30,
+                                fontFamily: "Roboto",
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w800),
+                          ),
+                        )
+                      : Center(
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2.5,
+                            valueColor: new AlwaysStoppedAnimation<Color>(
+                                Color.fromARGB(255, 246, 246, 246)),
+                          ),
+                        ),
+                ],
               ),
             ),
           ],
@@ -434,7 +401,7 @@ class _MainScreenState extends State<MainScreen> {
   //Calcula a diferenca/volatilidade do preço do reau
   void diff() {
     if (ancientWalletValue != brlWalletValue) {
-      if (difference < -0.05 || difference > 0.05) {
+      if (difference > -0.05 || difference < 0.05) {
         ancientdifference = difference;
       }
     }
@@ -561,7 +528,9 @@ class _MainScreenState extends State<MainScreen> {
     reauUSD = a * b;
     dollarPrice = cBrlprice / bnbPrice;
     reauBRLPrice = reauBNBprice * bnbPrice * dollarPrice;
+    totalSupply = deadBalance - totalFees;
     returnReauBRLValue();
+    returnTotalBRLFeesValue();
     diff();
     setState(() {});
   }
@@ -569,4 +538,6 @@ class _MainScreenState extends State<MainScreen> {
   //Colocar o valor do reau na carteira!
   void returnReauBRLValue() =>
       brlWalletValue = (reauBRLPrice * walletValue.toDouble()) / 1000000000;
+  void returnTotalBRLFeesValue() =>
+      totalBRLFeesValue = (reauBRLPrice * totalSupply.toDouble()) / 1000000000;
 }
