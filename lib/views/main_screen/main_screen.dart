@@ -7,6 +7,7 @@ import 'package:reau_hoje/data/data.dart';
 import 'package:reau_hoje/views/main_screen/components/AppBtn.dart';
 import 'package:reau_hoje/views/main_screen/components/MarketValue.dart';
 import 'package:reau_hoje/views/main_screen/components/difference.dart';
+import 'package:reau_hoje/views/main_screen/components/reau_Balance.dart';
 import 'package:web3dart/web3dart.dart';
 
 class MainScreen extends StatefulWidget {
@@ -118,7 +119,6 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 Difference(
                   updown: updown == null ? true : updown,
-                  ancientdifference: ancientdifference,
                   difference: difference,
                   diffstring: diffstring,
                 )
@@ -233,35 +233,7 @@ class _MainScreenState extends State<MainScreen> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Meus Reaus:",
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontFamily: "Roboto",
-                                color: Colors.black87,
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.w400),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 2.0),
-                            child: Text(
-                              walletValue.toString() + " \$REAU",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontFamily: "Roboto",
-                                  color: Colors.black87,
-                                  fontWeight: FontWeight.w800),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    ReauBalance(walletValue: walletValue),
                   ],
                 ),
               ),
@@ -319,7 +291,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ),
             ),
-            MarketValueWidget(totalBRLFeesValue: totalBRLFeesValue),
+            MarketValueWidget(marketPrice: totalBRLFeesValue),
           ],
         ),
       ),
@@ -491,7 +463,6 @@ class _MainScreenState extends State<MainScreen> {
     returnTotalBRLFeesValue();
     diff();
     setState(() {});
-   
   }
 
   //Colocar o valor do reau na carteira!
