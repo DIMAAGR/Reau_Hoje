@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
+/// Este Widget tem como função mostrar o valor de mercado da moeda REAU
+/// Ele receberá a variável [marketPrice] que irá definir o preço de mercado da moeda
+
 class MarketValueWidget extends StatelessWidget {
   const MarketValueWidget({
     Key key,
-    @required this.totalBRLFeesValue,
+    @required this.marketPrice,
   }) : super(key: key);
 
-  final double totalBRLFeesValue;
+  /// a variável [marketPrice] define o preço da moeda na tela
+  final double marketPrice;
 
   @override
   Widget build(BuildContext context) {
@@ -38,15 +42,13 @@ class MarketValueWidget extends StatelessWidget {
                   fontWeight: FontWeight.w400),
             ),
           ),
-          totalBRLFeesValue != null
+          marketPrice != null
               ? Padding(
                   padding:
                       const EdgeInsets.only(top: 2, left: 16.0, bottom: 8.0),
                   child: Text(
                     "R\$ " +
-                        totalBRLFeesValue
-                            .toStringAsFixed(2)
-                            .replaceAll(".", ","),
+                        marketPrice.toStringAsFixed(2).replaceAll(".", ","),
                     style: TextStyle(
                         fontSize: 30,
                         fontFamily: "Roboto",
@@ -55,10 +57,14 @@ class MarketValueWidget extends StatelessWidget {
                   ),
                 )
               : Center(
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2.5,
-                    valueColor: new AlwaysStoppedAnimation<Color>(
-                        Color.fromARGB(255, 246, 246, 246)),
+                  child: Container(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.5,
+                      valueColor: new AlwaysStoppedAnimation<Color>(
+                          Color.fromARGB(255, 46, 46, 46)),
+                    ),
                   ),
                 ),
         ],

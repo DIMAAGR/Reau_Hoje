@@ -2,18 +2,23 @@ import 'package:flutter/material.dart';
 
 /// O Widget Difference mostra a diferença/ Variação na cotação do REAU
 /// Mais Especificadamente dos seus REAUS.
-/// Ele recebe 3 variaveis [Difference] que mostra a diferença atual,
-/// [ancientdifference] que mostra o valor anterior a diferença e o
-/// [diffstring] que mostra o texto que será apresentado no modulo de diferença
+/// Ele recebe 3 variaveis [Difference] que mostra a diferença atual, e o
+/// [diffstring] que mostra o texto que será apresentado no modulo de diferença.
+/// São Dois tipos de Differença que serão definidos pelo booleano [updown]
+/// ele verificará se o valor subio ou desceu e definirá o tipo de widget que será gerado
+/// caso tudo dê errado ele gerará um widget com o nome error!
 
 class Difference extends StatefulWidget {
+  /// a variavel [difference] recebe a diferença entre a ultima e a atual cotação
   final double difference;
-  final double ancientdifference;
+
+  /// a variável [diffstring] recebe o texto a ser apresentado
   final String diffstring;
+
+  /// a variável [updown] mostra se houve um aumento ou uma perca do valor
   final bool updown;
 
-  Difference(
-      {this.updown, this.difference, this.ancientdifference, this.diffstring});
+  Difference({this.updown, this.difference, this.diffstring});
 
   @override
   _DifferenceState createState() => _DifferenceState();
@@ -85,24 +90,7 @@ class _DifferenceState extends State<Difference> {
           ),
         ),
       );
-    else if (widget.updown == null) {
-      return Padding(
-        padding: const EdgeInsets.only(right: 16.0, top: 12.0),
-        child: Container(
-          height: 28,
-          width: 58,
-          decoration: BoxDecoration(
-              color: Colors.grey[700], borderRadius: BorderRadius.circular(5)),
-          child: Center(
-            child: Text(
-              diff,
-              style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.w900),
-            ),
-          ),
-        ),
-      );
-    } else {
+    else {
       return Padding(
         padding: const EdgeInsets.only(right: 16.0, top: 12.0),
         child: Container(
