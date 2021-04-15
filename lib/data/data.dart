@@ -26,6 +26,7 @@ class MyPreferences {
   // Mostra o caminho da informação da Chave!
   static const _keyWallet = 'MyWallet';
   static const _keyUserName = 'UserName';
+  static const _keyCurrentType = "CurrentType";
 
   static Future init() async =>
       _preferences = await SharedPreferences.getInstance();
@@ -45,4 +46,9 @@ class MyPreferences {
 
   //Obtem a informação da Carteira de Reaus
   static String getUserName() => _preferences.getString(_keyUserName);
+
+  static Future setCurrentType(String currentType) async =>
+      await _preferences.setString(_keyCurrentType, currentType);
+
+  static String getCurrentType() => _preferences.getString(_keyCurrentType);
 }
