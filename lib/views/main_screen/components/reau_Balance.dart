@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:reau_hoje/views/main_screen/components/difference.dart';
 
 class ReauBalance extends StatelessWidget {
   final double reauWalletDifference;
