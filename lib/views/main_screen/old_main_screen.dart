@@ -19,7 +19,8 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-    rc = ReauConnection(setmyState());
+    rc = ReauConnection();
+    rc.defCurrentType("BRL");
     rc.startReauOptions();
     startTimer();
     super.initState();
@@ -42,6 +43,7 @@ class _MainScreenState extends State<MainScreen> {
               height: 25,
             ),
             CustomReauAppBar(
+                rc: rc,
                 appUser: rc.appUser,
                 updown: rc.updown,
                 difference: rc.difference,
@@ -92,13 +94,13 @@ class _MainScreenState extends State<MainScreen> {
                           fontWeight: FontWeight.w400),
                     ),
                   ),
-                  rc.brlWalletValue != null
+                  rc.brlMyWalletValue != null
                       ? Padding(
                           padding: const EdgeInsets.only(
                               top: 2, left: 16.0, bottom: 8.0),
                           child: Text(
                             "R\$ " +
-                                rc.brlWalletValue
+                                rc.brlMyWalletValue
                                     .toStringAsFixed(2)
                                     .replaceAll('.', ","),
                             style: TextStyle(
@@ -232,7 +234,7 @@ class _MainScreenState extends State<MainScreen> {
           _start = 10;
           rc.startReauOptions();
           debugPrint("UPDATED!");
-          rc.ancientWalletValue = rc.brlWalletValue;
+          rc.ancientWalletValue = rc.brlMyWalletValue;
 
           setState(() {});
         } else {
