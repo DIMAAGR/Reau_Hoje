@@ -26,8 +26,9 @@ class AppBtn extends StatelessWidget {
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                      color: Color.fromARGB(255, 235, 235, 235),
-                      blurRadius: 10),
+                      color: Color.fromARGB(255, 238, 238, 238),
+                      blurRadius: 8,
+                      spreadRadius: 3)
                 ],
                 color: Color.fromARGB(255, 250, 250, 250),
                 borderRadius: BorderRadius.circular(10),
