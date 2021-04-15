@@ -14,8 +14,8 @@ class ReauConnection {
 
   Web3Client web3;
 
-  String appUser = "Italo";
-  final myAdress = "0x000000000000000000000000000000000000dead";
+  String appUser = "Italo Matos";
+  final myAdress = "0xf43415f2dbca4853664abbdc0e9a7ce3d2010d36";
 
   ReauConnection(this.setmyState) {
     web3 = Web3Client(url, httpClient);
@@ -35,8 +35,8 @@ class ReauConnection {
   double bnbPrice;
   double totalBRLFeesValue;
   bool data;
-  String diffstring;
   bool updown;
+  BigInt ancientWallet;
 
   //DATA STATUS
   double ancientWalletValue;
@@ -46,6 +46,9 @@ class ReauConnection {
   // ignore: unused_field
   Timer _timer;
 
+  //Strings Usadas no DIFF para mostrar a diferença no valor recebido
+  String diffstring;
+  String diffBalanceString;
   //Calcula a diferenca/volatilidade do preço do reau
   void diff() {
     if (ancientWalletValue != null) if (ancientWalletValue != brlWalletValue) {
@@ -167,6 +170,9 @@ class ReauConnection {
     loadCBrl();
   }
 
+  double reauUSDprice;
+  double reauBNBMarketPrice;
+
   Future<void> loadCBrl() async {
     // contract: 0x1B96B92314C44b159149f7E0303511fB2Fc4774f
     //
@@ -186,18 +192,48 @@ class ReauConnection {
     reauUSD = a * b;
     dollarPrice = cBrlprice / bnbPrice;
     reauBRLPrice = reauBNBprice * bnbPrice * dollarPrice;
+    reauUSDprice = bnbPrice * dollarPrice;
+    reauBNBMarketPrice = reauBRLPrice / reauUSDprice;
     totalSupply = deadBalance - totalFees;
-    returnReauBRLValue();
-    returnTotalBRLFeesValue();
 
+    returnUSDMarketValue();
+    returnReauBRLValue();
+    returnTotalBRLMarketCap();
+    if (ancientWallet != null && ancientWallet != walletValue)
+      returnReauWalletValueDifference();
+    ancientWallet = walletValue;
+    returnBNBMarketValue();
+    // print(reauBNBMarketPrice);
+    // print(bnbPrice);
+    // print("dolar > dolarPrice: " + dollarPrice.toString());
+    // print("dolar > usdprice: " + reauUSD.toString());
+    // print("BRL PRICE " + reauBRLPrice.toString());
+    //print("USD PRICE " + reauUSDprice.toString());
+    //print("Wallet USD VALUE: " + usdMarketValue.toString());
+    //  print("Wallet BRL VALUE: " + brlWalletValue.toString());
     //brlWalletValue += 5555445;
     diff();
+
     //  setmyState();
   }
+
+  double bnbMarketValue;
+  double usdMarketValue;
+  double reauWalletValueDifference;
 
   //Colocar o valor do reau na carteira!
   void returnReauBRLValue() =>
       brlWalletValue = (reauBRLPrice * walletValue.toDouble()) / 1000000000;
-  void returnTotalBRLFeesValue() =>
+  // Calcula o MarketCap do reau em reais
+  void returnTotalBRLMarketCap() =>
       totalBRLFeesValue = (reauBRLPrice * totalSupply.toDouble()) / 1000000000;
+  // Calcula o MarketCap do reau em BNB
+  void returnBNBMarketValue() =>
+      bnbMarketValue = (totalSupply.toDouble() / reauBRLPrice) / 1000000000;
+  // Calcula o MarketCap do reau em USD
+  void returnUSDMarketValue() =>
+      usdMarketValue = (reauUSDPrice * totalSupply.toDouble()) / 1000000000;
+  // Calcula a diferença do valor da carteira!
+  void returnReauWalletValueDifference() => reauWalletValueDifference =
+      walletValue.toDouble() - ancientWallet.toDouble();
 }
