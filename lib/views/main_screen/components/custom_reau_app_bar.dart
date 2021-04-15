@@ -17,56 +17,39 @@ class CustomReauAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 12.0, top: 12.0),
-          child: Row(
-            children: [
-              Text(
-                "Olá, ",
-                style: TextStyle(
-                    fontFamily: "Roboto",
-                    fontSize: 35,
-                    fontWeight: FontWeight.w300),
-              ),
-              Text(
-                appUser,
-                style: TextStyle(
-                    fontFamily: "Roboto",
-                    fontSize: 35,
-                    fontWeight: FontWeight.w600),
-              ),
-            ],
+    return Padding(
+      padding: const EdgeInsets.only(top: 24.0),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 1,
+            child: SizedBox(),
           ),
-        ),
-        Expanded(
-          flex: 1,
-          child: SizedBox(),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 12.0, top: 12.0),
-          child: Container(
-            height: 28,
-            width: 46,
-            decoration: BoxDecoration(
-                color: Colors.black45, borderRadius: BorderRadius.circular(5)),
-            child: Center(
-              child: Text(
-                "BRL",
-                style: TextStyle(
-                    color: Color.fromARGB(255, 248, 248, 248),
-                    fontWeight: FontWeight.w900),
+          Padding(
+            padding: const EdgeInsets.only(right: 12.0, top: 12.0),
+            child: Container(
+              height: 28,
+              width: 46,
+              decoration: BoxDecoration(
+                  color: Colors.black45,
+                  borderRadius: BorderRadius.circular(5)),
+              child: Center(
+                child: Text(
+                  "BRL",
+                  style: TextStyle(
+                      color: Color.fromARGB(255, 248, 248, 248),
+                      fontWeight: FontWeight.w900),
+                ),
               ),
             ),
           ),
-        ),
-        Difference(
-          updown: updown == null ? true : updown,
-          difference: difference,
-          diffstring: diffstring,
-        )
-      ],
+          Difference(
+            updown: updown == null ? true : updown,
+            difference: difference,
+            diffstring: diffstring,
+          )
+        ],
+      ),
     );
   }
 }
