@@ -35,187 +35,343 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 245, 245, 245),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 25,
-            ),
-            CustomReauAppBar(
-                appUser: rc.appUser,
-                updown: rc.updown,
-                difference: rc.difference,
-                diffstring: rc.diffstring),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 24.0, top: 24.0),
-                child: Text(
-                  "Visão Geral da Conta",
-                  style: TextStyle(
-                    color: Colors.black87,
-                    fontFamily: "Roboto",
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Container(
-              decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color.fromARGB(255, 144, 140, 255),
-                      blurRadius: 8,
-                    )
-                  ],
-                  borderRadius: BorderRadius.circular(15),
-                  color: Color.fromARGB(
-                      255, 74, 70, 255)), //Color.fromARGB(255, 74, 70, 255)),
-              height: 150,
-              width: MediaQuery.of(context).size.width * 0.92,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+      body: CustomScrollView(
+        //Adicionamos Slivers A Partir do SliverAppBar
+        slivers: [
+          SliverAppBar(
+            //Adicionamos um flexibleSpace que receberá um Widget
+            // O Widget Será o Container
+            floating: false,
+            snap: false,
+            pinned: false,
+
+            backgroundColor: Color.fromARGB(255, 4, 174, 174),
+            expandedHeight: MediaQuery.of(context).size.height,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16.0),
-                    child: Text(
-                      "Valor Total:",
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontFamily: "Roboto",
-                          color: Color.fromARGB(255, 248, 248, 248),
-                          fontWeight: FontWeight.w400),
+                  Text("Hello!"),
+                  CustomReauAppBar(
+                      appUser: rc.appUser,
+                      updown: rc.updown,
+                      difference: rc.difference,
+                      diffstring: rc.diffstring),
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 16.0, top: 72.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Olá, ",
+                            style: TextStyle(
+                                fontFamily: "Roboto",
+                                fontSize: 40,
+                                color: Color.fromARGB(255, 248, 248, 248),
+                                fontWeight: FontWeight.w300),
+                          ),
+                          Text(
+                            rc.appUser + "!",
+                            style: TextStyle(
+                                fontFamily: "Roboto",
+                                fontSize: 50,
+                                color: Color.fromARGB(255, 248, 248, 248),
+                                fontWeight: FontWeight.w600),
+                          ),
+                          _valordaWalletemBRL(context),
+                          Expanded(
+                            flex: 2,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 176.0),
+                              child: Center(
+                                  child: Icon(
+                                Icons.keyboard_arrow_up,
+                                size: 28,
+                                color: Color.fromARGB(255, 248, 248, 248),
+                              )),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  rc.brlWalletValue != null
-                      ? Padding(
-                          padding: const EdgeInsets.only(
-                              top: 2, left: 16.0, bottom: 8.0),
-                          child: Text(
-                            "R\$ " +
-                                rc.brlWalletValue
-                                    .toStringAsFixed(2)
-                                    .replaceAll('.', ","),
-                            style: TextStyle(
-                                fontSize: 45,
-                                fontFamily: "Roboto",
-                                color: Color.fromARGB(255, 248, 248, 248),
-                                fontWeight: FontWeight.w800),
-                          ),
-                        )
-                      : Center(
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2.5,
-                            valueColor: new AlwaysStoppedAnimation<Color>(
-                                Color.fromARGB(255, 246, 246, 246)),
-                          ),
-                        ),
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 16.0),
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.92,
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        color: Color.fromARGB(255, 235, 235, 235),
-                        blurRadius: 10),
-                  ],
-                  borderRadius: BorderRadius.circular(15),
-                  color: Colors.grey[50],
-                ),
-                height: 85,
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8.0, left: 8.0),
-                      child: Container(
-                        height: 44,
-                        width: 44,
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 0, 219, 255),
-                          borderRadius: BorderRadius.circular(44),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "R",
-                            style: TextStyle(
-                              fontSize: 30,
-                              color: Color.fromARGB(255, 245, 245, 245),
-                              fontFamily: "Montserrat",
+          ),
+          // O SliverFillRemaning preenche o espaço vazio restante da tela do APP
+          // Nesse caso irá preencher o espaço que ficará para a Carteira
+          //
+          SliverFillRemaining(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 57.0, left: 16.0),
+                    child: Text(
+                      "Minha Carteira",
+                      style: TextStyle(
+                          fontFamily: "Montserrat",
+                          fontSize: 30,
+                          color: Color.fromARGB(255, 48, 48, 48),
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Color.fromARGB(255, 251, 220,
+                              138)), //Color.fromARGB(255, 74, 70, 255)),
+                      height: 210,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0, left: 8),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      right: 8.0, left: 8.0),
+                                  child: Container(
+                                    height: 35,
+                                    width: 35,
+                                    decoration: BoxDecoration(
+                                      color: Color.fromARGB(255, 248, 248, 248),
+                                      borderRadius: BorderRadius.circular(44),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        "R",
+                                        style: TextStyle(
+                                          fontSize: 28,
+                                          fontStyle: FontStyle.italic,
+                                          color: Color.fromARGB(
+                                              255, 251, 220, 138),
+                                          fontFamily: "Montserrat",
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Vira-lata Reau",
+                                      style: TextStyle(
+                                          fontFamily: "Montserrat",
+                                          fontSize: 20,
+                                          fontStyle: FontStyle.italic,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ],
+                                ),
+                                Expanded(
+                                  child: SizedBox(),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8),
+                                  child: Container(
+                                    height: 35,
+                                    width: 35,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black26,
+                                      borderRadius: BorderRadius.circular(44),
+                                    ),
+                                    child: Center(
+                                        child: Icon(
+                                      Icons.copy,
+                                      color: Color.fromARGB(255, 248, 248, 248),
+                                      size: 16,
+                                    )),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ),
+                          SizedBox(
+                            height: 64,
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 16.0, bottom: 4),
+                            child: Text(
+                              "Minha Carteira:",
+                              style: TextStyle(
+                                  fontFamily: "Roboto",
+                                  fontSize: 12,
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 16.0),
+                            child: Text(
+                              rc.myAdress,
+                              style: TextStyle(
+                                  fontFamily: "Roboto",
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w900),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 32,
+                          ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 16.0),
+                                child: Text(
+                                  rc.appUser.toUpperCase(),
+                                  style: TextStyle(
+                                      fontFamily: "Roboto",
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w900),
+                                ),
+                              ),
+                              Expanded(
+                                child: SizedBox(),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 16.0),
+                                child: Text(
+                                  "XX/XX",
+                                  style: TextStyle(
+                                      fontFamily: "Roboto",
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w900),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    ReauBalance(walletValue: rc.walletValue),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                          padding: const EdgeInsets.only(
-                              top: 16, bottom: 16, left: 16, right: 8),
-                          child: AppBtn(
-                            active: true,
-                            text: "Minha\nCarteira",
-                            function: () {},
-                            icon: Icon(
-                              Icons.account_balance_wallet,
-                              size: 35,
-                              color: Colors.black54,
-                            ),
-                          )),
-                      Padding(
-                          padding: const EdgeInsets.only(
-                              top: 16, bottom: 16, left: 8, right: 8),
-                          child: AppBtn(
-                            icon: Icon(
-                              Icons.settings,
-                              size: 35,
-                              color: Colors.black54,
-                            ),
-                            function: () {},
-                            active: true,
-                            text: "Configurações",
-                          )),
-                      Padding(
-                          padding: const EdgeInsets.only(
-                              top: 16, bottom: 16, left: 8, right: 8),
-                          child: AppBtn(
-                            text: "Analises\n(Indisponivel)",
-                            function: () {},
-                            icon: Icon(
-                              Icons.bar_chart,
-                              size: 35,
-                              color: Colors.white,
-                            ),
-                            active: false,
-                          )),
-                    ],
                   ),
-                ),
+                  ReauBalance(
+                    walletValue: rc.walletValue,
+                    reauWalletDifference: rc.reauWalletValueDifference,
+                  ),
+                  _appbuttons(),
+                ],
               ),
             ),
-            MarketValueWidget(marketPrice: rc.totalBRLFeesValue),
+          ),
+        ],
+      ),
+    );
+  }
+
+//Mostra os Botões que estarão no app
+  _appbuttons() {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+                padding: const EdgeInsets.only(
+                    top: 8, bottom: 16, left: 16, right: 8),
+                child: AppBtn(
+                  active: true,
+                  text: "Minha\nCarteira",
+                  function: () {},
+                  icon: Icon(
+                    Icons.account_balance_wallet,
+                    size: 35,
+                    color: Colors.black54,
+                  ),
+                )),
+            Padding(
+                padding: const EdgeInsets.only(top: 8, bottom: 16, right: 8),
+                child: AppBtn(
+                  icon: Icon(
+                    Icons.settings,
+                    size: 35,
+                    color: Colors.black54,
+                  ),
+                  function: () {},
+                  active: true,
+                  text: "Configurações",
+                )),
+            Padding(
+                padding: const EdgeInsets.only(top: 8, bottom: 16, right: 8),
+                child: AppBtn(
+                  text: "Analises",
+                  function: () {},
+                  icon: Icon(
+                    Icons.bar_chart,
+                    size: 35,
+                    color: Colors.white,
+                  ),
+                  active: false,
+                )),
+            Padding(
+                padding: const EdgeInsets.only(top: 8, bottom: 16, right: 8),
+                child: AppBtn(
+                  text: "Transferir",
+                  function: () {},
+                  icon: Icon(
+                    Icons.send,
+                    size: 35,
+                    color: Colors.white,
+                  ),
+                  active: false,
+                )),
           ],
         ),
+      ),
+    );
+  }
+
+  //Mostra o que a wallet tem em BRL
+  _valordaWalletemBRL(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 5),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Valor Total da Sua Carteira:",
+            style: TextStyle(
+                fontSize: 16,
+                fontFamily: "Roboto",
+                color: Color.fromARGB(255, 248, 248, 248),
+                fontWeight: FontWeight.w400),
+          ),
+          rc.brlWalletValue != null
+              ? Padding(
+                  padding: const EdgeInsets.only(top: 2, bottom: 8.0),
+                  child: Text(
+                    "R\$ " +
+                        rc.brlWalletValue
+                            .toStringAsFixed(2)
+                            .replaceAll('.', ","),
+                    style: TextStyle(
+                        fontSize: 50,
+                        fontFamily: "Roboto",
+                        color: Color.fromARGB(255, 248, 248, 248),
+                        fontWeight: FontWeight.w700),
+                  ),
+                )
+              : Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.5,
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                        Color.fromARGB(255, 246, 246, 246)),
+                  ),
+                ),
+        ],
       ),
     );
   }
@@ -228,9 +384,9 @@ class _MainScreenState extends State<MainScreen> {
         if (_start == 0) {
           _start = 10;
           rc.startReauOptions();
-          debugPrint("UPDATED!");
           rc.ancientWalletValue = rc.brlWalletValue;
 
+          debugPrint("UPDATED!");
           setState(() {});
         } else {
           setState(() {
