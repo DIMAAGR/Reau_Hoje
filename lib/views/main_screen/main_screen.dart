@@ -19,7 +19,8 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-    rc = ReauConnection(setmyState());
+    rc = ReauConnection();
+    rc.defCurrentType("BRL");
     rc.startReauOptions();
     startTimer();
     super.initState();
@@ -53,6 +54,7 @@ class _MainScreenState extends State<MainScreen> {
                 children: [
                   Text("Hello!"),
                   CustomReauAppBar(
+                      rc: rc,
                       appUser: rc.appUser,
                       updown: rc.updown,
                       difference: rc.difference,
@@ -103,7 +105,6 @@ class _MainScreenState extends State<MainScreen> {
           ),
           // O SliverFillRemaning preenche o espaço vazio restante da tela do APP
           // Nesse caso irá preencher o espaço que ficará para a Carteira
-          //
           SliverFillRemaining(
             child: SingleChildScrollView(
               child: Column(
@@ -292,6 +293,19 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                 )),
             Padding(
+                padding: const EdgeInsets.only(
+                    top: 8, bottom: 16, left: 16, right: 8),
+                child: AppBtn(
+                  active: true,
+                  text: "Calculadora",
+                  function: () {},
+                  icon: Icon(
+                    Icons.calculate,
+                    size: 35,
+                    color: Colors.black54,
+                  ),
+                )),
+            Padding(
                 padding: const EdgeInsets.only(top: 8, bottom: 16, right: 8),
                 child: AppBtn(
                   icon: Icon(
@@ -337,24 +351,24 @@ class _MainScreenState extends State<MainScreen> {
   _valordaWalletemBRL(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 5),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Valor Total da Sua Carteira:",
-            style: TextStyle(
-                fontSize: 16,
-                fontFamily: "Roboto",
-                color: Color.fromARGB(255, 248, 248, 248),
-                fontWeight: FontWeight.w400),
-          ),
-          rc.brlWalletValue != null
-              ? Padding(
+      child: rc.currentWalletValue != null
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Valor Total da Sua Carteira:",
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: "Roboto",
+                      color: Color.fromARGB(255, 248, 248, 248),
+                      fontWeight: FontWeight.w400),
+                ),
+                Padding(
                   padding: const EdgeInsets.only(top: 2, bottom: 8.0),
                   child: Text(
                     "R\$ " +
-                        rc.brlWalletValue
+                        rc.currentWalletValue
                             .toStringAsFixed(2)
                             .replaceAll('.', ","),
                     style: TextStyle(
@@ -364,15 +378,18 @@ class _MainScreenState extends State<MainScreen> {
                         fontWeight: FontWeight.w700),
                   ),
                 )
-              : Center(
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2.5,
-                    valueColor: new AlwaysStoppedAnimation<Color>(
-                        Color.fromARGB(255, 246, 246, 246)),
-                  ),
+              ],
+            )
+          : Padding(
+              padding: const EdgeInsets.all(48.0),
+              child: Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: 4.5,
+                  valueColor: new AlwaysStoppedAnimation<Color>(
+                      Color.fromARGB(255, 246, 246, 246)),
                 ),
-        ],
-      ),
+              ),
+            ),
     );
   }
 
@@ -384,8 +401,7 @@ class _MainScreenState extends State<MainScreen> {
         if (_start == 0) {
           _start = 10;
           rc.startReauOptions();
-          rc.ancientWalletValue = rc.brlWalletValue;
-
+          rc.ancientWalletValue = rc.brlMyWalletValue;
           debugPrint("UPDATED!");
           setState(() {});
         } else {
