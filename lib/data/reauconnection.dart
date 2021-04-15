@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:reau_hoje/data/data.dart';
+import 'package:reau_hoje/views/main_screen/components/market_value.dart';
 import 'package:web3dart/contracts.dart';
 import 'package:web3dart/web3dart.dart';
 
@@ -10,28 +11,22 @@ class ReauConnection {
 
   var httpClient = new Client();
 
-  Function setmyState;
-
   Web3Client web3;
-
   String appUser = "Italo Matos";
   final myAdress = "0xf43415f2dbca4853664abbdc0e9a7ce3d2010d36";
 
-  ReauConnection(this.setmyState) {
+  ReauConnection() {
     web3 = Web3Client(url, httpClient);
   }
 
   //Definições Obtidas a partir do contrato do reau
   var deadBalance;
   var totalFees;
-  BigInt totalSupply;
+
   BigInt walletValue;
   double reauBNBprice;
   double reauUSDPrice;
-  double reauBRLPrice;
-  double dollarPrice;
-  double reauUSD;
-  double brlWalletValue;
+
   double bnbPrice;
   double totalBRLFeesValue;
   bool data;
@@ -43,17 +38,45 @@ class ReauConnection {
   double difference = 0;
   double ancientdifference = 0;
 
+  // CURRENT TYPE
+  String _currentType;
+
   // ignore: unused_field
   Timer _timer;
+
+  // ESTA FUNÇÃO DEFINE O TIPO DE MOEDA QUE SERA UTILIZADA
+  void defCurrentType(String currency) {
+    _currentType = currency;
+  }
+
+  double currentWalletValue;
+
+  // Essa função define o tipo de moeda do app
+  setCurrency() {
+    switch (_currentType) {
+      case "BRL":
+        currentWalletValue = brlMyWalletValue;
+        break;
+      case "USD":
+        currentWalletValue = usdMyWalletValue;
+        break;
+    }
+  }
+
+  //Obtem o valor da moeda do APP
+  String getCurrentType() => _currentType;
 
   //Strings Usadas no DIFF para mostrar a diferença no valor recebido
   String diffstring;
   String diffBalanceString;
+
   //Calcula a diferenca/volatilidade do preço do reau
   void diff() {
-    if (ancientWalletValue != null) if (ancientWalletValue != brlWalletValue) {
-      double d = ((brlWalletValue - ancientWalletValue) / ancientWalletValue) *
-          100; //d = Diferença
+    if (ancientWalletValue != null) if (ancientWalletValue !=
+        brlMyWalletValue) {
+      double d =
+          ((brlMyWalletValue - ancientWalletValue) / ancientWalletValue) *
+              100; //d = Diferença
       difference = d;
 
       if (difference.isNegative) difference *= -1;
@@ -69,33 +92,32 @@ class ReauConnection {
 
       ancientdifference = difference;
       diffstring = difference.toStringAsFixed(2) + "%";
-      hello();
       // setmyState();
     }
   }
 
-//==============================================================================================//
-  // CARREGA O CONTRATO DO VIRA LATA FINANCE REAU
+//==============================//
+// CARREGA O CONTRATO DA MOEDA //
   Future<DeployedContract> loadContract(
-      String contractAdress, String abi, String contractName) async {
-    final contract = DeployedContract(ContractAbi.fromJson(abi, contractName),
-        EthereumAddress.fromHex(contractAdress));
-    return contract;
-  }
+          String contractAdress, String abi, String contractName) async =>
+      DeployedContract(ContractAbi.fromJson(abi, contractName),
+          EthereumAddress.fromHex(contractAdress));
 
-  void hello() => print("Hello Test");
 //==============================================================================================//
   // Tem a função de transferir os argumentos carregar o contrato
   // e receber a informação desejada do servidor
   Future<List<dynamic>> query(
-      {String functionName,
-      List<dynamic> args,
-      DeployedContract contract}) async {
-    final ethFunction = contract.function(functionName);
-    final result = await web3.call(
-        contract: contract, function: ethFunction, params: args);
-    return result;
-  }
+          {String functionName,
+          List<dynamic> args,
+          DeployedContract contract}) async =>
+      await web3.call(
+          contract: contract,
+          function: _ethFunction(functionName, contract),
+          params: args);
+
+//Cria o contrato que sera utilizado para verificar os valores da moeda
+  _ethFunction(String functionName, DeployedContract contract) =>
+      contract.function(functionName);
 
 //==============================================================================================//
   // RECEBE O VALOR NUMERICO(A QUANTIDADE) de REAUS QUE VOCÊ TEM EM SUA CARTEIRA
@@ -151,79 +173,74 @@ class ReauConnection {
 
 //Carrega o contrato da BNBUSD
   Future<void> loadBnbUsd() async {
-    // contract: 0x1B96B92314C44b159149f7E0303511fB2Fc4774f
-    //
+    // Carregará o pancake contract
     String abi = await rootBundle.loadString('lib/assets/lpAbi.json');
     final contract = await loadContract(
-        "0x1B96B92314C44b159149f7E0303511fB2Fc4774f",
-        abi,
-        "PancakePair"); // Carregará o pancake contract
+        "0x1B96B92314C44b159149f7E0303511fB2Fc4774f", abi, "PancakePair");
+
     //Receberá o BNBUSD Reserves
     List<dynamic> getBnbUsdReserves =
         await query(functionName: "getReserves", args: [], contract: contract);
+
     //Calculará o preço do bnb;
     double bnbPrice = getBnbUsdReserves[1] / getBnbUsdReserves[0];
     this.bnbPrice = bnbPrice;
-    double a = bnbPrice;
-    double b = reauBNBprice;
-    reauUSDPrice = a * b;
+    reauUSDPrice = bnbPrice * reauBNBprice;
     loadCBrl();
   }
 
   double reauUSDprice;
-  double reauBNBMarketPrice;
+  BigInt totalSupply;
+  double dollarPrice;
+  double reauBRLPrice;
 
   Future<void> loadCBrl() async {
-    // contract: 0x1B96B92314C44b159149f7E0303511fB2Fc4774f
-    //
     String abi = await rootBundle.loadString('lib/assets/lpAbi.json');
+    // Carregará o pancake contract
     final contract = await loadContract(
-        "0x3E820DF7D7086DE2D46d908d04c0A24968B32b94",
-        abi,
-        "PancakePair"); // Carregará o pancake contract
+        "0x3E820DF7D7086DE2D46d908d04c0A24968B32b94", abi, "PancakePair");
     //Receberá o BNBUSD Reserves
     List<dynamic> getCbrlReserves =
         await query(functionName: "getReserves", args: [], contract: contract);
     //Calculará o preço do bnb;
     double cBrlprice =
         (getCbrlReserves[0] / getCbrlReserves[1]) * 1000000000000;
-    double a = cBrlprice;
-    double b = reauBNBprice;
-    reauUSD = a * b;
+    //Valor do Dolar
     dollarPrice = cBrlprice / bnbPrice;
+    // Valor do Reau em Reais
     reauBRLPrice = reauBNBprice * bnbPrice * dollarPrice;
+    // Valor do Reau em Dolar
     reauUSDprice = bnbPrice * dollarPrice;
-    reauBNBMarketPrice = reauBRLPrice / reauUSDprice;
+    // Total do Suprimento
     totalSupply = deadBalance - totalFees;
+    _make();
+  }
 
+  void _make() {
     returnUSDMarketValue();
     returnReauBRLValue();
+    returnReauUSDValue();
     returnTotalBRLMarketCap();
     if (ancientWallet != null && ancientWallet != walletValue)
       returnReauWalletValueDifference();
     ancientWallet = walletValue;
     returnBNBMarketValue();
-    // print(reauBNBMarketPrice);
-    // print(bnbPrice);
-    // print("dolar > dolarPrice: " + dollarPrice.toString());
-    // print("dolar > usdprice: " + reauUSD.toString());
-    // print("BRL PRICE " + reauBRLPrice.toString());
-    //print("USD PRICE " + reauUSDprice.toString());
-    //print("Wallet USD VALUE: " + usdMarketValue.toString());
-    //  print("Wallet BRL VALUE: " + brlWalletValue.toString());
-    //brlWalletValue += 5555445;
+    setCurrency();
     diff();
-
-    //  setmyState();
   }
 
   double bnbMarketValue;
   double usdMarketValue;
   double reauWalletValueDifference;
+  double usdMyWalletValue;
+  double brlMyWalletValue;
 
   //Colocar o valor do reau na carteira!
   void returnReauBRLValue() =>
-      brlWalletValue = (reauBRLPrice * walletValue.toDouble()) / 1000000000;
+      brlMyWalletValue = (reauBRLPrice * walletValue.toDouble()) / 1000000000;
+  // Calcula o valor do reau na carteira em USD
+  void returnReauUSDValue() =>
+      usdMyWalletValue = (reauUSDPrice * walletValue.toDouble()) / 1000000000;
   // Calcula o MarketCap do reau em reais
   void returnTotalBRLMarketCap() =>
       totalBRLFeesValue = (reauBRLPrice * totalSupply.toDouble()) / 1000000000;
