@@ -9,9 +9,16 @@ import 'package:reau_hoje/views/myWallet.dart';
 import 'package:reau_hoje/views/starting.dart';
 
 Future main() async {
-  print("hello!");
-  WidgetsFlutterBinding.ensureInitialized(); //Incializador Binding
-  await MyPreferences.init(); // Inicializa o SharedPreferences
+  // O Hello Application indica que o aplicativo foi iniciado!
+  debugPrint("Hello Aplication!!!");
+
+  //Garante a inicialização Obrigatoria dos Widgets
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Inicializa as preferências Personalizadas carregando-as
+  await MyPreferences.init();
+
+  // Inicia o Aplicativo!
   runApp(MyApp());
 }
 
