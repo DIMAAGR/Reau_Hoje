@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:reau_hoje/data/data.dart';
-import 'package:reau_hoje/views/main_screen/components/market_value.dart';
 import 'package:web3dart/contracts.dart';
 import 'package:web3dart/web3dart.dart';
 
@@ -213,6 +212,8 @@ class ReauConnection {
     reauUSDprice = bnbPrice * dollarPrice;
     // Total do Suprimento
     totalSupply = deadBalance - totalFees;
+
+    print("REAU BRL PRICE ON REAUCONNECTION: " + reauBRLPrice.toString());
     _make();
   }
 
@@ -225,6 +226,11 @@ class ReauConnection {
       returnReauWalletValueDifference();
     ancientWallet = walletValue;
     returnBNBMarketValue();
+    returnBRLtoReauValue();
+    print(getbrlToReauValue());
+    print(reauBRLPrice);
+    print(_brlToReauValue);
+    print(_brlToReauConvertedValue);
     setCurrency();
     diff();
   }
@@ -234,6 +240,9 @@ class ReauConnection {
   double reauWalletValueDifference;
   double usdMyWalletValue;
   double brlMyWalletValue;
+  double _brlToReauValue = 1;
+
+  double _brlToReauConvertedValue;
 
   //Colocar o valor do reau na carteira!
   void returnReauBRLValue() =>
@@ -250,7 +259,20 @@ class ReauConnection {
   // Calcula o MarketCap do reau em USD
   void returnUSDMarketValue() =>
       usdMarketValue = (reauUSDPrice * totalSupply.toDouble()) / 1000000000;
+
   // Calcula a diferença do valor da carteira!
   void returnReauWalletValueDifference() => reauWalletValueDifference =
       walletValue.toDouble() - ancientWallet.toDouble();
+
+  // Converte um Valor X em real para Reau
+  void returnBRLtoReauValue() =>
+      _brlToReauConvertedValue = (reauBRLPrice * _brlToReauValue) / 1000000000;
+
+  //Define o valor que será convertido!
+  void setbrlToReauValue(double x) => _brlToReauValue = x;
+
+  //Obtem o valor convertido para Reau!
+  String getbrlToReauValue() => _brlToReauConvertedValue == null
+      ? "none"
+      : _brlToReauConvertedValue.toString();
 }

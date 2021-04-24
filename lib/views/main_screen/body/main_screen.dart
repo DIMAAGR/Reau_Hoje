@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:reau_hoje/data/reauconnection.dart';
-import 'package:reau_hoje/views/main_screen/components/app_btn.dart';
+import 'package:reau_hoje/data/connections/reauconnection.dart';
+import 'package:reau_hoje/views/main_screen/components/screen_buttons.dart';
 import 'package:reau_hoje/views/main_screen/components/custom_reau_app_bar.dart';
-import 'package:reau_hoje/views/main_screen/components/market_value.dart';
 import 'package:reau_hoje/views/main_screen/components/reau_Balance.dart';
+//import 'package:reau_hoje/views/main_screen/components/market_value.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -15,7 +15,6 @@ class _MainScreenState extends State<MainScreen> {
   ReauConnection rc;
 
   // ignore: unused_field
-  Timer _timer;
 
   @override
   void initState() {
@@ -30,6 +29,8 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {});
   }
 
+  // ignore: unused_field
+  Timer _timer;
   int _start = 15;
 
   @override
@@ -260,7 +261,7 @@ class _MainScreenState extends State<MainScreen> {
                     walletValue: rc.walletValue,
                     reauWalletDifference: rc.reauWalletValueDifference,
                   ),
-                  _appbuttons(),
+                  ScreenButtons(rc: rc),
                 ],
               ),
             ),
@@ -271,81 +272,6 @@ class _MainScreenState extends State<MainScreen> {
   }
 
 //Mostra os Botões que estarão no app
-  _appbuttons() {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-                padding: const EdgeInsets.only(
-                    top: 8, bottom: 16, left: 16, right: 8),
-                child: AppBtn(
-                  active: true,
-                  text: "Minha\nCarteira",
-                  function: () {},
-                  icon: Icon(
-                    Icons.account_balance_wallet,
-                    size: 35,
-                    color: Colors.black54,
-                  ),
-                )),
-            Padding(
-                padding: const EdgeInsets.only(
-                    top: 8, bottom: 16, left: 16, right: 8),
-                child: AppBtn(
-                  active: true,
-                  text: "Calculadora",
-                  function: () {},
-                  icon: Icon(
-                    Icons.calculate,
-                    size: 35,
-                    color: Colors.black54,
-                  ),
-                )),
-            Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 16, right: 8),
-                child: AppBtn(
-                  icon: Icon(
-                    Icons.settings,
-                    size: 35,
-                    color: Colors.black54,
-                  ),
-                  function: () {},
-                  active: true,
-                  text: "Configurações",
-                )),
-            Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 16, right: 8),
-                child: AppBtn(
-                  text: "Analises",
-                  function: () {},
-                  icon: Icon(
-                    Icons.bar_chart,
-                    size: 35,
-                    color: Colors.white,
-                  ),
-                  active: false,
-                )),
-            Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 16, right: 8),
-                child: AppBtn(
-                  text: "Transferir",
-                  function: () {},
-                  icon: Icon(
-                    Icons.send,
-                    size: 35,
-                    color: Colors.white,
-                  ),
-                  active: false,
-                )),
-          ],
-        ),
-      ),
-    );
-  }
 
   //Mostra o que a wallet tem em BRL
   _valordaWalletemBRL(BuildContext context) {
