@@ -18,7 +18,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-    rc = ReauConnection();
+    rc = ReauConnection(false);
     rc.defCurrentType("BRL");
     rc.startReauOptions();
     startTimer();

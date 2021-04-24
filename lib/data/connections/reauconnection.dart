@@ -6,16 +6,20 @@ import 'package:web3dart/contracts.dart';
 import 'package:web3dart/web3dart.dart';
 
 class ReauConnection {
-  var url = "https://bsc-dataseed1.binance.org:443";
-
-  var httpClient = new Client();
-
   Web3Client web3;
-  String appUser = "Italo Matos";
-  final myAdress = "0x46da24dbb9a19dafaf620a363396cecf20c95fed";
+  var url = "https://bsc-dataseed1.binance.org:443";
+  var httpClient = new Client();
+  String appUser = MyPreferences.getUserName();
+  final myAdress = MyPreferences.getWallet();
   // 0x46da24dbb9a19dafaf620a363396cecf20c95fed
 
-  ReauConnection() {
+  // Variaveis de Controle
+  bool _verifyReauPrice = true;
+  bool enableConversor = false;
+
+  // Inicia os modulos e verifica as informações
+  ReauConnection(bool enableConversor) {
+    enableConversor = this.enableConversor;
     web3 = Web3Client(url, httpClient);
   }
 
@@ -219,21 +223,25 @@ class ReauConnection {
     _make();
   }
 
+  // Faz as operações de acordo com o necessário impedindo de fazer coisas desnecessárias
   void _make() {
-    returnUSDMarketValue();
-    returnReauBRLValue();
-    returnReauUSDValue();
-    returnTotalBRLMarketCap();
-    if (ancientWallet != null && ancientWallet != walletValue)
-      returnReauWalletValueDifference();
-    ancientWallet = walletValue.toDouble();
-    returnBNBMarketValue();
-    returnBRLtoReauValue();
-    returnImutableBRLtoReauValue();
-    print("WALLET: " + walletValue.toString());
-    print(_brlToReauValue);
-    print(_brlToReauConvertedValue);
-    print("1 REAL = " + getbrlToReauValue());
+    if (_verifyReauPrice) {
+      returnUSDMarketValue();
+      returnReauBRLValue();
+      returnReauUSDValue();
+      returnTotalBRLMarketCap();
+      if (ancientWallet != null && ancientWallet != walletValue)
+        returnReauWalletValueDifference();
+      ancientWallet = walletValue.toDouble();
+      returnBNBMarketValue();
+    }
+
+    if (enableConversor) {
+      print("CONVERSOR STARTED!");
+      returnBRLtoReauValue();
+      returnImutableBRLtoReauValue();
+    }
+
     setCurrency();
     diff();
   }
@@ -284,7 +292,7 @@ class ReauConnection {
       ? "none"
       : _brlToReauConvertedValue.toString();
 
-  // FAZ OS CALCULOS DOS VALORES DE 1 REAL
+  // FAZ OS CALCULOS DOS VALORES DE 1 REAL @immutable
   void returnImutableBRLtoReauValue() =>
       _imutablebrlToReauConvertedValue = (_imutableVLRtBRLValue / reauBRLPrice);
 
