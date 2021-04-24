@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reau_hoje/data/reauconnection.dart';
+import 'package:reau_hoje/data/connections/reauconnection.dart';
 import 'package:reau_hoje/views/main_screen/components/difference.dart';
 
 class CustomReauAppBar extends StatefulWidget {

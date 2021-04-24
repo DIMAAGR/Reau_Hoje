@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:reau_hoje/data/reauconnection.dart';
+import 'package:reau_hoje/data/connections/reauconnection.dart';
 import 'package:reau_hoje/views/main_screen/components/app_btn.dart';
 import 'package:reau_hoje/views/main_screen/components/custom_reau_app_bar.dart';
 import 'package:reau_hoje/views/main_screen/components/market_value.dart';
