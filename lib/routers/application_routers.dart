@@ -4,4 +4,5 @@ class AppRoutes {
   static const HELLO = '/hello';
   static const MYWALLET = '/my-wallet';
   static const MAINSCREEN = '/main-screen';
+  static const CALCULATOR = '/calculator';
 }
