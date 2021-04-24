@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reau_hoje/data/connections/reauconnection.dart';
+import 'package:reau_hoje/data/connections/reauConnection/reauconnection.dart';
 import 'package:reau_hoje/routers/application_routers.dart';
 import 'package:reau_hoje/views/main_screen/components/app_btn.dart';
 
@@ -38,6 +38,8 @@ class ScreenButtons extends StatelessWidget {
                   active: true,
                   text: "Calculadora",
                   function: () {
+                    rc.disableEvents(
+                        eventType: "verifyReauPrice", setFunc: false);
                     Navigator.of(context).pushNamed(AppRoutes.CALCULATOR);
                   },
                   icon: Icon(

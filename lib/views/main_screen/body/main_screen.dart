@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:reau_hoje/data/connections/reauconnection.dart';
+import 'package:reau_hoje/data/connections/reauConnection/reauconnection.dart';
 import 'package:reau_hoje/views/main_screen/components/screen_buttons.dart';
 import 'package:reau_hoje/views/main_screen/components/custom_reau_app_bar.dart';
 import 'package:reau_hoje/views/main_screen/components/reau_Balance.dart';

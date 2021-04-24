@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
-import 'package:reau_hoje/data/connections/reauconnection.dart';
+import 'package:reau_hoje/data/connections/reauConnection/reauconnection.dart';
 
 class Calculator extends StatefulWidget {
   @override
@@ -89,13 +89,13 @@ class _CalculatorState extends State<Calculator> {
                             ),
                           ),
                     TextFormField(
-                      initialValue: "00.00",
                       style: TextStyle(
                           fontSize: 48,
                           fontFamily: "Roboto",
                           fontWeight: FontWeight.w400,
                           color: Color.fromARGB(255, 60, 60, 60)),
                       decoration: InputDecoration(
+                        hintText: "R\$ 00.00",
                         fillColor: Colors.white,
                         border: OutlineInputBorder(
                           borderSide: BorderSide.none,
