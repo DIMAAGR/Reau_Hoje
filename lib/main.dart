@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:reau_hoje/data/data.dart';
 import 'package:reau_hoje/routers/application_routers.dart';
 import 'package:reau_hoje/views/Calculator/calculator_screen.dart';
