@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 class MarketValueWidget extends StatelessWidget {
   const MarketValueWidget({
     Key key,
-    @required this.bnbMarketPrice,
     @required this.usdMarketPrice,
     @required this.marketPrice,
   }) : super(key: key);
@@ -18,7 +17,7 @@ class MarketValueWidget extends StatelessWidget {
   final double usdMarketPrice;
 
   /// a variável [bnbMarketPrice] define o preço da moeda em BNB
-  final double bnbMarketPrice;
+  // final double bnbMarketPrice;
 
   @override
   Widget build(BuildContext context) {
@@ -150,38 +149,39 @@ class MarketValueWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-          bnbMarketPrice != null
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 8, left: 64.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      _bolinha(),
-                      Text(
-                        "BNB " +
-                            bnbMarketPrice
-                                .toStringAsFixed(2)
-                                .replaceAll(".", ","),
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontFamily: "Montserrat",
-                            color: Color.fromARGB(255, 46, 46, 46),
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ],
-                  ),
-                )
-              : Center(
-                  child: Container(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2.5,
-                      valueColor: new AlwaysStoppedAnimation<Color>(
-                          Color.fromARGB(255, 46, 46, 46)),
-                    ),
-                  ),
-                ),
+          // bnbMarketPrice != null
+          //     ? Padding(
+          //         padding: const EdgeInsets.only(top: 8, left: 64.0),
+          //         child: Row(
+          //           crossAxisAlignment: CrossAxisAlignment.center,
+          //           children: [
+          //             _bolinha(),
+          //             Text(
+          //               "BNB " +
+          //                   bnbMarketPrice
+          //                       .toStringAsFixed(2)
+          //                       .replaceAll(".", ","),
+          //               style: TextStyle(
+          //                   fontSize: 18,
+          //                   fontFamily: "Montserrat",
+          //                   color: Color.fromARGB(255, 46, 46, 46),
+          //                   fontWeight: FontWeight.w600),
+          //             ),
+          //           ],
+          //         ),
+          //       )
+          //     :
+          Center(
+            child: Container(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 2.5,
+                valueColor: new AlwaysStoppedAnimation<Color>(
+                    Color.fromARGB(255, 46, 46, 46)),
+              ),
+            ),
+          ),
         ],
       ),
     );

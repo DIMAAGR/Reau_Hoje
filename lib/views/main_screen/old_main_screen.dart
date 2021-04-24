@@ -19,7 +19,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-    rc = ReauConnection();
+    rc = ReauConnection(enableConversor: false, verifyReauPrice: false);
     rc.defCurrentType("BRL");
     rc.startReauOptions();
     startTimer();
@@ -217,7 +217,6 @@ class _MainScreenState extends State<MainScreen> {
             ),
             MarketValueWidget(
                 usdMarketPrice: rc.usdMarketValue,
-                bnbMarketPrice: rc.bnbMarketValue,
                 marketPrice: rc.totalBRLFeesValue),
           ],
         ),

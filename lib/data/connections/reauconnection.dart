@@ -14,12 +14,13 @@ class ReauConnection {
   // 0x46da24dbb9a19dafaf620a363396cecf20c95fed
 
   // Variaveis de Controle
-  bool _verifyReauPrice = true;
+  bool verifyReauPrice = false;
   bool enableConversor = false;
 
   // Inicia os modulos e verifica as informações
-  ReauConnection(bool enableConversor) {
-    enableConversor = this.enableConversor;
+  ReauConnection({bool enableConversor, bool verifyReauPrice}) {
+    this.verifyReauPrice = verifyReauPrice;
+    this.enableConversor = enableConversor;
     web3 = Web3Client(url, httpClient);
   }
 
@@ -218,14 +219,14 @@ class ReauConnection {
     reauUSDprice = bnbPrice * dollarPrice;
     // Total do Suprimento
     totalSupply = deadBalance - totalFees;
-
-    print("REAU BRL PRICE ON REAUCONNECTION: " + reauBRLPrice.toString());
     _make();
   }
 
   // Faz as operações de acordo com o necessário impedindo de fazer coisas desnecessárias
   void _make() {
-    if (_verifyReauPrice) {
+    // Caso seja Necessário verificar o Preço do reau!
+    if (verifyReauPrice) {
+      print("verificando informações sobre a wallet...");
       returnUSDMarketValue();
       returnReauBRLValue();
       returnReauUSDValue();
@@ -236,8 +237,9 @@ class ReauConnection {
       returnBNBMarketValue();
     }
 
+    // Caso seja necessário habilitar o conversor
     if (enableConversor) {
-      print("CONVERSOR STARTED!");
+      print("Conversor iniciado.... ");
       returnBRLtoReauValue();
       returnImutableBRLtoReauValue();
     }
@@ -246,7 +248,7 @@ class ReauConnection {
     diff();
   }
 
-  double bnbMarketValue;
+  double _bnbMarketValue;
   double usdMarketValue;
   double reauWalletValueDifference;
   double usdMyWalletValue;
@@ -270,7 +272,7 @@ class ReauConnection {
 
   // Calcula o MarketCap do reau em BNB
   void returnBNBMarketValue() =>
-      bnbMarketValue = (totalSupply.toDouble() / reauBRLPrice) / 1000000000;
+      _bnbMarketValue = (totalSupply.toDouble() / reauBRLPrice) / 1000000000;
 
   // Calcula o MarketCap do reau em USD
   void returnUSDMarketValue() =>

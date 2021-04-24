@@ -61,7 +61,7 @@ class ReauBalance extends StatelessWidget {
                           child: Text(
                             "+" +
                                 (reauWalletDifference / 1000000000)
-                                    .toStringAsFixed(5),
+                                    .toStringAsFixed(0),
                             style: TextStyle(
                                 fontSize: 12,
                                 fontFamily: "Roboto",
