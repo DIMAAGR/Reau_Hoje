@@ -14,13 +14,13 @@ class ReauConnection {
   // 0x46da24dbb9a19dafaf620a363396cecf20c95fed
 
   // Variaveis de Controle
-  bool verifyReauPrice = false;
-  bool enableConversor = false;
+  bool _verifyReauPrice = false;
+  bool _enableConversor = false;
 
   // Inicia os modulos e verifica as informações
   ReauConnection({bool enableConversor, bool verifyReauPrice}) {
-    this.verifyReauPrice = verifyReauPrice;
-    this.enableConversor = enableConversor;
+    _verifyReauPrice = verifyReauPrice;
+    _enableConversor = enableConversor;
     web3 = Web3Client(url, httpClient);
   }
 
@@ -64,6 +64,23 @@ class ReauConnection {
         break;
       case "USD":
         currentWalletValue = usdMyWalletValue;
+        break;
+    }
+  }
+
+  void disableEvents({String eventType, bool setFunc}) {
+    switch (eventType) {
+      case "verifyReauPrice":
+        if (setFunc)
+          _verifyReauPrice = true;
+        else
+          _verifyReauPrice = false;
+        break;
+      case "enableConversor":
+        if (setFunc)
+          _enableConversor = true;
+        else
+          _enableConversor = false;
         break;
     }
   }
@@ -225,7 +242,7 @@ class ReauConnection {
   // Faz as operações de acordo com o necessário impedindo de fazer coisas desnecessárias
   void _make() {
     // Caso seja Necessário verificar o Preço do reau!
-    if (verifyReauPrice) {
+    if (_verifyReauPrice) {
       print("verificando informações sobre a wallet...");
       returnUSDMarketValue();
       returnReauBRLValue();
@@ -238,7 +255,7 @@ class ReauConnection {
     }
 
     // Caso seja necessário habilitar o conversor
-    if (enableConversor) {
+    if (_enableConversor) {
       print("Conversor iniciado.... ");
       returnBRLtoReauValue();
       returnImutableBRLtoReauValue();
@@ -248,7 +265,9 @@ class ReauConnection {
     diff();
   }
 
+  // ignore: unused_field
   double _bnbMarketValue;
+
   double usdMarketValue;
   double reauWalletValueDifference;
   double usdMyWalletValue;
