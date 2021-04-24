@@ -8,7 +8,7 @@ class ReauBalance extends StatelessWidget {
     @required this.walletValue,
   }) : super(key: key);
 
-  final BigInt walletValue;
+  final double walletValue;
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +34,19 @@ class ReauBalance extends StatelessWidget {
             children: [
               Row(
                 children: [
+                  Text(
+                    "Meus Reaus:",
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontFamily: "Roboto",
+                        color: Colors.black87,
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.w400),
+                  ),
                   Expanded(flex: 1, child: SizedBox()),
                   reauWalletDifference == 0.00 || reauWalletDifference == null
                       ? Padding(
-                          padding:
-                              const EdgeInsets.only(right: 24.0, bottom: 8),
+                          padding: const EdgeInsets.only(right: 24.0),
                           child: Text(
                             "0.00000",
                             style: TextStyle(
@@ -49,10 +57,11 @@ class ReauBalance extends StatelessWidget {
                           ),
                         )
                       : Padding(
-                          padding:
-                              const EdgeInsets.only(right: 24.0, bottom: 8),
+                          padding: const EdgeInsets.only(right: 24.0),
                           child: Text(
-                            "+" + reauWalletDifference.toStringAsFixed(5),
+                            "+" +
+                                (reauWalletDifference / 1000000000)
+                                    .toStringAsFixed(5),
                             style: TextStyle(
                                 fontSize: 12,
                                 fontFamily: "Roboto",
@@ -62,22 +71,14 @@ class ReauBalance extends StatelessWidget {
                         ),
                 ],
               ),
-              Text(
-                "Meus Reaus:",
-                style: TextStyle(
-                    fontSize: 12,
-                    fontFamily: "Roboto",
-                    color: Colors.black87,
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.w400),
-              ),
               walletValue != null
                   ? Padding(
                       padding: const EdgeInsets.only(top: 2.0),
                       child: Text(
-                        walletValue.toString() + " \$REAU",
+                        (walletValue / 1000000000).toStringAsFixed(0) +
+                            " \$REAU",
                         style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 26,
                             fontFamily: "Roboto",
                             color: Colors.black87,
                             fontWeight: FontWeight.w800),
