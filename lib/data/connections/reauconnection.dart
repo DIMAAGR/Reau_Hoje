@@ -12,7 +12,8 @@ class ReauConnection {
 
   Web3Client web3;
   String appUser = "Italo Matos";
-  final myAdress = "0xf43415f2dbca4853664abbdc0e9a7ce3d2010d36";
+  final myAdress = "0x46da24dbb9a19dafaf620a363396cecf20c95fed";
+  // 0x46da24dbb9a19dafaf620a363396cecf20c95fed
 
   ReauConnection() {
     web3 = Web3Client(url, httpClient);
@@ -22,7 +23,7 @@ class ReauConnection {
   var deadBalance;
   var totalFees;
 
-  BigInt walletValue;
+  double walletValue;
   double reauBNBprice;
   double reauUSDPrice;
 
@@ -30,7 +31,7 @@ class ReauConnection {
   double totalBRLFeesValue;
   bool data;
   bool updown;
-  BigInt ancientWallet;
+  double ancientWallet;
 
   //DATA STATUS
   double ancientWalletValue;
@@ -147,7 +148,8 @@ class ReauConnection {
         contract: contract);
 
     //Retorno das Informações
-    walletValue = walletBalanceResult[0];
+    BigInt _wbr = walletBalanceResult[0];
+    walletValue = _wbr.toDouble();
     deadBalance = deadBalanceResult[0];
     totalFees = totalFeesResult[0];
     data = true;
@@ -224,13 +226,14 @@ class ReauConnection {
     returnTotalBRLMarketCap();
     if (ancientWallet != null && ancientWallet != walletValue)
       returnReauWalletValueDifference();
-    ancientWallet = walletValue;
+    ancientWallet = walletValue.toDouble();
     returnBNBMarketValue();
     returnBRLtoReauValue();
-    print(getbrlToReauValue());
-    print(reauBRLPrice);
+    returnImutableBRLtoReauValue();
+    print("WALLET: " + walletValue.toString());
     print(_brlToReauValue);
     print(_brlToReauConvertedValue);
+    print("1 REAL = " + getbrlToReauValue());
     setCurrency();
     diff();
   }
@@ -241,6 +244,8 @@ class ReauConnection {
   double usdMyWalletValue;
   double brlMyWalletValue;
   double _brlToReauValue = 1;
+  final double _imutableVLRtBRLValue = 1;
+  double _imutablebrlToReauConvertedValue;
 
   double _brlToReauConvertedValue;
 
@@ -250,12 +255,15 @@ class ReauConnection {
   // Calcula o valor do reau na carteira em USD
   void returnReauUSDValue() =>
       usdMyWalletValue = (reauUSDPrice * walletValue.toDouble()) / 1000000000;
+
   // Calcula o MarketCap do reau em reais
   void returnTotalBRLMarketCap() =>
       totalBRLFeesValue = (reauBRLPrice * totalSupply.toDouble()) / 1000000000;
+
   // Calcula o MarketCap do reau em BNB
   void returnBNBMarketValue() =>
       bnbMarketValue = (totalSupply.toDouble() / reauBRLPrice) / 1000000000;
+
   // Calcula o MarketCap do reau em USD
   void returnUSDMarketValue() =>
       usdMarketValue = (reauUSDPrice * totalSupply.toDouble()) / 1000000000;
@@ -266,7 +274,7 @@ class ReauConnection {
 
   // Converte um Valor X em real para Reau
   void returnBRLtoReauValue() =>
-      _brlToReauConvertedValue = (reauBRLPrice * _brlToReauValue) / 1000000000;
+      _brlToReauConvertedValue = (_brlToReauValue / reauBRLPrice);
 
   //Define o valor que será convertido!
   void setbrlToReauValue(double x) => _brlToReauValue = x;
@@ -275,4 +283,12 @@ class ReauConnection {
   String getbrlToReauValue() => _brlToReauConvertedValue == null
       ? "none"
       : _brlToReauConvertedValue.toString();
+
+  // FAZ OS CALCULOS DOS VALORES DE 1 REAL
+  void returnImutableBRLtoReauValue() =>
+      _imutablebrlToReauConvertedValue = (_imutableVLRtBRLValue / reauBRLPrice);
+
+  String getImutablebrlToReauValue() => _imutablebrlToReauConvertedValue == null
+      ? "none"
+      : _imutablebrlToReauConvertedValue.toStringAsFixed(0);
 }

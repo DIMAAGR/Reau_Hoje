@@ -65,9 +65,11 @@ class _CalculatorState extends State<Calculator> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CurrencyConvertType(),
-                    rc.getbrlToReauValue() != "none"
+                    rc.getImutablebrlToReauValue() != "none"
                         ? Text(
-                            "1 Real = " + rc.getbrlToReauValue(),
+                            "1 Real = " +
+                                rc.getImutablebrlToReauValue() +
+                                " \$REAUS",
                             style: TextStyle(
                                 fontSize: 15,
                                 fontFamily: "Roboto",
@@ -87,7 +89,7 @@ class _CalculatorState extends State<Calculator> {
                             ),
                           ),
                     TextFormField(
-                      initialValue: "R\$ 00.00",
+                      initialValue: "00.00",
                       style: TextStyle(
                           fontSize: 48,
                           fontFamily: "Roboto",
@@ -101,9 +103,7 @@ class _CalculatorState extends State<Calculator> {
                         //fillColor: Colors.green
                       ),
                       onChanged: (mySubmit) {
-                        if (mySubmit != "")
-                          rc.setbrlToReauValue(double.parse(mySubmit));
-                        if (mySubmit == "") rc.setbrlToReauValue(1);
+                        rc.setbrlToReauValue(double.parse(mySubmit));
                       },
                     ),
                   ],
@@ -131,7 +131,6 @@ class _CalculatorState extends State<Calculator> {
           _start = 10;
           rc.startReauOptions();
           rc.ancientWalletValue = rc.brlMyWalletValue;
-          rc.setbrlToReauValue(1);
           debugPrint("UPDATED!");
           setState(() {});
         } else {
