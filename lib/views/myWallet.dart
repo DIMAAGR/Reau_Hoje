@@ -92,7 +92,7 @@ class _MyWalletState extends State<MyWallet> {
         child: InkWell(
           borderRadius: BorderRadius.circular(60),
           onTap: () {
-            Navigator.of(context).pushNamed(AppRoutes.STARTING);
+            Navigator.of(context).pushNamed(AppRoutes.MAINSCREEN);
           },
           child: Padding(
             padding: const EdgeInsets.all(16.0), // Tamanho do Circulo

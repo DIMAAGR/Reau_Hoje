@@ -14,7 +14,7 @@ class _CalculatorState extends State<Calculator> {
 
   @override
   void initState() {
-    rc = ReauConnection(true);
+    rc = ReauConnection(enableConversor: true, verifyReauPrice: false);
     rc.defCurrentType("BRL");
     rc.startReauOptions();
     startTimer();

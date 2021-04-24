@@ -43,7 +43,6 @@ class _CustomReauAppBarState extends State<CustomReauAppBar> {
                   moneyType == "BRL"
                       ? widget.rc.defCurrentType("BRL")
                       : widget.rc.defCurrentType("USD");
-
                   widget.rc.setCurrency();
                 });
               },

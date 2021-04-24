@@ -4,6 +4,7 @@ import 'package:reau_hoje/data/data.dart';
 import 'package:reau_hoje/routers/application_routers.dart';
 import 'package:reau_hoje/views/Calculator/calculator_screen.dart';
 import 'package:reau_hoje/views/hello.dart';
+import 'package:reau_hoje/views/home.dart';
 import 'package:reau_hoje/views/main_screen/body/main_screen.dart';
 import 'package:reau_hoje/views/myWallet.dart';
 import 'package:reau_hoje/views/starting.dart';
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
 
       // home: MyPreferences.getWallet().isEmpty ? FirstTake() : Starting(),
       routes: {
-        AppRoutes.HOME: (ctx) => MainScreen(),
+        AppRoutes.HOME: (ctx) => Home(),
         AppRoutes.STARTING: (ctx) => Starting(),
         AppRoutes.HELLO: (ctx) => FirstTake(),
         AppRoutes.MYWALLET: (ctx) => MyWallet(),
