@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:reau_hoje/data/connections/reauConnection/conversor/moneyConversion.dart';
 import 'package:reau_hoje/data/connections/reauConnection/reauconnection.dart';
+import 'package:reau_hoje/providers/reau_provider.dart';
 import 'package:reau_hoje/views/main_screen/components/screen_buttons.dart';
 import 'package:reau_hoje/views/main_screen/components/custom_reau_app_bar.dart';
 import 'package:reau_hoje/views/main_screen/components/reau_Balance.dart';
@@ -13,25 +15,31 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   ReauConnection rc;
+  ReauProvider rp;
+  MoneyConversor mc = MoneyConversor();
+  @override
+  void dispose() {
+    startTime = false;
+    super.dispose();
+  }
 
   // ignore: unused_field
-
   @override
   void initState() {
     rc = ReauConnection(enableConversor: false, verifyReauPrice: true);
-    rc.defCurrentType("BRL");
+    rc.defCurrentType("EUR");
     rc.startReauOptions();
+    rp = ReauProvider();
+    rp.setReauConnection(rc);
+    startTime = true;
     startTimer();
     super.initState();
-  }
-
-  setmyState() {
-    setState(() {});
   }
 
   // ignore: unused_field
   Timer _timer;
   int _start = 15;
+  bool startTime = false;
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +91,7 @@ class _MainScreenState extends State<MainScreen> {
                                 color: Color.fromARGB(255, 248, 248, 248),
                                 fontWeight: FontWeight.w600),
                           ),
-                          _valordaWalletemBRL(context),
+                          _valordaWallet(context),
                           Expanded(
                             flex: 2,
                             child: Padding(
@@ -274,7 +282,35 @@ class _MainScreenState extends State<MainScreen> {
 //Mostra os Botões que estarão no app
 
   //Mostra o que a wallet tem em BRL
-  _valordaWalletemBRL(BuildContext context) {
+  _valordaWallet(BuildContext context) {
+    String currencytype() {
+      switch (rc.getCurrentType()) {
+        case "BRL":
+          return "R\$ ";
+          break;
+        case "USD":
+          return "US\$ ";
+          break;
+        case "AUD":
+          return "AUD\$ ";
+          break;
+        case "GPB":
+          return "GPB\$ ";
+          break;
+        case "CAD":
+          return "CAD\$ ";
+          break;
+        case "EUR":
+          return "\u{20AC} ";
+          break;
+        case "ARS":
+          return "ARS\$ ";
+          break;
+        default:
+          return "US\$ ";
+      }
+    }
+
     return Padding(
       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 5),
       child: rc.currentWalletValue != null
@@ -293,7 +329,7 @@ class _MainScreenState extends State<MainScreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 2, bottom: 8.0),
                   child: Text(
-                    "R\$ " +
+                    currencytype() +
                         rc.currentWalletValue
                             .toStringAsFixed(2)
                             .replaceAll('.', ","),
@@ -324,13 +360,13 @@ class _MainScreenState extends State<MainScreen> {
     _timer = new Timer.periodic(
       oneSec,
       (Timer timer) {
-        if (_start == 0) {
+        if (_start == 0 && startTime) {
           _start = 10;
           rc.startReauOptions();
           rc.ancientWalletValue = rc.brlMyWalletValue;
           debugPrint("UPDATED!");
           setState(() {});
-        } else {
+        } else if (startTime) {
           setState(() {
             _start--;
           });

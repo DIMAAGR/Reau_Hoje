@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:reau_hoje/data/data.dart';
+import 'package:reau_hoje/providers/reau_provider.dart';
 import 'package:reau_hoje/routers/application_routers.dart';
 import 'package:reau_hoje/views/Calculator/calculator_screen.dart';
 import 'package:reau_hoje/views/hello.dart';
@@ -28,21 +30,28 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //  SharedPreferences.setMockInitialValues({});
-    return MaterialApp(
-      title: 'Reau Hoje',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+    return MultiProvider(
+      providers: [
+        Provider<ReauProvider>(
+          create: (_) => ReauProvider(),
+        )
+      ],
+      child: MaterialApp(
+        title: 'Reau Hoje',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
 
-      // home: MyPreferences.getWallet().isEmpty ? FirstTake() : Starting(),
-      routes: {
-        AppRoutes.HOME: (ctx) => Home(),
-        AppRoutes.STARTING: (ctx) => Starting(),
-        AppRoutes.HELLO: (ctx) => FirstTake(),
-        AppRoutes.MYWALLET: (ctx) => MyWallet(),
-        AppRoutes.MAINSCREEN: (ctx) => MainScreen(),
-        AppRoutes.CALCULATOR: (ctx) => Calculator(),
-      },
+        // home: MyPreferences.getWallet().isEmpty ? FirstTake() : Starting(),
+        routes: {
+          AppRoutes.HOME: (ctx) => Home(),
+          AppRoutes.STARTING: (ctx) => Starting(),
+          AppRoutes.HELLO: (ctx) => FirstTake(),
+          AppRoutes.MYWALLET: (ctx) => MyWallet(),
+          AppRoutes.MAINSCREEN: (ctx) => MainScreen(),
+          AppRoutes.CALCULATOR: (ctx) => Calculator(),
+        },
+      ),
     );
   }
 }

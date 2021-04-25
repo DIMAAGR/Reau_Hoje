@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
+import 'package:reau_hoje/data/connections/reauConnection/conversor/moneyConversion.dart';
 import 'package:reau_hoje/data/data.dart';
 import 'package:web3dart/contracts.dart';
 import 'package:web3dart/web3dart.dart';
@@ -55,18 +56,6 @@ class ReauConnection {
   }
 
   double currentWalletValue;
-
-  // Essa função define o tipo de moeda do app
-  setCurrency() {
-    switch (_currentType) {
-      case "BRL":
-        currentWalletValue = brlMyWalletValue;
-        break;
-      case "USD":
-        currentWalletValue = usdMyWalletValue;
-        break;
-    }
-  }
 
   void disableEvents({String eventType, bool setFunc}) {
     switch (eventType) {
@@ -230,23 +219,28 @@ class ReauConnection {
         (getCbrlReserves[0] / getCbrlReserves[1]) * 1000000000000;
     //Valor do Dolar
     dollarPrice = cBrlprice / bnbPrice;
-    // Valor do Reau em Reais
-    reauBRLPrice = reauBNBprice * bnbPrice * dollarPrice;
     // Valor do Reau em Dolar
     reauUSDprice = bnbPrice * dollarPrice;
+    // Valor do Reau em Reais
+    reauBRLPrice = reauBNBprice * reauUSDprice;
     // Total do Suprimento
     totalSupply = deadBalance - totalFees;
     _make();
   }
 
+  double actualCurrencyValue;
   // Faz as operações de acordo com o necessário impedindo de fazer coisas desnecessárias
   void _make() {
     // Caso seja Necessário verificar o Preço do reau!
     if (_verifyReauPrice) {
       print("verificando informações sobre a wallet...");
       returnUSDMarketValue();
-      returnReauBRLValue();
-      returnReauUSDValue();
+      if (_currentType != "USD") {
+        returnReauWalletValueFromDefinedCurrency();
+      } else {
+        currentWalletValue = returnReauUSDValue();
+      }
+
       returnTotalBRLMarketCap();
       if (ancientWallet != null && ancientWallet != walletValue)
         returnReauWalletValueDifference();
@@ -261,16 +255,15 @@ class ReauConnection {
       returnImutableBRLtoReauValue();
     }
 
-    setCurrency();
     diff();
   }
 
   // ignore: unused_field
   double _bnbMarketValue;
-
+  MoneyConversor _mc = MoneyConversor();
   double usdMarketValue;
   double reauWalletValueDifference;
-  double usdMyWalletValue;
+
   double brlMyWalletValue;
   double _brlToReauValue = 1;
   final double _imutableVLRtBRLValue = 1;
@@ -279,11 +272,11 @@ class ReauConnection {
   double _brlToReauConvertedValue;
 
   //Colocar o valor do reau na carteira!
-  void returnReauBRLValue() =>
-      brlMyWalletValue = (reauBRLPrice * walletValue.toDouble()) / 1000000000;
+  void returnReauWalletValueFromDefinedCurrency() async => currentWalletValue =
+      (await _mc.make(_currentType) * returnReauUSDValue());
   // Calcula o valor do reau na carteira em USD
-  void returnReauUSDValue() =>
-      usdMyWalletValue = (reauUSDPrice * walletValue.toDouble()) / 1000000000;
+  double returnReauUSDValue() =>
+      (reauUSDPrice * walletValue.toDouble()) / 1000000000;
 
   // Calcula o MarketCap do reau em reais
   void returnTotalBRLMarketCap() =>
@@ -311,7 +304,7 @@ class ReauConnection {
   //Obtem o valor convertido para Reau!
   String getbrlToReauValue() => _brlToReauConvertedValue == null
       ? "none"
-      : _brlToReauConvertedValue.toString();
+      : _brlToReauConvertedValue.toStringAsFixed(2);
 
   // FAZ OS CALCULOS DOS VALORES DE 1 REAL @immutable
   void returnImutableBRLtoReauValue() =>
