@@ -6,9 +6,17 @@ import 'package:flutter/material.dart';
 class MarketValueWidget extends StatelessWidget {
   const MarketValueWidget({
     Key key,
+    @required this.language,
     @required this.usdMarketPrice,
     @required this.marketPrice,
+    @required this.currencyType,
   }) : super(key: key);
+
+  /// a variável language troca o tipo de lingua de acordo com o selecionado pelo usuário
+  final Map<String, String> language;
+
+  /// a variavel [currencyType] define o tipo de moeda que aparecerá
+  final String currencyType;
 
   /// a variável [marketPrice] define o preço da moeda na tela
   final double marketPrice;
@@ -35,69 +43,69 @@ class MarketValueWidget extends StatelessWidget {
       height: 200,
 
       width: MediaQuery.of(context).size.width * 0.92,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
+      child: marketPrice != null
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(right: 8.0, left: 8.0),
-                  child: Container(
-                    height: 44,
-                    width: 44,
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 0, 219, 255),
-                      borderRadius: BorderRadius.circular(44),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "R",
-                        style: TextStyle(
-                          fontSize: 30,
-                          color: Color.fromARGB(255, 245, 245, 245),
-                          fontFamily: "Montserrat",
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0, left: 8.0),
+                        child: Container(
+                          height: 44,
+                          width: 44,
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 0, 219, 255),
+                            borderRadius: BorderRadius.circular(44),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "R",
+                              style: TextStyle(
+                                fontSize: 30,
+                                color: Color.fromARGB(255, 245, 245, 245),
+                                fontFamily: "Montserrat",
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Vira-lata Reau",
+                            style: TextStyle(
+                                fontFamily: "Montserrat",
+                                fontSize: 20,
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                            language["MarketCap"],
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontFamily: "Roboto",
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ],
+                      )
+                    ],
                   ),
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Vira-lata Reau",
-                      style: TextStyle(
-                          fontFamily: "Montserrat",
-                          fontSize: 20,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    Text(
-                      "Capital de Mercado:",
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontFamily: "Roboto",
-                          color: Colors.black87,
-                          fontWeight: FontWeight.w400),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-          marketPrice != null
-              ? Padding(
+                Padding(
                   padding: const EdgeInsets.only(top: 16, left: 64.0),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       _bolinha(),
                       Text(
-                        "R\$ " +
+                        currencyType +
                             marketPrice.toStringAsFixed(2).replaceAll(".", ","),
                         style: TextStyle(
                             fontSize: 18,
@@ -107,20 +115,8 @@ class MarketValueWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                )
-              : Center(
-                  child: Container(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2.5,
-                      valueColor: new AlwaysStoppedAnimation<Color>(
-                          Color.fromARGB(255, 46, 46, 46)),
-                    ),
-                  ),
                 ),
-          marketPrice != null
-              ? Padding(
+                Padding(
                   padding: const EdgeInsets.only(top: 8, left: 64.0),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -128,7 +124,9 @@ class MarketValueWidget extends StatelessWidget {
                       _bolinha(),
                       Text(
                         "US\$ " +
-                            marketPrice.toStringAsFixed(2).replaceAll(".", ","),
+                            usdMarketPrice
+                                .toStringAsFixed(2)
+                                .replaceAll(".", ","),
                         style: TextStyle(
                             fontSize: 18,
                             fontFamily: "Montserrat",
@@ -138,52 +136,19 @@ class MarketValueWidget extends StatelessWidget {
                     ],
                   ),
                 )
-              : Center(
-                  child: Container(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2.5,
-                      valueColor: new AlwaysStoppedAnimation<Color>(
-                          Color.fromARGB(255, 46, 46, 46)),
-                    ),
-                  ),
+              ],
+            )
+          : Center(
+              child: Container(
+                width: 50,
+                height: 50,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                  valueColor: new AlwaysStoppedAnimation<Color>(
+                      Color.fromARGB(255, 46, 46, 46)),
                 ),
-          // bnbMarketPrice != null
-          //     ? Padding(
-          //         padding: const EdgeInsets.only(top: 8, left: 64.0),
-          //         child: Row(
-          //           crossAxisAlignment: CrossAxisAlignment.center,
-          //           children: [
-          //             _bolinha(),
-          //             Text(
-          //               "BNB " +
-          //                   bnbMarketPrice
-          //                       .toStringAsFixed(2)
-          //                       .replaceAll(".", ","),
-          //               style: TextStyle(
-          //                   fontSize: 18,
-          //                   fontFamily: "Montserrat",
-          //                   color: Color.fromARGB(255, 46, 46, 46),
-          //                   fontWeight: FontWeight.w600),
-          //             ),
-          //           ],
-          //         ),
-          //       )
-          //     :
-          Center(
-            child: Container(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2.5,
-                valueColor: new AlwaysStoppedAnimation<Color>(
-                    Color.fromARGB(255, 46, 46, 46)),
               ),
             ),
-          ),
-        ],
-      ),
     );
   }
 

@@ -5,4 +5,6 @@ class UrlConversion {
   static const USD_EUR = "https://economia.awesomeapi.com.br/json/all/usd-eur";
   static const USD_ARS = "https://economia.awesomeapi.com.br/json/all/usd-ars";
   static const USD_BRL = "https://economia.awesomeapi.com.br/json/all/usd-brl";
+  static const USD_JPY = "https://economia.awesomeapi.com.br/json/all/usd-jpy";
+  static const USD_CNY = "https://economia.awesomeapi.com.br/json/all/usd-cny";
 }

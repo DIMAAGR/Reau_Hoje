@@ -42,6 +42,7 @@ class AppBtn extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Text(
                       text,
+                      maxLines: 2,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 12,

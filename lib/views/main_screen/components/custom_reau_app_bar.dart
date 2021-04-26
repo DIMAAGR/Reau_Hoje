@@ -1,3 +1,4 @@
+import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:reau_hoje/data/connections/reauConnection/reauconnection.dart';
 import 'package:reau_hoje/views/main_screen/components/difference.dart';
@@ -39,10 +40,11 @@ class _CustomReauAppBarState extends State<CustomReauAppBar> {
             child: InkWell(
               onTap: () {
                 setState(() {
-                  moneyType == "BRL" ? moneyType = "USD" : moneyType = "BRL";
-                  moneyType == "BRL"
-                      ? widget.rc.defCurrentType("BRL")
-                      : widget.rc.defCurrentType("USD");
+                  _botomsheetdonation(context);
+                  // moneyType == "BRL" ? moneyType = "USD" : moneyType = "BRL";
+                  // moneyType == "BRL"
+                  //     ? widget.rc.defCurrentType("BRL")
+                  //     : widget.rc.defCurrentType("USD");
                 });
               },
               borderRadius: BorderRadius.circular(5),
@@ -71,5 +73,129 @@ class _CustomReauAppBarState extends State<CustomReauAppBar> {
         ],
       ),
     );
+  }
+
+  _botomsheetdonation(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                ListTile(
+                  leading: Flag(
+                    "AR",
+                    height: 40,
+                    width: 40,
+                  ),
+                  title: Center(child: Text("ARS: Peso argentino")),
+                  onTap: () {
+                    widget.rc.defCurrentType("ARS");
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: Flag(
+                    "AU",
+                    height: 40,
+                    width: 40,
+                  ),
+                  title: Center(child: Text("AUD: Australian Dollar")),
+                  onTap: () {
+                    widget.rc.defCurrentType("AUD");
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: Flag(
+                    "BR",
+                    height: 40,
+                    width: 40,
+                  ),
+                  title: Center(child: Text("BRL: Reau Brasileiro")),
+                  onTap: () {
+                    widget.rc.defCurrentType("BRL");
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: Flag(
+                    "CA",
+                    height: 40,
+                    width: 40,
+                  ),
+                  title: Center(child: Text("CAD: Canadian Dollar")),
+                  onTap: () {
+                    widget.rc.defCurrentType("CAD");
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: Flag(
+                    "CN",
+                    height: 40,
+                    width: 40,
+                  ),
+                  title: Center(child: Text("CNY: 元")),
+                  onTap: () {
+                    widget.rc.defCurrentType("CNY");
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: Flag(
+                    "EU",
+                    height: 40,
+                    width: 40,
+                  ),
+                  title: Center(child: Text("EUR: Euro")),
+                  onTap: () {
+                    widget.rc.defCurrentType("EUR");
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: Flag(
+                    "GB",
+                    height: 40,
+                    width: 40,
+                  ),
+                  title: Center(child: Text("GBP: British Pound")),
+                  onTap: () {
+                    widget.rc.defCurrentType("GBP");
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: Flag(
+                    "JP",
+                    height: 40,
+                    width: 40,
+                  ),
+                  title: Center(child: Text("JPY: 日本円")),
+                  onTap: () {
+                    widget.rc.defCurrentType("JPY");
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: Flag(
+                    "US",
+                    height: 40,
+                    width: 40,
+                  ),
+                  title: Center(child: Text("USD: United State Dollar")),
+                  onTap: () {
+                    widget.rc.defCurrentType("USD");
+                    Navigator.pop(context);
+                  },
+                ),
+                // British Pound
+                // 日本円
+                // 元
+              ],
+            ),
+          );
+        });
   }
 }

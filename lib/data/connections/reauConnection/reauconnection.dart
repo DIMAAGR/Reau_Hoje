@@ -34,7 +34,6 @@ class ReauConnection {
   double reauUSDPrice;
 
   double bnbPrice;
-  double totalBRLFeesValue;
   bool data;
   bool updown;
   double ancientWallet;
@@ -237,11 +236,11 @@ class ReauConnection {
       returnUSDMarketValue();
       if (_currentType != "USD") {
         returnReauWalletValueFromDefinedCurrency();
+        returnReauMarketCapValueFromDefinedCurrency();
       } else {
         currentWalletValue = returnReauUSDValue();
+        marketcap = usdMarketValue;
       }
-
-      returnTotalBRLMarketCap();
       if (ancientWallet != null && ancientWallet != walletValue)
         returnReauWalletValueDifference();
       ancientWallet = walletValue.toDouble();
@@ -263,7 +262,7 @@ class ReauConnection {
   MoneyConversor _mc = MoneyConversor();
   double usdMarketValue;
   double reauWalletValueDifference;
-
+  double marketcap;
   double brlMyWalletValue;
   double _brlToReauValue = 1;
   final double _imutableVLRtBRLValue = 1;
@@ -274,13 +273,15 @@ class ReauConnection {
   //Colocar o valor do reau na carteira!
   void returnReauWalletValueFromDefinedCurrency() async => currentWalletValue =
       (await _mc.make(_currentType) * returnReauUSDValue());
+
+  void returnReauMarketCapValueFromDefinedCurrency() async =>
+      marketcap = (usdMarketValue * await _mc.make(_currentType));
+
   // Calcula o valor do reau na carteira em USD
   double returnReauUSDValue() =>
       (reauUSDPrice * walletValue.toDouble()) / 1000000000;
 
   // Calcula o MarketCap do reau em reais
-  void returnTotalBRLMarketCap() =>
-      totalBRLFeesValue = (reauBRLPrice * totalSupply.toDouble()) / 1000000000;
 
   // Calcula o MarketCap do reau em BNB
   void returnBNBMarketValue() =>

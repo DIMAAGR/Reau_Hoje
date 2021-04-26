@@ -5,7 +5,9 @@ import 'package:reau_hoje/views/main_screen/components/app_btn.dart';
 
 class ScreenButtons extends StatelessWidget {
   final ReauConnection rc;
+  final Map<String, String> language;
   const ScreenButtons({
+    @required this.language,
     this.rc,
     Key key,
   }) : super(key: key);
@@ -24,7 +26,7 @@ class ScreenButtons extends StatelessWidget {
                     top: 8, bottom: 16, left: 16, right: 8),
                 child: AppBtn(
                   active: true,
-                  text: "Minha\nCarteira",
+                  text: language["MyWallet"],
                   function: () {},
                   icon: Icon(
                     Icons.account_balance_wallet,
@@ -36,10 +38,10 @@ class ScreenButtons extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 8, bottom: 16, right: 8),
                 child: AppBtn(
                   active: true,
-                  text: "Calculadora",
+                  text: language["Calculator"],
                   function: () {
-                    rc.disableEvents(
-                        eventType: "verifyReauPrice", setFunc: false);
+                    // rc.disableEvents(
+                    //     eventType: "verifyReauPrice", setFunc: false);
                     Navigator.of(context).pushNamed(AppRoutes.CALCULATOR);
                   },
                   icon: Icon(
@@ -58,12 +60,12 @@ class ScreenButtons extends StatelessWidget {
                   ),
                   function: () {},
                   active: true,
-                  text: "Configurações",
+                  text: language["Settings"],
                 )),
             Padding(
                 padding: const EdgeInsets.only(top: 8, bottom: 16, right: 8),
                 child: AppBtn(
-                  text: "Analises",
+                  text: language["Analysis"],
                   function: () {},
                   icon: Icon(
                     Icons.bar_chart,
@@ -75,7 +77,7 @@ class ScreenButtons extends StatelessWidget {
             Padding(
                 padding: const EdgeInsets.only(top: 8, bottom: 16, right: 8),
                 child: AppBtn(
-                  text: "Transferir",
+                  text: language["Transfer"],
                   function: () {},
                   icon: Icon(
                     Icons.send,

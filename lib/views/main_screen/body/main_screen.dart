@@ -1,8 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:reau_hoje/data/connections/reauConnection/conversor/moneyConversion.dart';
 import 'package:reau_hoje/data/connections/reauConnection/reauconnection.dart';
+import 'package:reau_hoje/data/data.dart';
 import 'package:reau_hoje/providers/reau_provider.dart';
+import 'package:reau_hoje/utils/language.dart';
+import 'package:reau_hoje/views/main_screen/components/market_value.dart';
 import 'package:reau_hoje/views/main_screen/components/screen_buttons.dart';
 import 'package:reau_hoje/views/main_screen/components/custom_reau_app_bar.dart';
 import 'package:reau_hoje/views/main_screen/components/reau_Balance.dart';
@@ -17,6 +21,9 @@ class _MainScreenState extends State<MainScreen> {
   ReauConnection rc;
   ReauProvider rp;
   MoneyConversor mc = MoneyConversor();
+  Language lang = Language();
+  Map<String, String> language;
+
   @override
   void dispose() {
     startTime = false;
@@ -26,8 +33,9 @@ class _MainScreenState extends State<MainScreen> {
   // ignore: unused_field
   @override
   void initState() {
+    language = lang.getSelectedLanguageInfo();
     rc = ReauConnection(enableConversor: false, verifyReauPrice: true);
-    rc.defCurrentType("EUR");
+    rc.defCurrentType("BRL");
     rc.startReauOptions();
     rp = ReauProvider();
     rp.setReauConnection(rc);
@@ -51,64 +59,69 @@ class _MainScreenState extends State<MainScreen> {
           SliverAppBar(
             //Adicionamos um flexibleSpace que receberá um Widget
             // O Widget Será o Container
-            floating: false,
+            floating: true,
             snap: false,
-            pinned: false,
-
-            backgroundColor: Color.fromARGB(255, 4, 174, 174),
+            pinned: true,
+            elevation: 0,
+            backgroundColor: Colors.transparent,
             expandedHeight: MediaQuery.of(context).size.height,
+
             flexibleSpace: FlexibleSpaceBar(
-              background: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Hello!"),
-                  CustomReauAppBar(
-                      rc: rc,
-                      appUser: rc.appUser,
-                      updown: rc.updown,
-                      difference: rc.difference,
-                      diffstring: rc.diffstring),
-                  Expanded(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 16.0, top: 72.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Olá, ",
-                            style: TextStyle(
-                                fontFamily: "Roboto",
-                                fontSize: 40,
-                                color: Color.fromARGB(255, 248, 248, 248),
-                                fontWeight: FontWeight.w300),
-                          ),
-                          Text(
-                            rc.appUser + "!",
-                            style: TextStyle(
-                                fontFamily: "Roboto",
-                                fontSize: 50,
-                                color: Color.fromARGB(255, 248, 248, 248),
-                                fontWeight: FontWeight.w600),
-                          ),
-                          _valordaWallet(context),
-                          Expanded(
-                            flex: 2,
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 176.0),
-                              child: Center(
-                                  child: Icon(
-                                Icons.keyboard_arrow_up,
-                                size: 28,
-                                color: Color.fromARGB(255, 248, 248, 248),
-                              )),
+              background: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                color: Color.fromARGB(255, 4, 174, 174),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomReauAppBar(
+                        rc: rc,
+                        appUser: rc.appUser,
+                        updown: rc.updown,
+                        difference: rc.difference,
+                        diffstring: rc.diffstring),
+                    Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 16.0, top: 72.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              language["Hello"],
+                              style: TextStyle(
+                                  fontFamily: "Roboto",
+                                  fontSize: 40,
+                                  color: Color.fromARGB(255, 248, 248, 248),
+                                  fontWeight: FontWeight.w300),
                             ),
-                          ),
-                        ],
+                            Text(
+                              rc.appUser + "!",
+                              style: TextStyle(
+                                  fontFamily: "Roboto",
+                                  fontSize: 50,
+                                  color: Color.fromARGB(255, 248, 248, 248),
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            _valordaWallet(context),
+                            Expanded(
+                              flex: 2,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 176.0),
+                                child: Center(
+                                    child: Icon(
+                                  Icons.keyboard_arrow_up,
+                                  size: 28,
+                                  color: Color.fromARGB(255, 248, 248, 248),
+                                )),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -122,7 +135,7 @@ class _MainScreenState extends State<MainScreen> {
                   Padding(
                     padding: const EdgeInsets.only(top: 57.0, left: 16.0),
                     child: Text(
-                      "Minha Carteira",
+                      language["MyWallet"],
                       style: TextStyle(
                           fontFamily: "Montserrat",
                           fontSize: 30,
@@ -132,144 +145,229 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Color.fromARGB(255, 251, 220,
-                              138)), //Color.fromARGB(255, 74, 70, 255)),
-                      height: 210,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0, left: 8),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: 8.0, left: 8.0),
-                                  child: Container(
-                                    height: 35,
-                                    width: 35,
-                                    decoration: BoxDecoration(
-                                      color: Color.fromARGB(255, 248, 248, 248),
-                                      borderRadius: BorderRadius.circular(44),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        "R",
-                                        style: TextStyle(
-                                          fontSize: 28,
-                                          fontStyle: FontStyle.italic,
-                                          color: Color.fromARGB(
-                                              255, 251, 220, 138),
-                                          fontFamily: "Montserrat",
+                    child: InkWell(
+                      onTap: () {
+                        Clipboard.setData(
+                            new ClipboardData(text: MyPreferences.getWallet()));
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(_snackBar(context));
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Color.fromARGB(255, 251, 220,
+                                138)), //Color.fromARGB(255, 74, 70, 255)),
+                        height: 210,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0, left: 8),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        right: 8.0, left: 8.0),
+                                    child: Container(
+                                      height: 35,
+                                      width: 35,
+                                      decoration: BoxDecoration(
+                                        color:
+                                            Color.fromARGB(255, 248, 248, 248),
+                                        borderRadius: BorderRadius.circular(44),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "R",
+                                          style: TextStyle(
+                                            fontSize: 28,
+                                            fontStyle: FontStyle.italic,
+                                            color: Color.fromARGB(
+                                                255, 251, 220, 138),
+                                            fontFamily: "Montserrat",
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Vira-lata Reau",
-                                      style: TextStyle(
-                                          fontFamily: "Montserrat",
-                                          fontSize: 20,
-                                          fontStyle: FontStyle.italic,
-                                          fontWeight: FontWeight.w600),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Vira-lata Reau",
+                                        style: TextStyle(
+                                            fontFamily: "Montserrat",
+                                            fontSize: 20,
+                                            fontStyle: FontStyle.italic,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ],
+                                  ),
+                                  Expanded(
+                                    child: SizedBox(),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 8),
+                                    child: Container(
+                                      height: 35,
+                                      width: 35,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black26,
+                                        borderRadius: BorderRadius.circular(44),
+                                      ),
+                                      child: Center(
+                                          child: Icon(
+                                        Icons.copy,
+                                        color:
+                                            Color.fromARGB(255, 248, 248, 248),
+                                        size: 16,
+                                      )),
                                     ),
-                                  ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 64,
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 16.0, bottom: 4),
+                              child: Text(
+                                language["MyWallet"],
+                                style: TextStyle(
+                                    fontFamily: "Roboto",
+                                    fontSize: 12,
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 16.0),
+                              child: Text(
+                                rc.myAdress,
+                                style: TextStyle(
+                                    fontFamily: "Roboto",
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w900),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 32,
+                            ),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 16.0),
+                                  child: Text(
+                                    rc.appUser.toUpperCase(),
+                                    style: TextStyle(
+                                        fontFamily: "Roboto",
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w900),
+                                  ),
                                 ),
                                 Expanded(
                                   child: SizedBox(),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 8),
-                                  child: Container(
-                                    height: 35,
-                                    width: 35,
-                                    decoration: BoxDecoration(
-                                      color: Colors.black26,
-                                      borderRadius: BorderRadius.circular(44),
-                                    ),
-                                    child: Center(
-                                        child: Icon(
-                                      Icons.copy,
-                                      color: Color.fromARGB(255, 248, 248, 248),
-                                      size: 16,
-                                    )),
+                                  padding: const EdgeInsets.only(right: 16.0),
+                                  child: Text(
+                                    "XX/XX",
+                                    style: TextStyle(
+                                        fontFamily: "Roboto",
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w900),
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                          SizedBox(
-                            height: 64,
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 16.0, bottom: 4),
-                            child: Text(
-                              "Minha Carteira:",
-                              style: TextStyle(
-                                  fontFamily: "Roboto",
-                                  fontSize: 12,
-                                  fontStyle: FontStyle.italic,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
-                            child: Text(
-                              rc.myAdress,
-                              style: TextStyle(
-                                  fontFamily: "Roboto",
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w900),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 32,
-                          ),
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 16.0),
-                                child: Text(
-                                  rc.appUser.toUpperCase(),
-                                  style: TextStyle(
-                                      fontFamily: "Roboto",
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w900),
-                                ),
-                              ),
-                              Expanded(
-                                child: SizedBox(),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 16.0),
-                                child: Text(
-                                  "XX/XX",
-                                  style: TextStyle(
-                                      fontFamily: "Roboto",
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w900),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
                   ReauBalance(
+                    language: language,
                     walletValue: rc.walletValue,
                     reauWalletDifference: rc.reauWalletValueDifference,
                   ),
-                  ScreenButtons(rc: rc),
+                  ScreenButtons(rc: rc, language: language),
+                  Align(
+                    alignment: Alignment.center,
+                    child: MarketValueWidget(
+                        language: language,
+                        usdMarketPrice: rc.usdMarketValue,
+                        marketPrice: rc.marketcap,
+                        currencyType: currencytype()),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: Container(
+                        height: 90,
+                        width: MediaQuery.of(context).size.width,
+                        color: Color.fromARGB(255, 50, 50, 50),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 16.0, left: 16.0),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "Reau Hoje",
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 248, 248, 248),
+                                      fontFamily: "Montserrat",
+                                      fontSize: 20,
+                                      fontStyle: FontStyle.italic,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: SizedBox(),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 16.0),
+                                    child: OutlinedButton(
+                                      onPressed: () =>
+                                          _botomsheetdonation(context),
+                                      child: Text(
+                                        language["Donatenow"],
+                                        style: TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 248, 248, 248),
+                                            fontFamily: "Roboto",
+                                            fontSize: 15,
+                                            fontStyle: FontStyle.italic,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 16.0),
+                                  child: Text(
+                                    language["AllRightReserved"],
+                                    style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 248, 248, 248),
+                                        fontFamily: "Roboto",
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w200),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        )),
+                  ),
                 ],
               ),
             ),
@@ -279,38 +377,97 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-//Mostra os Botões que estarão no app
+  _botomsheetdonation(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            height: 160,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextButton(
+                      onPressed: () {
+                        Clipboard.setData(
+                            new ClipboardData(text: "attackdiamond@gmail.com"));
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(_snackBar(context));
+                      },
+                      child: Text("PIX: attackdiamond@gmail.com")),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextButton(
+                      onPressed: () {
+                        Clipboard.setData(new ClipboardData(
+                            text:
+                                "0x056982E47890Ff8eeac1d57bb36Ef48Dd0D5A823"));
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(_snackBar(context));
+                      },
+                      child: Text(
+                          "WALLET: 0x056982E47890Ff8eeac1d57bb36Ef48Dd0D5A823")),
+                )
+              ],
+            ),
+          );
+        });
+  }
+
+  String currencytype() {
+    switch (rc.getCurrentType()) {
+      case "BRL":
+        return "R\$ ";
+        break;
+      case "USD":
+        return "US\$ ";
+        break;
+      case "AUD":
+        return "AU\$ ";
+        break;
+      case "GBP":
+        return "\u{20A4} ";
+        break;
+      case "CAD":
+        return "CA\$ ";
+        break;
+      case "EUR":
+        return "\u{20AC} ";
+        break;
+      case "JPY":
+        return "\u{00A5} ";
+        break;
+      case "ARS":
+        return "\u{20B3} ";
+        break;
+      case "CNY":
+        return "\u{00A5} ";
+        break;
+      default:
+        return "US\$ ";
+    }
+  }
+
+  _snackBar(BuildContext context) {
+    return SnackBar(
+      duration: Duration(seconds: 3),
+      elevation: 8,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      width: MediaQuery.of(context).size.width * 0.96,
+      behavior: SnackBarBehavior.floating,
+      padding: const EdgeInsets.all(4),
+      content: Padding(
+        padding: const EdgeInsets.only(left: 8.0),
+        child: Text("Copiado com Sucesso!"),
+      ),
+    );
+  }
 
   //Mostra o que a wallet tem em BRL
   _valordaWallet(BuildContext context) {
-    String currencytype() {
-      switch (rc.getCurrentType()) {
-        case "BRL":
-          return "R\$ ";
-          break;
-        case "USD":
-          return "US\$ ";
-          break;
-        case "AUD":
-          return "AUD\$ ";
-          break;
-        case "GPB":
-          return "GPB\$ ";
-          break;
-        case "CAD":
-          return "CAD\$ ";
-          break;
-        case "EUR":
-          return "\u{20AC} ";
-          break;
-        case "ARS":
-          return "ARS\$ ";
-          break;
-        default:
-          return "US\$ ";
-      }
-    }
-
     return Padding(
       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 5),
       child: rc.currentWalletValue != null
@@ -319,7 +476,7 @@ class _MainScreenState extends State<MainScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Valor Total da Sua Carteira:",
+                  language["TotalWalletValue"],
                   style: TextStyle(
                       fontSize: 16,
                       fontFamily: "Roboto",
@@ -364,7 +521,6 @@ class _MainScreenState extends State<MainScreen> {
           _start = 10;
           rc.startReauOptions();
           rc.ancientWalletValue = rc.brlMyWalletValue;
-          debugPrint("UPDATED!");
           setState(() {});
         } else if (startTime) {
           setState(() {

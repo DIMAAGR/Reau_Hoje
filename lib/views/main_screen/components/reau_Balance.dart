@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 
 class ReauBalance extends StatelessWidget {
   final double reauWalletDifference;
+
   const ReauBalance({
     this.reauWalletDifference,
+    @required this.language,
     Key key,
     @required this.walletValue,
   }) : super(key: key);
 
   final double walletValue;
+  final Map<String, String> language;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +38,7 @@ class ReauBalance extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    "Meus Reaus:",
+                    language["MyReaus"],
                     style: TextStyle(
                         fontSize: 12,
                         fontFamily: "Roboto",

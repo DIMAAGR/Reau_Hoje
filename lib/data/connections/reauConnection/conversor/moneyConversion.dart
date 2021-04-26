@@ -13,7 +13,7 @@ class MoneyConversor {
       case "AUD":
         return UrlConversion.USD_AUD;
         break;
-      case "GPB":
+      case "GBP":
         return UrlConversion.USD_GBP;
         break;
       case "CAD":
@@ -27,6 +27,12 @@ class MoneyConversor {
         break;
       case "BRL":
         return UrlConversion.USD_BRL;
+        break;
+      case "JPY":
+        return UrlConversion.USD_JPY;
+        break;
+      case "CNY":
+        return UrlConversion.USD_CNY;
         break;
       default:
         return "";

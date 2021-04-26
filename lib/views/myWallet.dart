@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:reau_hoje/data/data.dart';
 import 'package:reau_hoje/routers/application_routers.dart';
+import 'package:reau_hoje/utils/language.dart';
 
 // Variavel Global!
 String wallet = "";
@@ -12,6 +13,15 @@ class MyWallet extends StatefulWidget {
 }
 
 class _MyWalletState extends State<MyWallet> {
+  Language lang = Language();
+  Map<String, String> language;
+
+  @override
+  void initState() {
+    language = lang.getSelectedLanguageInfo();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +31,7 @@ class _MyWalletState extends State<MyWallet> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "Esta é sua Carteira?",
+              language["IsThisYourWallet?"],
               style: TextStyle(
                 fontStyle: FontStyle.italic,
                 fontFamily: "Roboto",

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reau_hoje/data/data.dart';
 import 'package:reau_hoje/routers/application_routers.dart';
+import 'package:reau_hoje/utils/language.dart';
 
 class FirstTake extends StatefulWidget {
   @override
@@ -10,6 +11,8 @@ class FirstTake extends StatefulWidget {
 
 class _FirstTakeState extends State<FirstTake> {
   bool hasNamed = false;
+  Language lang = Language();
+  Map<String, String> language;
 
   //Nome do Usuário
   String myname = "";
@@ -17,6 +20,12 @@ class _FirstTakeState extends State<FirstTake> {
   //Informações do usuário
   String username = '';
   String myWallet = '';
+
+  @override
+  void initState() {
+    language = lang.getSelectedLanguageInfo();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +42,7 @@ class _FirstTakeState extends State<FirstTake> {
                       Padding(
                         padding: const EdgeInsets.only(top: 128.0, left: 16),
                         child: Text(
-                          "Olá! Ainda não nos Conhecemos!",
+                          language["HeloWeStillHaveNotMet"],
                           style: TextStyle(
                               color: Color.fromARGB(255, 40, 40, 40),
                               fontSize: 30,
@@ -45,7 +54,7 @@ class _FirstTakeState extends State<FirstTake> {
                       Padding(
                         padding: const EdgeInsets.only(left: 16),
                         child: Text(
-                          "Qual é o seu nome?",
+                          language["WhatIsYourName"],
                           textAlign: TextAlign.start,
                           style: TextStyle(
                               color: Color.fromARGB(255, 40, 40, 40),
@@ -83,7 +92,7 @@ class _FirstTakeState extends State<FirstTake> {
                       Padding(
                         padding: const EdgeInsets.only(top: 128.0, left: 16),
                         child: Text(
-                          myname + " eu ainda não sei sua carteira!",
+                          myname + " " + language["IStillDontKnowYourWallet"],
                           style: TextStyle(
                               color: Color.fromARGB(255, 40, 40, 40),
                               fontSize: 30,
@@ -95,7 +104,7 @@ class _FirstTakeState extends State<FirstTake> {
                       Padding(
                         padding: const EdgeInsets.only(left: 16),
                         child: Text(
-                          "Por favor insira sua carteira!",
+                          language["PleaseInsertYourWallet"],
                           textAlign: TextAlign.start,
                           style: TextStyle(
                               color: Color.fromARGB(255, 40, 40, 40),
