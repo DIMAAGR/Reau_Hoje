@@ -6,14 +6,16 @@ import 'package:reau_hoje/data/data.dart';
 import 'package:reau_hoje/providers/reau_provider.dart';
 import 'package:reau_hoje/routers/application_routers.dart';
 import 'package:reau_hoje/views/Calculator/calculator_screen.dart';
-import 'package:reau_hoje/views/hello.dart';
+import 'package:reau_hoje/views/when_is_a_first_time_on_app/hello.dart';
 import 'package:reau_hoje/views/home.dart';
 import 'package:reau_hoje/views/main_screen/body/main_screen.dart';
-import 'package:reau_hoje/views/myWallet.dart';
+import 'package:reau_hoje/views/when_is_a_first_time_on_app/myWallet.dart';
 import 'package:reau_hoje/views/settings_sceen/body/options_screens/select_language_view.dart';
 import 'package:reau_hoje/views/settings_sceen/body/options_screens/select_currency_view.dart';
 import 'package:reau_hoje/views/settings_sceen/body/settings_view.dart';
-import 'package:reau_hoje/views/starting.dart';
+import 'package:reau_hoje/views/when_is_a_first_time_on_app/select_currency_view.dart';
+import 'package:reau_hoje/views/when_is_a_first_time_on_app/select_language_view.dart';
+import 'package:reau_hoje/views/when_is_a_first_time_on_app/starting.dart';
 
 ReauConnection rc;
 Future main() async {
@@ -34,10 +36,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("Starting Reau Connection... await...");
+    debugPrint("Starting Reau Connection... wait...");
     rc = ReauConnection(enableConversor: false, verifyReauPrice: true);
-    rc.defCurrentType("BRL");
-    rc.startReauOptions();
+    if (MyPreferences.getCurrentType() != null ||
+        MyPreferences.getCurrentType().isNotEmpty)
+      rc.defCurrentType(MyPreferences.getCurrentType());
+    if (MyPreferences.getWallet() != null ||
+        MyPreferences.getWallet().isNotEmpty) rc.startReauOptions();
     //  SharedPreferences.setMockInitialValues({});
     return MultiProvider(
       providers: [
@@ -63,6 +68,10 @@ class MyApp extends StatelessWidget {
           AppRoutes.SELECT_LANGUAGE_SETTINGS: (ctx) => SelectLanguageView(),
           AppRoutes.SELECT_CURRENCY_SETTINGS: (ctx) =>
               SelectCurrencyView(rc: rc),
+          AppRoutes.SELECT_FIRST_CURRENCY_SETTINGS: (ctx) =>
+              SelectFirstCurrencyView(rc: rc),
+          AppRoutes.SELECT_FIRST_LANGUAGE_SETTINGS: (ctx) =>
+              SelectFirstLanguageView(),
         },
       ),
     );

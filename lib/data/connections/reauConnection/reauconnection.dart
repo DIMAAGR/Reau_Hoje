@@ -11,7 +11,7 @@ class ReauConnection {
   var url = "https://bsc-dataseed1.binance.org:443";
   var httpClient = new Client();
   String appUser = MyPreferences.getUserName();
-  final myAdress = MyPreferences.getWallet();
+  var myAdress = MyPreferences.getWallet();
   // 0x46da24dbb9a19dafaf620a363396cecf20c95fed
 
   // Variaveis de Controle
@@ -281,8 +281,6 @@ class ReauConnection {
   double returnReauUSDValue() =>
       (reauUSDPrice * walletValue.toDouble()) / 1000000000;
 
-  // Calcula o MarketCap do reau em reais
-
   // Calcula o MarketCap do reau em BNB
   void returnBNBMarketValue() =>
       _bnbMarketValue = (totalSupply.toDouble() / reauBRLPrice) / 1000000000;
@@ -314,4 +312,14 @@ class ReauConnection {
   String getImutablebrlToReauValue() => _imutablebrlToReauConvertedValue == null
       ? "none"
       : _imutablebrlToReauConvertedValue.toStringAsFixed(0);
+
+  void verifyNameandWallet() {
+    if (appUser == null ||
+        myAdress == null ||
+        myAdress.isEmpty ||
+        myAdress == "") {
+      appUser = MyPreferences.getUserName();
+      myAdress = MyPreferences.getWallet();
+    }
+  }
 }

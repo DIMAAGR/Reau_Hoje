@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:reau_hoje/data/connections/reauConnection/conversor/moneyConversion.dart';
 import 'package:reau_hoje/data/connections/reauConnection/reauconnection.dart';
 import 'package:reau_hoje/data/data.dart';
-import 'package:reau_hoje/providers/reau_provider.dart';
 import 'package:reau_hoje/utils/language.dart';
 import 'package:reau_hoje/views/main_screen/components/market_value.dart';
 import 'package:reau_hoje/views/main_screen/components/screen_buttons.dart';
@@ -22,7 +21,6 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   // ReauConnection rc;
-  ReauProvider rp;
   MoneyConversor mc = MoneyConversor();
   Language lang = Language();
   Map<String, String> language;
@@ -41,10 +39,10 @@ class _MainScreenState extends State<MainScreen> {
     language = lang.getSelectedLanguageInfo();
     lang.setLanguage(language: MyPreferences.getLanguage());
     myLang = lang.getLanguage();
+    widget.rc.verifyNameandWallet();
     // rc = ReauConnection(enableConversor: false, verifyReauPrice: true);
     // rc.defCurrentType("BRL");
     // rc.startReauOptions();
-    rp = ReauProvider();
     // rp.setReauConnection(rc);
     startTime = true;
     startTimer();
