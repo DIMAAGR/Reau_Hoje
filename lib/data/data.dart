@@ -27,6 +27,7 @@ class MyPreferences {
   static const _keyWallet = 'MyWallet';
   static const _keyUserName = 'UserName';
   static const _keyCurrentType = "CurrentType";
+  static const _keyLanguage = "language";
 
   static Future init() async =>
       _preferences = await SharedPreferences.getInstance();
@@ -47,8 +48,17 @@ class MyPreferences {
   //Obtem a informação da Carteira de Reaus
   static String getUserName() => _preferences.getString(_keyUserName);
 
+  //Define o Tipo de Moeda
   static Future setCurrentType(String currentType) async =>
       await _preferences.setString(_keyCurrentType, currentType);
 
+  //Obtem o tipo de Moeda
   static String getCurrentType() => _preferences.getString(_keyCurrentType);
+
+  //Define a Linguagem
+  static Future setLanguage(String language) async =>
+      await _preferences.setString(_keyLanguage, language);
+
+  //Obtem a linguagem
+  static String getLanguage() => _preferences.getString(_keyLanguage);
 }

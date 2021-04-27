@@ -5,4 +5,7 @@ class AppRoutes {
   static const MYWALLET = '/my-wallet';
   static const MAINSCREEN = '/main-screen';
   static const CALCULATOR = '/calculator';
+  static const SETTINGS = '/settings';
+  static const SELECT_LANGUAGE_SETTINGS = '/settings/select-language';
+  static const SELECT_CURRENCY_SETTINGS = '/settings/select-currency';
 }

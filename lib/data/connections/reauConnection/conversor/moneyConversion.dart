@@ -34,6 +34,15 @@ class MoneyConversor {
       case "CNY":
         return UrlConversion.USD_CNY;
         break;
+      case "AED":
+        return UrlConversion.USD_AED;
+        break;
+      case "RUB":
+        return UrlConversion.USD_RUB;
+        break;
+      case "TRY":
+        return UrlConversion.USD_TRY;
+        break;
       default:
         return "";
         break;

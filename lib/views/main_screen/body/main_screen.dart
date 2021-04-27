@@ -13,19 +13,24 @@ import 'package:reau_hoje/views/main_screen/components/reau_Balance.dart';
 //import 'package:reau_hoje/views/main_screen/components/market_value.dart';
 
 class MainScreen extends StatefulWidget {
+  final ReauConnection rc;
+  MainScreen({this.rc});
+
   @override
   _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  ReauConnection rc;
+  // ReauConnection rc;
   ReauProvider rp;
   MoneyConversor mc = MoneyConversor();
   Language lang = Language();
   Map<String, String> language;
+  String myLang;
 
   @override
   void dispose() {
+    setState(() {});
     startTime = false;
     super.dispose();
   }
@@ -34,11 +39,13 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     language = lang.getSelectedLanguageInfo();
-    rc = ReauConnection(enableConversor: false, verifyReauPrice: true);
-    rc.defCurrentType("BRL");
-    rc.startReauOptions();
+    lang.setLanguage(language: MyPreferences.getLanguage());
+    myLang = lang.getLanguage();
+    // rc = ReauConnection(enableConversor: false, verifyReauPrice: true);
+    // rc.defCurrentType("BRL");
+    // rc.startReauOptions();
     rp = ReauProvider();
-    rp.setReauConnection(rc);
+    // rp.setReauConnection(rc);
     startTime = true;
     startTimer();
     super.initState();
@@ -48,6 +55,12 @@ class _MainScreenState extends State<MainScreen> {
   Timer _timer;
   int _start = 15;
   bool startTime = false;
+
+  FutureOr onGoBack(dynamic value) {
+    lang.setLanguage(language: MyPreferences.getLanguage());
+    language = lang.getSelectedLanguageInfo();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,11 +88,11 @@ class _MainScreenState extends State<MainScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomReauAppBar(
-                        rc: rc,
-                        appUser: rc.appUser,
-                        updown: rc.updown,
-                        difference: rc.difference,
-                        diffstring: rc.diffstring),
+                        rc: widget.rc,
+                        appUser: widget.rc.appUser,
+                        updown: widget.rc.updown,
+                        difference: widget.rc.difference,
+                        diffstring: widget.rc.diffstring),
                     Expanded(
                       flex: 1,
                       child: Padding(
@@ -96,7 +109,7 @@ class _MainScreenState extends State<MainScreen> {
                                   fontWeight: FontWeight.w300),
                             ),
                             Text(
-                              rc.appUser + "!",
+                              widget.rc.appUser + "!",
                               style: TextStyle(
                                   fontFamily: "Roboto",
                                   fontSize: 50,
@@ -247,7 +260,7 @@ class _MainScreenState extends State<MainScreen> {
                             Padding(
                               padding: const EdgeInsets.only(left: 16.0),
                               child: Text(
-                                rc.myAdress,
+                                widget.rc.myAdress,
                                 style: TextStyle(
                                     fontFamily: "Roboto",
                                     fontSize: 15,
@@ -262,7 +275,7 @@ class _MainScreenState extends State<MainScreen> {
                                 Padding(
                                   padding: const EdgeInsets.only(left: 16.0),
                                   child: Text(
-                                    rc.appUser.toUpperCase(),
+                                    widget.rc.appUser.toUpperCase(),
                                     style: TextStyle(
                                         fontFamily: "Roboto",
                                         fontSize: 15,
@@ -291,16 +304,17 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                   ReauBalance(
                     language: language,
-                    walletValue: rc.walletValue,
-                    reauWalletDifference: rc.reauWalletValueDifference,
+                    walletValue: widget.rc.walletValue,
+                    reauWalletDifference: widget.rc.reauWalletValueDifference,
                   ),
-                  ScreenButtons(rc: rc, language: language),
+                  ScreenButtons(
+                      rc: widget.rc, language: language, onGoBack: onGoBack),
                   Align(
                     alignment: Alignment.center,
                     child: MarketValueWidget(
                         language: language,
-                        usdMarketPrice: rc.usdMarketValue,
-                        marketPrice: rc.marketcap,
+                        usdMarketPrice: widget.rc.usdMarketValue,
+                        marketPrice: widget.rc.marketcap,
                         currencyType: currencytype()),
                   ),
                   Padding(
@@ -418,7 +432,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   String currencytype() {
-    switch (rc.getCurrentType()) {
+    switch (widget.rc.getCurrentType()) {
       case "BRL":
         return "R\$ ";
         break;
@@ -446,6 +460,15 @@ class _MainScreenState extends State<MainScreen> {
       case "CNY":
         return "\u{00A5} ";
         break;
+      case "AED":
+        return "\u{17dB} ";
+        break;
+      case "RUB":
+        return "\u{20BD} ";
+        break;
+      case "TRY":
+        return "\u{20BA} ";
+        break;
       default:
         return "US\$ ";
     }
@@ -470,7 +493,7 @@ class _MainScreenState extends State<MainScreen> {
   _valordaWallet(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 5),
-      child: rc.currentWalletValue != null
+      child: widget.rc.currentWalletValue != null
           ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -487,7 +510,7 @@ class _MainScreenState extends State<MainScreen> {
                   padding: const EdgeInsets.only(top: 2, bottom: 8.0),
                   child: Text(
                     currencytype() +
-                        rc.currentWalletValue
+                        widget.rc.currentWalletValue
                             .toStringAsFixed(2)
                             .replaceAll('.', ","),
                     style: TextStyle(
@@ -519,8 +542,8 @@ class _MainScreenState extends State<MainScreen> {
       (Timer timer) {
         if (_start == 0 && startTime) {
           _start = 10;
-          rc.startReauOptions();
-          rc.ancientWalletValue = rc.brlMyWalletValue;
+          widget.rc.startReauOptions();
+          widget.rc.ancientWalletValue = widget.rc.brlMyWalletValue;
           setState(() {});
         } else if (startTime) {
           setState(() {

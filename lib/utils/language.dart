@@ -1,7 +1,9 @@
+import 'package:reau_hoje/data/data.dart';
+
 /// ESTA CLASSE DEFINE A LINGUA DO APLICATIVO!
 /// DE ACORDO COM A LINGUA DEFINIDA PELO USUÁRIO SERA UTILIZADA NELA
 class Language {
-  String _language = "FR";
+  String _language = MyPreferences.getLanguage();
   Map<String, String> _selectedLanguage;
 
   void setLanguage({String language}) => _language = language;
@@ -48,7 +50,7 @@ class Language {
       case "RU":
         russkiyLang();
         break;
-      case "TK":
+      case "TR":
         turkLang();
         break;
       case "AR":
@@ -60,6 +62,7 @@ class Language {
   /// Caso a linguagem selecionada seja Inglês
   void enlang() {
     _selectedLanguage = {
+      "ID": "1",
       "Hello": "Hello,",
       "MyWallet": "My Wallet",
       "MyReaus": "My Reaus",
@@ -76,12 +79,16 @@ class Language {
       "IStillDontKnowYourWallet": "i still don't know your wallet!",
       "PleaseInsertYourWallet": "Please insert your wallet!",
       "IsThisYourWallet?": "Is this your wallet?",
+      "Language": "English",
+      "Currency": "",
+      "MyProfile": "My Profile",
     };
   }
 
   /// Caso a linguagem selecionada seja PT-BR
   void ptbrLang() {
     _selectedLanguage = {
+      "ID": "2",
       "Hello": "Olá,",
       "MyWallet": "Minha Carteira",
       "MyReaus": "Meus Reaus",
@@ -98,12 +105,16 @@ class Language {
       "IStillDontKnowYourWallet": "eu ainda não sei sua carteira!",
       "PleaseInsertYourWallet": "Por favor insira sua carteira!",
       "IsThisYourWallet?": "Esta é sua Carteira?",
+      "Language": "Português",
+      "Currency": "",
+      "MyProfile": "Meu Perfil",
     };
   }
 
   /// Caso a linguagem selecionada seja FR
   void franceLang() {
     _selectedLanguage = {
+      "ID": "3",
       "Hello": "Bonjour,",
       "MyWallet": "Mon portefeuille",
       "MyReaus": "My Reaus",
@@ -122,12 +133,16 @@ class Language {
           "je ne connais toujours pas votre portefeuille!",
       "PleaseInsertYourWallet": "Veuillez insérer votre portefeuille!",
       "IsThisYourWallet?": "Est-ce votre portefeuille?",
+      "Language": "français",
+      "Currency": "",
+      "MyProfile": "Mon profil",
     };
   }
 
   /// Caso a linguagem selecionada seja ES
   void spanishLang() {
     _selectedLanguage = {
+      "ID": "4",
       "Hello": "Hola,",
       "MyWallet": "Mi Cartera",
       "MyReaus": "Mi Reaus",
@@ -144,12 +159,16 @@ class Language {
       "IStillDontKnowYourWallet": "¡Todavía no conozco tu billetera!",
       "PleaseInsertYourWallet": "¡Por favor inserte su billetera!",
       "IsThisYourWallet?": "¿Esta es tu cartera?",
+      "Language": "Español",
+      "Currency": "",
+      "MyProfile": "Mi perfil",
     };
   }
 
   /// Caso a linguagem selecionada seja JAPANESE
   void japanLang() {
     _selectedLanguage = {
+      "ID": "5",
       "Hello": "こんにちは",
       "MyWallet": "私の財布",
       "MyReaus": "私の Reaus",
@@ -166,12 +185,16 @@ class Language {
       "IStillDontKnowYourWallet": "私はまだあなたの財布を知りません！",
       "PleaseInsertYourWallet": "財布を入れてください！",
       "IsThisYourWallet?": "これはあなたの財布ですか？",
+      "Language": "日本語",
+      "Currency": "",
+      "MyProfile": "私のプロフィール",
     };
   }
 
   /// Caso a linguagem selecionada seja Chinese
   void chineseLang() {
     _selectedLanguage = {
+      "ID": "6",
       "Hello": "你好，",
       "MyWallet": "我的钱包",
       "MyReaus": "我的Reaus",
@@ -188,11 +211,15 @@ class Language {
       "IStillDontKnowYourWallet": "我还是不知道你的钱包！",
       "PleaseInsertYourWallet": "请插入您的钱包！",
       "IsThisYourWallet?": "这是你的钱包吗？",
+      "Language": "中文",
+      "Currency": "",
+      "MyProfile": "我的簡歷",
     };
   }
 
   void russkiyLang() {
     _selectedLanguage = {
+      "ID": "7",
       "Hello": "Привет,",
       "MyWallet": "Мой бумажник",
       "MyReaus": "Мой Реаус",
@@ -209,11 +236,15 @@ class Language {
       "IStillDontKnowYourWallet": "я все еще не знаю твой кошелек!",
       "PleaseInsertYourWallet": "Пожалуйста, вставьте свой кошелек!",
       "IsThisYourWallet?": "Это твой кошелек?",
+      "Language": "русский язык",
+      "Currency": "",
+      "MyProfile": "Мой профиль",
     };
   }
 
   void turkLang() {
     _selectedLanguage = {
+      "ID": "8",
       "Hello": "Selam,",
       "MyWallet": "Cüzdanım",
       "MyReaus": "Benim Reausum",
@@ -230,11 +261,15 @@ class Language {
       "IStillDontKnowYourWallet": "hala cüzdanını bilmiyorum!",
       "PleaseInsertYourWallet": "Lütfen cüzdanınızı takın!",
       "IsThisYourWallet?": "Bu senin cüzdanın mı?",
+      "Language": "Türk Dili",
+      "Currency": "",
+      "MyProfile": "Benim profilim",
     };
   }
 
   void eurbaaLang() {
     _selectedLanguage = {
+      "ID": "9",
       "Hello": "مرحبا،",
       "MyWallet": "محفظتى",
       "MyReaus": "لي Reau",
@@ -251,6 +286,9 @@ class Language {
       "IStillDontKnowYourWallet": "ما زلت لا أعرف محفظتك!",
       "PleaseInsertYourWallet": "الرجاء إدخال محفظتك!",
       "IsThisYourWallet?": "هل هذه محفظتك؟",
+      "Language": "عربى",
+      "Currency": "",
+      "MyProfile": "ملفي",
     };
   }
 }

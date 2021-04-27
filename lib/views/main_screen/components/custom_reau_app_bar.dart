@@ -84,6 +84,19 @@ class _CustomReauAppBarState extends State<CustomReauAppBar> {
               children: [
                 ListTile(
                   leading: Flag(
+                    "AE",
+                    height: 40,
+                    width: 40,
+                  ),
+                  title:
+                      Center(child: Text("AED: درهم الإمارات العربية المتحدة")),
+                  onTap: () {
+                    widget.rc.defCurrentType("AED");
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: Flag(
                     "AR",
                     height: 40,
                     width: 40,
@@ -180,6 +193,30 @@ class _CustomReauAppBarState extends State<CustomReauAppBar> {
                 ),
                 ListTile(
                   leading: Flag(
+                    "RU",
+                    height: 40,
+                    width: 40,
+                  ),
+                  title: Center(child: Text("RUB: Русский рубль")),
+                  onTap: () {
+                    widget.rc.defCurrentType("RUB");
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: Flag(
+                    "TR",
+                    height: 40,
+                    width: 40,
+                  ),
+                  title: Center(child: Text("TRY: Türk Lirası")),
+                  onTap: () {
+                    widget.rc.defCurrentType("TRY");
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: Flag(
                     "US",
                     height: 40,
                     width: 40,
@@ -190,6 +227,10 @@ class _CustomReauAppBarState extends State<CustomReauAppBar> {
                     Navigator.pop(context);
                   },
                 ),
+
+                // Русский рубль
+                // درهم الإمارات العربية المتحدة
+                // Türk Lirası
                 // British Pound
                 // 日本円
                 // 元

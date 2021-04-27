@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:reau_hoje/data/connections/reauConnection/reauconnection.dart';
 import 'package:reau_hoje/routers/application_routers.dart';
@@ -6,7 +8,9 @@ import 'package:reau_hoje/views/main_screen/components/app_btn.dart';
 class ScreenButtons extends StatelessWidget {
   final ReauConnection rc;
   final Map<String, String> language;
+  final FutureOr onGoBack;
   const ScreenButtons({
+    @required this.onGoBack,
     @required this.language,
     this.rc,
     Key key,
@@ -42,7 +46,9 @@ class ScreenButtons extends StatelessWidget {
                   function: () {
                     // rc.disableEvents(
                     //     eventType: "verifyReauPrice", setFunc: false);
-                    Navigator.of(context).pushNamed(AppRoutes.CALCULATOR);
+                    Navigator.of(context)
+                        .pushNamed(AppRoutes.CALCULATOR)
+                        .then(onGoBack);
                   },
                   icon: Icon(
                     Icons.calculate,
@@ -58,7 +64,11 @@ class ScreenButtons extends StatelessWidget {
                     size: 35,
                     color: Colors.black54,
                   ),
-                  function: () {},
+                  function: () {
+                    Navigator.of(context)
+                        .pushNamed(AppRoutes.SETTINGS)
+                        .then(onGoBack);
+                  },
                   active: true,
                   text: language["Settings"],
                 )),
