@@ -30,6 +30,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   FutureOr onGoBack(dynamic value) {
     lang.setLanguage(language: MyPreferences.getLanguage());
+    lang.defLanguage();
     language = lang.getSelectedLanguageInfo();
     setState(() {});
   }

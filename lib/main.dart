@@ -38,11 +38,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     debugPrint("Starting Reau Connection... wait...");
     rc = ReauConnection(enableConversor: false, verifyReauPrice: true);
-    if (MyPreferences.getCurrentType() != null ||
-        MyPreferences.getCurrentType().isNotEmpty)
+    if (MyPreferences.getCurrentType() != null)
       rc.defCurrentType(MyPreferences.getCurrentType());
-    if (MyPreferences.getWallet() != null ||
-        MyPreferences.getWallet().isNotEmpty) rc.startReauOptions();
+    if (MyPreferences.getWallet() != null) rc.startReauOptions();
     //  SharedPreferences.setMockInitialValues({});
     return MultiProvider(
       providers: [

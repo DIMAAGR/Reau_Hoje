@@ -40,9 +40,7 @@ class _MainScreenState extends State<MainScreen> {
     lang.setLanguage(language: MyPreferences.getLanguage());
     myLang = lang.getLanguage();
     widget.rc.verifyNameandWallet();
-    // rc = ReauConnection(enableConversor: false, verifyReauPrice: true);
-    // rc.defCurrentType("BRL");
-    // rc.startReauOptions();
+    widget.rc.startReauOptions();
     // rp.setReauConnection(rc);
     startTime = true;
     startTimer();
@@ -56,6 +54,7 @@ class _MainScreenState extends State<MainScreen> {
 
   FutureOr onGoBack(dynamic value) {
     lang.setLanguage(language: MyPreferences.getLanguage());
+    lang.defLanguage();
     language = lang.getSelectedLanguageInfo();
     setState(() {});
   }
