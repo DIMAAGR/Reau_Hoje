@@ -7,7 +7,7 @@ import 'package:web3dart/contracts.dart';
 import 'package:web3dart/web3dart.dart';
 
 class ReauConnection {
-  /// REAU ENGINE: [REAU ENGINE 0.09.9(Beta)]
+  /// REAU ENGINE: [REAU ENGINE 0.10.0(Beta)]
 
   Web3Client web3;
   var url = "https://bsc-dataseed1.binance.org:443";
@@ -89,7 +89,6 @@ class ReauConnection {
           ((currentWalletValue - _ancientBalanceValue) / _ancientBalanceValue) *
               100; //d = Diferença
       difference = d;
-      print(d);
 
       if (difference.isNegative) difference *= -1;
     }
@@ -104,7 +103,7 @@ class ReauConnection {
       }
       ancientdifference = difference;
       diffstring = difference.toStringAsFixed(2) + "%";
-      print(diffstring);
+
       // setmyState();
     }
     if (currentWalletValue != null) {
