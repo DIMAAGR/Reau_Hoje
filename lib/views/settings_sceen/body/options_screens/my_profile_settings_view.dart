@@ -30,7 +30,23 @@ class _MyProfileSettingsViewState extends State<MyProfileSettingsView> {
             ),
             ListTile(
               leading: Icon(Icons.account_box),
-              title: Text("Account Name: " + MyPreferences.getUserName()),
+              title: Row(
+                children: [
+                  Text(
+                    "Account Name: ",
+                    style: TextStyle(
+                      fontFamily: "Roboto",
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  Text(
+                    MyPreferences.getUserName(),
+                    style: TextStyle(
+                      fontFamily: "Roboto",
+                    ),
+                  ),
+                ],
+              ),
               onTap: () {
                 changeMyName(context);
               },
@@ -38,7 +54,23 @@ class _MyProfileSettingsViewState extends State<MyProfileSettingsView> {
             Divider(),
             ListTile(
               leading: Icon(Icons.account_box),
-              title: Text("My Wallet: " + MyPreferences.getWallet()),
+              title: Row(
+                children: [
+                  Text(
+                    "My Wallet: ",
+                    style: TextStyle(
+                      fontFamily: "Roboto",
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  Text(
+                    MyPreferences.getWallet(),
+                    style: TextStyle(
+                      fontFamily: "Roboto",
+                    ),
+                  ),
+                ],
+              ),
               onTap: () {
                 changeMyWallet(context);
               },
