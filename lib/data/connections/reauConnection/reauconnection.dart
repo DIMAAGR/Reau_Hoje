@@ -7,7 +7,7 @@ import 'package:web3dart/contracts.dart';
 import 'package:web3dart/web3dart.dart';
 
 class ReauConnection {
-  /// REAU ENGINE: [REAU ENGINE 0.9.8(Beta)]
+  /// REAU ENGINE: [REAU ENGINE 0.09.9(Beta)]
 
   Web3Client web3;
   var url = "https://bsc-dataseed1.binance.org:443";
@@ -83,27 +83,37 @@ class ReauConnection {
 
   //Calcula a diferenca/volatilidade do preço do reau
   void diff() {
-    if (ancientWalletValue != null) if (ancientWalletValue !=
-        brlMyWalletValue) {
+    print("Current: " + currentWalletValue.toString());
+    if (_ancientBalanceValue != null) if (_ancientBalanceValue !=
+        currentWalletValue) {
       double d =
-          ((brlMyWalletValue - ancientWalletValue) / ancientWalletValue) *
+          ((currentWalletValue - _ancientBalanceValue) / _ancientBalanceValue) *
               100; //d = Diferença
       difference = d;
+      print(d);
 
       if (difference.isNegative) difference *= -1;
     }
 
     if (difference == -0.0) difference = 0.0;
 
-    if (difference < -0.01 || difference > 0.01) {
-      if (difference > ancientdifference)
+    if (difference < -0.0001 || difference > 0.0001) {
+      if (_ancientBalanceValue < currentWalletValue) {
         updown = true;
-      else
+        print("POSITIVE");
+      } else {
         updown = false;
-
+        print("NEGATIVE");
+      }
       ancientdifference = difference;
       diffstring = difference.toStringAsFixed(2) + "%";
+      print(diffstring);
       // setmyState();
+    }
+    if (currentWalletValue != null) {
+      setAncientBalanceValue(currentWalletValue);
+
+      print("Ancient: " + _ancientBalanceValue.toString());
     }
   }
 
@@ -241,13 +251,17 @@ class ReauConnection {
     // Caso seja Necessário verificar o Preço do reau!
     if (_verifyReauPrice) {
       print("verificando informações sobre a wallet...");
+
       returnUSDMarketValue();
+
       if (_currentType != "USD") {
         returnReauWalletValueFromDefinedCurrency();
         returnReauMarketCapValueFromDefinedCurrency();
+        diff();
       } else {
         currentWalletValue = returnReauUSDValue();
         marketcap = usdMarketValue;
+        diff();
       }
       if (ancientWallet != null && ancientWallet != walletValue)
         returnReauWalletValueDifference();
@@ -261,8 +275,6 @@ class ReauConnection {
       returnBRLtoReauValue();
       returnImutableBRLtoReauValue();
     }
-
-    diff();
   }
 
   // ignore: unused_field
@@ -273,6 +285,7 @@ class ReauConnection {
   double marketcap;
   double brlMyWalletValue;
   double _brlToReauValue = 1;
+  double _ancientBalanceValue;
   final double _imutableVLRtBRLValue = 1;
   double _imutablebrlToReauConvertedValue;
 
@@ -320,6 +333,10 @@ class ReauConnection {
   String getImutablebrlToReauValue() => _imutablebrlToReauConvertedValue == null
       ? "none"
       : _imutablebrlToReauConvertedValue.toStringAsFixed(0);
+
+  //Define o Valor antigo do AncientBalanceValue
+  void setAncientBalanceValue(double y) => _ancientBalanceValue = y;
+  double getAncientBalanceValue() => _ancientBalanceValue;
 
   void verifyNameandWallet() {
     if (appUser == null ||

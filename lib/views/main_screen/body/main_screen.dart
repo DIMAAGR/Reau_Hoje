@@ -30,7 +30,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void dispose() {
     setState(() {});
-    startTime = false;
+
     super.dispose();
   }
 
@@ -74,7 +74,6 @@ class _MainScreenState extends State<MainScreen> {
     myLang = lang.getLanguage();
     widget.rc.verifyNameandWallet();
     // rp.setReauConnection(rc);
-    startTime = true;
     startTimer();
     super.initState();
   }
@@ -82,7 +81,6 @@ class _MainScreenState extends State<MainScreen> {
   // ignore: unused_field
   Timer _timer;
   int _start = 15;
-  bool startTime = false;
 
   FutureOr onGoBack(dynamic value) async {
     lang.setLanguage(language: MyPreferences.getLanguage());
@@ -291,7 +289,8 @@ class _MainScreenState extends State<MainScreen> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(left: 16.0),
+                                    padding: const EdgeInsets.only(
+                                        left: 16.0, right: 16),
                                     child: Text(
                                       widget.rc.myAdress,
                                       style: TextStyle(
@@ -586,16 +585,16 @@ class _MainScreenState extends State<MainScreen> {
     _timer = new Timer.periodic(
       oneSec,
       (Timer timer) {
-        if (_start == 0 && startTime) {
+        if (_start == 0) {
           _start = 10;
           widget.rc.startReauOptions();
-          widget.rc.ancientWalletValue = widget.rc.brlMyWalletValue;
+          // widget.rc.setAncientBalanceValue(widget.rc.currentWalletValue);
+
           setState(() {});
-        } else if (startTime) {
+        } else
           setState(() {
             _start--;
           });
-        }
       },
     );
   }
