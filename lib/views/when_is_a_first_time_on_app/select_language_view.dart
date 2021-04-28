@@ -44,7 +44,7 @@ class _SelectFirstLanguageViewState extends State<SelectFirstLanguageView> {
               onTap: () {
                 MyPreferences.setLanguage("AR");
                 Navigator.of(context)
-                    .pushNamed(AppRoutes.SELECT_FIRST_CURRENCY_SETTINGS);
+                    .pushNamed(AppRoutes.SELECT_FIRST_CURRENCY);
                 setState(() {});
               },
             ),
@@ -58,10 +58,11 @@ class _SelectFirstLanguageViewState extends State<SelectFirstLanguageView> {
               onTap: () {
                 MyPreferences.setLanguage("ES");
                 Navigator.of(context)
-                    .pushNamed(AppRoutes.SELECT_FIRST_CURRENCY_SETTINGS);
+                    .pushNamed(AppRoutes.SELECT_FIRST_CURRENCY);
                 setState(() {});
               },
-            ),ListTile(
+            ),
+            ListTile(
               leading: Flag(
                 "FR",
                 height: 40,
@@ -71,7 +72,7 @@ class _SelectFirstLanguageViewState extends State<SelectFirstLanguageView> {
               onTap: () {
                 MyPreferences.setLanguage("FR");
                 Navigator.of(context)
-                    .pushNamed(AppRoutes.SELECT_FIRST_CURRENCY_SETTINGS);
+                    .pushNamed(AppRoutes.SELECT_FIRST_CURRENCY);
                 setState(() {});
               },
             ),
@@ -85,7 +86,7 @@ class _SelectFirstLanguageViewState extends State<SelectFirstLanguageView> {
               onTap: () {
                 MyPreferences.setLanguage("PT-BR");
                 Navigator.of(context)
-                    .pushNamed(AppRoutes.SELECT_FIRST_CURRENCY_SETTINGS);
+                    .pushNamed(AppRoutes.SELECT_FIRST_CURRENCY);
                 setState(() {});
               },
             ),
@@ -99,7 +100,7 @@ class _SelectFirstLanguageViewState extends State<SelectFirstLanguageView> {
               onTap: () {
                 MyPreferences.setLanguage("CN");
                 Navigator.of(context)
-                    .pushNamed(AppRoutes.SELECT_FIRST_CURRENCY_SETTINGS);
+                    .pushNamed(AppRoutes.SELECT_FIRST_CURRENCY);
                 setState(() {});
               },
             ),
@@ -113,7 +114,7 @@ class _SelectFirstLanguageViewState extends State<SelectFirstLanguageView> {
               onTap: () {
                 MyPreferences.setLanguage("JP");
                 Navigator.of(context)
-                    .pushNamed(AppRoutes.SELECT_FIRST_CURRENCY_SETTINGS);
+                    .pushNamed(AppRoutes.SELECT_FIRST_CURRENCY);
                 setState(() {});
               },
             ),
@@ -127,7 +128,7 @@ class _SelectFirstLanguageViewState extends State<SelectFirstLanguageView> {
               onTap: () {
                 MyPreferences.setLanguage("RU");
                 Navigator.of(context)
-                    .pushNamed(AppRoutes.SELECT_FIRST_CURRENCY_SETTINGS);
+                    .pushNamed(AppRoutes.SELECT_FIRST_CURRENCY);
                 setState(() {});
               },
             ),
@@ -141,7 +142,7 @@ class _SelectFirstLanguageViewState extends State<SelectFirstLanguageView> {
               onTap: () {
                 MyPreferences.setLanguage("TR");
                 Navigator.of(context)
-                    .pushNamed(AppRoutes.SELECT_FIRST_CURRENCY_SETTINGS);
+                    .pushNamed(AppRoutes.SELECT_FIRST_CURRENCY);
                 setState(() {});
               },
             ),
@@ -155,7 +156,7 @@ class _SelectFirstLanguageViewState extends State<SelectFirstLanguageView> {
               onTap: () {
                 MyPreferences.setLanguage("EN");
                 Navigator.of(context)
-                    .pushNamed(AppRoutes.SELECT_FIRST_CURRENCY_SETTINGS);
+                    .pushNamed(AppRoutes.SELECT_FIRST_CURRENCY);
                 setState(() {});
               },
             ),

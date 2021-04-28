@@ -71,19 +71,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ),
         ListTile(
-            leading: Icon(Icons.account_circle),
-            title: Row(
-              children: [
-                Text(
-                  "Profile: ",
-                  style: _myTextStyle(FontWeight.normal),
-                ),
-                Text(
-                  language["MyProfile"],
-                  style: _myTextStyle(FontWeight.w600),
-                ),
-              ],
-            )),
+          leading: Icon(Icons.account_circle),
+          title: Row(
+            children: [
+              Text(
+                "Profile: ",
+                style: _myTextStyle(FontWeight.normal),
+              ),
+              Text(
+                language["MyProfile"],
+                style: _myTextStyle(FontWeight.w600),
+              ),
+            ],
+          ),
+          onTap: () => Navigator.of(context)
+              .pushNamed(AppRoutes.SELECT_MY_PROFILE_SETTINGS),
+        ),
         ListTile(
           leading: Icon(Icons.language),
           title: Row(

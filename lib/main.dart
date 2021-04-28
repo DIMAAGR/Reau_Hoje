@@ -6,6 +6,7 @@ import 'package:reau_hoje/data/data.dart';
 import 'package:reau_hoje/providers/reau_provider.dart';
 import 'package:reau_hoje/routers/application_routers.dart';
 import 'package:reau_hoje/views/Calculator/calculator_screen.dart';
+import 'package:reau_hoje/views/settings_sceen/body/options_screens/my_profile_settings_view.dart';
 import 'package:reau_hoje/views/when_is_a_first_time_on_app/hello.dart';
 import 'package:reau_hoje/views/home.dart';
 import 'package:reau_hoje/views/main_screen/body/main_screen.dart';
@@ -66,10 +67,11 @@ class MyApp extends StatelessWidget {
           AppRoutes.SELECT_LANGUAGE_SETTINGS: (ctx) => SelectLanguageView(),
           AppRoutes.SELECT_CURRENCY_SETTINGS: (ctx) =>
               SelectCurrencyView(rc: rc),
-          AppRoutes.SELECT_FIRST_CURRENCY_SETTINGS: (ctx) =>
+          AppRoutes.SELECT_FIRST_CURRENCY: (ctx) =>
               SelectFirstCurrencyView(rc: rc),
-          AppRoutes.SELECT_FIRST_LANGUAGE_SETTINGS: (ctx) =>
-              SelectFirstLanguageView(),
+          AppRoutes.SELECT_FIRST_LANGUAGE: (ctx) => SelectFirstLanguageView(),
+          AppRoutes.SELECT_MY_PROFILE_SETTINGS: (ctx) =>
+              MyProfileSettingsView(),
         },
       ),
     );
