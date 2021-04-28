@@ -26,66 +26,68 @@ class _MyWalletState extends State<MyWallet> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              language["IsThisYourWallet?"],
-              style: TextStyle(
-                fontStyle: FontStyle.italic,
-                fontFamily: "Roboto",
-                fontSize: 25,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                language["IsThisYourWallet?"],
+                style: TextStyle(
+                  fontStyle: FontStyle.italic,
+                  fontFamily: "Roboto",
+                  fontSize: 25,
+                ),
               ),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Color.fromARGB(255, 235, 235, 235)),
-                height: 285,
-                width: 285,
-                child: Padding(
-                  padding: const EdgeInsets.all(32.0),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      MyPreferences.getWallet(),
-                      textAlign: TextAlign.justify,
-                      textDirection: TextDirection.ltr,
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 48, 48, 48),
-                          fontStyle: FontStyle.italic,
-                          fontFamily: "Montserrat",
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 0.9,
-                          fontSize: 30),
+              SizedBox(
+                height: 16,
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Color.fromARGB(255, 235, 235, 235)),
+                  height: 285,
+                  width: 285,
+                  child: Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        MyPreferences.getWallet(),
+                        textAlign: TextAlign.justify,
+                        textDirection: TextDirection.ltr,
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 48, 48, 48),
+                            fontStyle: FontStyle.italic,
+                            fontFamily: "Montserrat",
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 0.9,
+                            fontSize: 30),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _returnButton(),
-                  SizedBox(
-                    width: 64,
-                  ),
-                  _continueButton(),
-                ],
+              SizedBox(
+                height: 16,
               ),
-            )
-          ],
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _returnButton(),
+                    SizedBox(
+                      width: 64,
+                    ),
+                    _continueButton(),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

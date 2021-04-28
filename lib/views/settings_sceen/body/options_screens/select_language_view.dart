@@ -57,6 +57,19 @@ class _SelectLanguageViewState extends State<SelectLanguageView> {
             ),
             ListTile(
               leading: Flag(
+                "FR",
+                height: 40,
+                width: 40,
+              ),
+              title: Center(child: Text("Français")),
+              onTap: () {
+                MyPreferences.setLanguage("FR");
+                Navigator.pop(context);
+                setState(() {});
+              },
+            ),
+            ListTile(
+              leading: Flag(
                 "BR",
                 height: 40,
                 width: 40,

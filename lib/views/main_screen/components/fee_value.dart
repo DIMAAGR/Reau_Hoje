@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter/widgets.dart';
+
 /// Este Widget tem como função mostrar o valor de mercado da moeda REAU
 /// Ele receberá a variável [marketPrice] que irá definir o preço de mercado da moeda
 
@@ -51,7 +53,7 @@ class _FeeValueWidgetState extends State<FeeValueWidget> {
               borderRadius: BorderRadius.circular(15),
               color: Color.fromARGB(
                   255, 250, 250, 250)), //Color.fromARGB(255, 74, 70, 255)),
-          height: 182,
+          height: MediaQuery.of(context).size.height * 0.27,
 
           width: MediaQuery.of(context).size.width * 0.92,
           child: widget.burnedFee != null
@@ -65,7 +67,7 @@ class _FeeValueWidgetState extends State<FeeValueWidget> {
                         "In circulation:",
                         style: TextStyle(
                             fontFamily: "Roboto",
-                            fontSize: 12,
+                            fontSize: MediaQuery.of(context).size.width * 0.033,
                             fontWeight: FontWeight.w400),
                       ),
                     ),
@@ -77,8 +79,10 @@ class _FeeValueWidgetState extends State<FeeValueWidget> {
                           _bolinha(),
                           Text(
                             "REAUS " + actualBalance.toString(),
+                            maxLines: 2,
                             style: TextStyle(
-                                fontSize: 18,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.033,
                                 fontFamily: "Montserrat",
                                 color: Color.fromARGB(255, 46, 46, 46),
                                 fontWeight: FontWeight.w600),
@@ -92,7 +96,7 @@ class _FeeValueWidgetState extends State<FeeValueWidget> {
                         "Total Burned:",
                         style: TextStyle(
                             fontFamily: "Roboto",
-                            fontSize: 12,
+                            fontSize: MediaQuery.of(context).size.width * 0.033,
                             fontWeight: FontWeight.w400),
                       ),
                     ),
@@ -104,8 +108,10 @@ class _FeeValueWidgetState extends State<FeeValueWidget> {
                           _bolinha(),
                           Text(
                             "REAUS " + widget.burnedFee.toString(),
+                            maxLines: 2,
                             style: TextStyle(
-                                fontSize: 18,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.033,
                                 fontFamily: "Montserrat",
                                 color: Color.fromARGB(255, 46, 46, 46),
                                 fontWeight: FontWeight.w700),
@@ -119,7 +125,7 @@ class _FeeValueWidgetState extends State<FeeValueWidget> {
                         "Total Balance:",
                         style: TextStyle(
                             fontFamily: "Roboto",
-                            fontSize: 12,
+                            fontSize: MediaQuery.of(context).size.width * 0.03,
                             fontWeight: FontWeight.w400),
                       ),
                     ),
@@ -131,8 +137,10 @@ class _FeeValueWidgetState extends State<FeeValueWidget> {
                           _bolinha(),
                           Text(
                             "REAUS " + "1000000000000000000000000",
+                            maxLines: 2,
                             style: TextStyle(
-                                fontSize: 18,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.03,
                                 fontFamily: "Montserrat",
                                 color: Color.fromARGB(255, 46, 46, 46),
                                 fontWeight: FontWeight.w700),

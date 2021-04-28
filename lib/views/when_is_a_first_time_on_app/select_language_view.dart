@@ -61,6 +61,19 @@ class _SelectFirstLanguageViewState extends State<SelectFirstLanguageView> {
                     .pushNamed(AppRoutes.SELECT_FIRST_CURRENCY_SETTINGS);
                 setState(() {});
               },
+            ),ListTile(
+              leading: Flag(
+                "FR",
+                height: 40,
+                width: 40,
+              ),
+              title: Center(child: Text("français")),
+              onTap: () {
+                MyPreferences.setLanguage("FR");
+                Navigator.of(context)
+                    .pushNamed(AppRoutes.SELECT_FIRST_CURRENCY_SETTINGS);
+                setState(() {});
+              },
             ),
             ListTile(
               leading: Flag(
