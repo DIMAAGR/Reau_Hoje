@@ -100,7 +100,7 @@ class _SelectLanguageViewState extends State<SelectLanguageView> {
                 height: 40,
                 width: 40,
               ),
-              title: Center(child: Text("русский язык")),
+              title: Center(child: Text("русский")),
               onTap: () {
                 MyPreferences.setLanguage("RU");
                 Navigator.pop(context);
@@ -113,7 +113,7 @@ class _SelectLanguageViewState extends State<SelectLanguageView> {
                 height: 40,
                 width: 40,
               ),
-              title: Center(child: Text("Türk Dili")),
+              title: Center(child: Text("Türk")),
               onTap: () {
                 MyPreferences.setLanguage("TR");
                 Navigator.pop(context);

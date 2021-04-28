@@ -5,6 +5,7 @@ import 'package:reau_hoje/data/connections/reauConnection/conversor/moneyConvers
 import 'package:reau_hoje/data/connections/reauConnection/reauconnection.dart';
 import 'package:reau_hoje/data/data.dart';
 import 'package:reau_hoje/utils/language.dart';
+import 'package:reau_hoje/views/main_screen/components/fee_value.dart';
 import 'package:reau_hoje/views/main_screen/components/market_value.dart';
 import 'package:reau_hoje/views/main_screen/components/screen_buttons.dart';
 import 'package:reau_hoje/views/main_screen/components/custom_reau_app_bar.dart';
@@ -33,6 +34,38 @@ class _MainScreenState extends State<MainScreen> {
     super.dispose();
   }
 
+  // h() {
+  //   String y = "1000000000";
+  //   int a = y.length;
+  //   int h = y.length;
+  //   int b = 0;
+  //   String x = "";
+  //   while (a != 0) {
+  //     while (b < 3 && a != 0) {
+  //       b++;
+  //       x += y.substring(a - 1, h);
+  //       a--;
+  //       h--;
+  //     }
+  //     if (b == 3) {
+  //       if (a != 0) x += ".";
+  //       b = 0;
+  //     }
+  //   }
+  //   a = y.length;
+  //   h = y.length;
+  //   while (a != 0) {
+  //     while (b < 3 && a != 0) {
+  //       b++;
+  //       x += y.substring(a - 1, h);
+  //       a--;
+  //       h--;
+  //     }
+  //   }
+
+  //   print(x);
+  // }
+
   // ignore: unused_field
   @override
   void initState() {
@@ -40,7 +73,6 @@ class _MainScreenState extends State<MainScreen> {
     lang.setLanguage(language: MyPreferences.getLanguage());
     myLang = lang.getLanguage();
     widget.rc.verifyNameandWallet();
-    widget.rc.startReauOptions();
     // rp.setReauConnection(rc);
     startTime = true;
     startTimer();
@@ -52,15 +84,17 @@ class _MainScreenState extends State<MainScreen> {
   int _start = 15;
   bool startTime = false;
 
-  FutureOr onGoBack(dynamic value) {
+  FutureOr onGoBack(dynamic value) async {
     lang.setLanguage(language: MyPreferences.getLanguage());
     lang.defLanguage();
     language = lang.getSelectedLanguageInfo();
-    setState(() {});
+    // ignore: await_only_futures
+    await setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    //   h();
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 245, 245, 245),
       body: CustomScrollView(
@@ -239,60 +273,70 @@ class _MainScreenState extends State<MainScreen> {
                                 ],
                               ),
                             ),
-                            SizedBox(
-                              height: 64,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 16.0, bottom: 4),
-                              child: Text(
-                                language["MyWallet"],
-                                style: TextStyle(
-                                    fontFamily: "Roboto",
-                                    fontSize: 12,
-                                    fontStyle: FontStyle.italic,
-                                    fontWeight: FontWeight.w400),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 16.0),
-                              child: Text(
-                                widget.rc.myAdress,
-                                style: TextStyle(
-                                    fontFamily: "Roboto",
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w900),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 32,
-                            ),
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 16.0),
-                                  child: Text(
-                                    widget.rc.appUser.toUpperCase(),
-                                    style: TextStyle(
-                                        fontFamily: "Roboto",
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w900),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 16.0, bottom: 4),
+                                    child: Text(
+                                      language["MyWallet"],
+                                      style: TextStyle(
+                                          fontFamily: "Roboto",
+                                          fontSize: 12,
+                                          fontStyle: FontStyle.italic,
+                                          fontWeight: FontWeight.w400),
+                                    ),
                                   ),
-                                ),
-                                Expanded(
-                                  child: SizedBox(),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 16.0),
-                                  child: Text(
-                                    "XX/XX",
-                                    style: TextStyle(
-                                        fontFamily: "Roboto",
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w900),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 16.0),
+                                    child: Text(
+                                      widget.rc.myAdress,
+                                      style: TextStyle(
+                                          fontFamily: "Roboto",
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w900),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  SizedBox(
+                                    height: 40,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 16.0),
+                                        child: Text(
+                                          widget.rc.appUser.toUpperCase(),
+                                          style: TextStyle(
+                                              fontFamily: "Roboto",
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w900),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: SizedBox(),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 16.0),
+                                        child: Text(
+                                          "XX/XX",
+                                          style: TextStyle(
+                                              fontFamily: "Roboto",
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w900),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 12,
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -313,6 +357,11 @@ class _MainScreenState extends State<MainScreen> {
                         usdMarketPrice: widget.rc.usdMarketValue,
                         marketPrice: widget.rc.marketcap,
                         currencyType: currencytype()),
+                  ),
+                  FeeValueWidget(
+                    actualPoolFee: widget.rc.deadBalance,
+                    burnedFee: widget.rc.deadBalance,
+                    language: language,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 16.0),

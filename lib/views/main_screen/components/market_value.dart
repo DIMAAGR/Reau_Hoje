@@ -40,7 +40,7 @@ class MarketValueWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
           color: Color.fromARGB(
               255, 250, 250, 250)), //Color.fromARGB(255, 74, 70, 255)),
-      height: 200,
+      height: 150,
 
       width: MediaQuery.of(context).size.width * 0.92,
       child: marketPrice != null

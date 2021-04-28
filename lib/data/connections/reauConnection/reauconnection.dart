@@ -7,6 +7,8 @@ import 'package:web3dart/contracts.dart';
 import 'package:web3dart/web3dart.dart';
 
 class ReauConnection {
+  /// REAU ENGINE: [REAU ENGINE 0.9.8(Beta)]
+
   Web3Client web3;
   var url = "https://bsc-dataseed1.binance.org:443";
   var httpClient = new Client();
@@ -22,7 +24,6 @@ class ReauConnection {
   ReauConnection({bool enableConversor, bool verifyReauPrice}) {
     _verifyReauPrice = verifyReauPrice;
     _enableConversor = enableConversor;
-    web3 = Web3Client(url, httpClient);
   }
 
   //Definições Obtidas a partir do contrato do reau
@@ -116,14 +117,17 @@ class ReauConnection {
 //==============================================================================================//
   // Tem a função de transferir os argumentos carregar o contrato
   // e receber a informação desejada do servidor
+  // ignore: missing_return
   Future<List<dynamic>> query(
-          {String functionName,
-          List<dynamic> args,
-          DeployedContract contract}) async =>
-      await web3.call(
-          contract: contract,
-          function: _ethFunction(functionName, contract),
-          params: args);
+      {String functionName,
+      List<dynamic> args,
+      DeployedContract contract}) async {
+    var y = await web3.call(
+        contract: contract,
+        function: _ethFunction(functionName, contract),
+        params: args);
+    return y;
+  }
 
 //Cria o contrato que sera utilizado para verificar os valores da moeda
   _ethFunction(String functionName, DeployedContract contract) =>
@@ -132,6 +136,10 @@ class ReauConnection {
 //==============================================================================================//
   // RECEBE O VALOR NUMERICO(A QUANTIDADE) de REAUS QUE VOCÊ TEM EM SUA CARTEIRA
   Future<void> startReauOptions() async {
+    //Obtem as infos do Usuário
+    appUser = MyPreferences.getUserName();
+    myAdress = MyPreferences.getWallet();
+    web3 = Web3Client(url, httpClient);
     // INICIA ABI
     String abi = await rootBundle.loadString('lib/assets/abi.json');
 
