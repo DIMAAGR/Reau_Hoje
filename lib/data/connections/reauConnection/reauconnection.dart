@@ -83,7 +83,6 @@ class ReauConnection {
 
   //Calcula a diferenca/volatilidade do preço do reau
   void diff() {
-    print("Current: " + currentWalletValue.toString());
     if (_ancientBalanceValue != null) if (_ancientBalanceValue !=
         currentWalletValue) {
       double d =
@@ -100,10 +99,8 @@ class ReauConnection {
     if (difference < -0.0001 || difference > 0.0001) {
       if (_ancientBalanceValue < currentWalletValue) {
         updown = true;
-        print("POSITIVE");
       } else {
         updown = false;
-        print("NEGATIVE");
       }
       ancientdifference = difference;
       diffstring = difference.toStringAsFixed(2) + "%";
@@ -112,8 +109,6 @@ class ReauConnection {
     }
     if (currentWalletValue != null) {
       setAncientBalanceValue(currentWalletValue);
-
-      print("Ancient: " + _ancientBalanceValue.toString());
     }
   }
 
